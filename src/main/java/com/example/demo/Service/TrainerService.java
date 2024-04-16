@@ -4,9 +4,12 @@ import com.example.demo.Model.Trainer;
 
 import java.util.List;
 
-public interface demoService {
-    void demoMehtod();
-    List<Trainer> findallTrainer();
+public interface TrainerService {
+    void demoMethod();
+
+    void TrainerMethod();
+
+    List<Trainer> findAllTrainer();
 
     void addTrainer(Trainer trainer);
 }
