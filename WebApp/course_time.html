@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Course - Time</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        .time-slot {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .time-slot:hover {
+            background-color: #e9ecef;
+        }
+        .time-slot.selected {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mb-4">Select a Booking Time</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="time-slot" data-time="10:00 - 12:00">10:00 - 12:00</div>
+        </div>
+        <div class="col-md-6">
+            <div class="time-slot" data-time="12:00 - 14:00">12:00 - 14:00</div>
+        </div>
+        <div class="col-md-6">
+            <div class="time-slot" data-time="14:00 - 16:00">14:00 - 16:00</div>
+        </div>
+        <div class="col-md-6">
+            <div class="time-slot" data-time="16:00 - 18:00">16:00 - 18:00</div>
+        </div>
+        <div class="col-md-6">
+            <div class="time-slot" data-time="18:00 - 20:00">18:00 - 20:00</div>
+        </div>
+        <div class="col-md-6">
+            <div class="time-slot" data-time="20:00 - 22:00">20:00 - 22:00</div>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <button class="btn btn-primary" id="nextBtn" disabled>Next Step</button>
+    </div>
+</div>
+
+<script>
+    const timeSlots = document.querySelectorAll('.time-slot');
+    const nextBtn = document.getElementById('nextBtn');
+    let selectedTime = null;
+
+    timeSlots.forEach(slot => {
+        slot.addEventListener('click', function() {
+            const selectedTime = this.dataset.time;
+            highlightSelectedTime(selectedTime);
+            nextBtn.disabled = false;
+        });
+    });
+
+    function highlightSelectedTime(time) {
+        timeSlots.forEach(slot => {
+            slot.classList.remove('selected');
+            if (slot.dataset.time === time) {
+                slot.classList.add('selected');
+                selectedTime = time;
+            }
+        });
+    }
+
+    nextBtn.addEventListener('click', function() {
+        if (selectedTime) {
+            console.log('Selected time slot:', selectedTime);
+            window.location.href = 'trainer_selection.html';
+        }
+    });
+</script>
+</body>
+</html>

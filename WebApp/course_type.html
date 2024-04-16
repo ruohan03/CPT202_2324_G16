@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Course - Type</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mb-4">Select Course Type</h1>
+    <div class="form-group">
+        <select class="form-control" id="courseTypeSelect">
+            <option value="">Please select a course type</option>
+            <option value="type1">Aerobics</option>
+            <option value="type2">Strength Training</option>
+            <option value="type3">Yoga</option>
+            <option value="type4">Boxing</option>
+        </select>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" id="nextBtn" disabled>Next Step</button>
+    </div>
+</div>
+
+<script>
+    const courseTypeSelect = document.getElementById('courseTypeSelect');
+    const nextBtn = document.getElementById('nextBtn');
+
+    courseTypeSelect.addEventListener('change', function() {
+        const selectedType = courseTypeSelect.value;
+        if (selectedType) {
+            nextBtn.disabled = false;
+        } else {
+            nextBtn.disabled = true;
+        }
+    });
+
+    nextBtn.addEventListener('click', function() {
+        const selectedType = courseTypeSelect.value;
+        // Handle the selected course type here, for example, send it to the backend or proceed to the next step
+        console.log('Selected course type:', selectedType);
+        // Proceed to the next step, such as navigating to the next page
+        window.location.href = 'course_time.html';
+    });
+</script>
+</body>
+</html>
