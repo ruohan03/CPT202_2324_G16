@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Courses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 40px;
+            color: #333;
+        }
+        h1 {
+            color: #026e99;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #026e99;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<h1>Courses List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Location</th>
+    </tr>
+    </thead>
+    <tbody th:each="course : ${courses}">
+    <tr>
+        <td th:text="${course.courseId}">ID</td>
+        <td th:text="${course.name}">Name</td>
+        <td th:text="${course.location}">Location</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
