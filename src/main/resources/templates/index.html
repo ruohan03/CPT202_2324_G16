@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1 th:text="'Hello, Thymeleaf!'"></h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>yingz030101@gmail.com
+            Zhengying0101
+        </thead>
+        <tbody>
+            <tr th:each="trainer : ${trainers}">
+                <td th:text="${trainer.trainerId}"></td>
+                <td th:text="${trainer.name}"></td>
+
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
