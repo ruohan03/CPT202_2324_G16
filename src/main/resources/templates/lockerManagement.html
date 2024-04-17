@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Locker Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .button {
+            padding: 5px 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+        }
+        .button-red {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+<h2>Locker Management</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Locker ID</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="locker : ${lockers}">
+        <td th:text="${locker.lockerId}">Locker ID</td>
+        <td th:text="${locker.isReserved ? 'Reserved' : 'Available'}">Status</td>
+        <td>
+            <a th:if="${!locker.isReserved}" th:href="@{/reserveLocker(lockerId=${locker.lockerId})}" class="button">Reserve</a>
+            <a th:if="${locker.isReserved}" th:href="@{/returnLocker(lockerId=${locker.lockerId})}" class="button button-red">Return</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
