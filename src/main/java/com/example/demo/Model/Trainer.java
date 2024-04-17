@@ -33,6 +33,9 @@ public class Trainer {
         this.salary = salary;
         this.courseId = courseId;
     }
+    public Trainer(String name) {
+        this.name = name;
+    }
 
     // Getters and setters
     public String getTrainerId() {

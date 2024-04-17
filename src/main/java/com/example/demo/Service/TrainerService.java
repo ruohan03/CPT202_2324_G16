@@ -12,4 +12,8 @@ public interface TrainerService {
     List<Trainer> findAllTrainer();
 
     void addTrainer(Trainer trainer);
+
+    List<Trainer> findTrainersByCourseId(String courseId);
+
+    List<Trainer> findTrainersByCourseId(Long courseId);
 }

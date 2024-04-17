@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface CourseService {
     List<Course> findAllCourses();
+
+    List<String> getAvailableCourseTypes();
 }
