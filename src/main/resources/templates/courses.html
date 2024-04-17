@@ -3,6 +3,9 @@
 <head>
     <title>Courses</title>
     <style>
+        tr:hover {
+            cursor: pointer;
+        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -35,21 +38,24 @@
     </style>
 </head>
 <body>
-<h1>Courses List</h1>
+<h1>Available Courses</h1>
 <table>
     <thead>
     <tr>
-        <th>ID</th>
+        <th>Course ID</th>
         <th>Name</th>
         <th>Location</th>
     </tr>
     </thead>
-    <tbody th:each="course : ${courses}">
-    <tr>
-        <td th:text="${course.courseId}">ID</td>
-        <td th:text="${course.name}">Name</td>
-        <td th:text="${course.location}">Location</td>
+    <tbody>
+    <tr th:each="course : ${courses}"
+        th:attr="onclick=|console.log('Redirecting to /courses/' + '${course.courseId}' + '/trainers'); window.location.href='/courses/' + '${course.courseId}' + '/trainers';|">
+        <td th:text="${course.courseId}">C001</td>
+        <td th:text="${course.name}">Yoga</td>
+        <td th:text="${course.location}">Room A</td>
     </tr>
+
+
     </tbody>
 </table>
 </body>

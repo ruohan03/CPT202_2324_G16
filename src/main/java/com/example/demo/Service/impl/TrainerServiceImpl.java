@@ -38,16 +38,11 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public List<Trainer> findTrainersByCourseId(String courseId) {
-        List<Trainer> trainers = trainerRepository.findByCourseId(courseId);
+        List<Trainer> trainers = trainerRepository.findTrainersByCourseId(courseId);
         if (trainers.isEmpty()) {
             // Handle the case where no trainers are found
             throw new ResourceNotFoundException("No trainers found for Course ID: " + courseId);
         }
         return trainers;
-    }
-
-    @Override
-    public List<Trainer> findTrainersByCourseId(Long courseId) {
-        return List.of();
     }
 }

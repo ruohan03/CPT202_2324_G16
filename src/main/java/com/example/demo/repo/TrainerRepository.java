@@ -8,6 +8,6 @@ import java.util.List;
 @Repository("fc_appointment_system/trainer")
 public interface TrainerRepository extends JpaRepository<Trainer,String> {
 
-    List<Trainer> findByCourseId(String courseId);
+    List<Trainer> findTrainersByCourseId(String courseId);
 
 }

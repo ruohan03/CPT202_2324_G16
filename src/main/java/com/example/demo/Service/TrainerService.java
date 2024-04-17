@@ -14,6 +14,4 @@ public interface TrainerService {
     void addTrainer(Trainer trainer);
 
     List<Trainer> findTrainersByCourseId(String courseId);
-
-    List<Trainer> findTrainersByCourseId(Long courseId);
 }

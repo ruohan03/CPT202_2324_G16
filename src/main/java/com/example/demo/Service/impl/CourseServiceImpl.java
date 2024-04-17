@@ -23,4 +23,8 @@ public class CourseServiceImpl implements CourseService {
     public List<String> getAvailableCourseTypes() {
         return List.of();
     }
+
+    public Course findCourseById(String id) {
+        return courseRepository.findById(id).orElse(null);
+    }
 }

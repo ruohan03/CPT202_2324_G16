@@ -32,7 +32,7 @@ public class TrainerServiceImplTest {
         String courseId = "C001";
         Trainer trainer1 = new Trainer("T001", "Soonfei", 17792972, "Male", 3, 1000, courseId);
         Trainer trainer2 = new Trainer("T002", "John", 222782782, "Male", 4, 10000, courseId);
-        when(trainerRepository.findByCourseId(courseId)).thenReturn(Arrays.asList(trainer1, trainer2));
+        when(trainerRepository.findTrainersByCourseId(courseId)).thenReturn(Arrays.asList(trainer1, trainer2));
 
         // Act
         List<Trainer> result = trainerService.findTrainersByCourseId(courseId);
@@ -41,14 +41,14 @@ public class TrainerServiceImplTest {
         assertEquals(2, result.size());
         assertTrue(result.contains(trainer1));
         assertTrue(result.contains(trainer2));
-        verify(trainerRepository).findByCourseId(courseId);
+        verify(trainerRepository).findTrainersByCourseId(courseId);
     }
 
     @Test
     void testFindTrainersByCourseIdThrowsExceptionWhenNoTrainersFound() {
         // Arrange
         String courseId = "C999";
-        when(trainerRepository.findByCourseId(courseId)).thenReturn(Collections.emptyList());
+        when(trainerRepository.findTrainersByCourseId(courseId)).thenReturn(Collections.emptyList());
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class,
