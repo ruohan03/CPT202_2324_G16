@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Member List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        thead {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+        .password {
+            cursor: pointer; /* 鼠标指示可点击 */
+            color: #999; /* 初始颜色为灰色 */
+            transition: color 0.3s ease; /* 添加颜色过渡效果 */
+        }
+        .password:hover {
+            color: #333; /* 鼠标悬停时颜色变为黑色 */
+        }
+    </style>
+</head>
+<body>
+<h1>Member List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Member ID</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Gender</th>
+        <th>Address</th>
+        <th>Password</th>
+        <th>Weight</th>
+        <th>Height</th>
+        <th>Purchased</th>
+        <th>Active</th>
+        <th>Locker Agreement</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Assuming members is the list of members passed from your Spring controller -->
+    <!--/*@thymesVar id="members" type="aj"*/-->
+    <tr th:each="member : ${members}">
+        <td th:text="${member.member_id}"></td>
+        <td th:text="${member.name}"></td>
+        <td th:text="${member.phone}"></td>
+        <td th:text="${member.gender}"></td>
+        <td th:text="${member.address}"></td>
+        <!-- 使用<span>元素包裹密码，并设置一个类名以便之后通过JavaScript来操作 -->
+        <td><span class="password" th:text="${member.password}"></span></td>
+        <td th:text="${member.weight}"></td>
+        <td th:text="${member.height}"></td>
+        <td th:text="${member.is_purchased} ? 'Yes' : 'No'"></td>
+        <td th:text="${member.is_active} ? 'Yes' : 'No'"></td>
+        <td th:text="${member.locker_isagreed} ? 'Yes' : 'No'"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- 添加一个JavaScript脚本 -->
+<script>
+    // 获取所有包含密码的<span>元素
+    var passwordSpans = document.querySelectorAll('.password');
+
+    // 遍历每个<span>元素
+    passwordSpans.forEach(function(span) {
+        // 保存原始密码值
+        var originalPassword = span.textContent;
+
+        // 将密码值替换为星号
+        span.textContent = '*'.repeat(originalPassword.length);
+
+        // 添加点击事件监听器
+        span.addEventListener('click', function() {
+            // 如果<span>元素的文本内容是星号，则替换为原始密码值；否则替换为星号
+            if (span.textContent === '*'.repeat(originalPassword.length)) {
+                span.textContent = originalPassword;
+            } else {
+                span.textContent = '*'.repeat(originalPassword.length);
+            }
+        });
+    });
+</script>
+</body>
+</html>
+
