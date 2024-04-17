@@ -8,7 +8,7 @@ public class Member {
     @Id
     private String member_id;
     private String name;
-    private Long phone;
+    private String phone;
     private String gender;
     private String address;
     private String password;
@@ -16,13 +16,13 @@ public class Member {
     private Integer height;
     private Boolean is_purchased;
     private Boolean is_active;
-    private Boolean locker_isagreed;
+    private Boolean locker_isAgreed;
 
     // Constructors
     public Member() {
     }
 
-    public Member(String member_id, String name, Long phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isagreed) {
+    public Member(String member_id, String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed) {
         this.member_id = member_id;
         this.name = name;
         this.phone = phone;
@@ -33,7 +33,7 @@ public class Member {
         this.height = height;
         this.is_purchased = is_purchased;
         this.is_active = is_active;
-        this.locker_isagreed = locker_isagreed;
+        this.locker_isAgreed = locker_isAgreed;
     }
 
     // Getters and setters
@@ -53,11 +53,11 @@ public class Member {
         this.name = name;
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -117,11 +117,11 @@ public class Member {
         this.is_active = is_active;
     }
 
-    public Boolean getLocker_isagreed() {
-        return locker_isagreed;
+    public Boolean getLocker_isAgreed() {
+        return locker_isAgreed;
     }
 
-    public void setLocker_isagreed(Boolean locker_isagreed) {
-        this.locker_isagreed = locker_isagreed;
+    public void setLocker_isAgreed(Boolean locker_isAgreed) {
+        this.locker_isAgreed = locker_isAgreed;
     }
 }

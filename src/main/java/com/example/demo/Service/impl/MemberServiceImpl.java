@@ -19,9 +19,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void memberMethod() {
-
-    }
+    public void memberMethod() {}
 
     @Override
     public List<Member> findAllMembers() {
@@ -31,5 +29,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void addMember(Member member) {
         memberRepository.save(member);
+    }
+
+    @Override
+    public boolean validateMember(String phoneNumber, String password) {
+        Member member = memberRepository.findByPhone(phoneNumber);
+        return member != null && member.getPassword().equals(password);
     }
 }

@@ -50,3 +50,76 @@ tr:hover {
 .back-button:hover {
     background-color: #014f6e;
 }
+
+/* Login Form Styles */
+.login-form {
+    background-color: #ffffff;
+    padding: 40px;
+    margin: 100px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 350px;
+    text-align: center;
+}
+
+.login-form h1 {
+    margin-bottom: 30px;
+}
+
+.login-form .form-group {
+    margin-bottom: 20px;
+}
+
+.login-form .form-control {
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    padding: 10px;
+    margin: 0 auto 20px auto;
+    display: block;
+}
+
+.login-form .btn {
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #026e99;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+.login-form .btn:hover {
+    background-color: #014f6e;
+}
+
+/* Error message displayed below the form */
+.error-message {
+    display: none; /* 默认隐藏 */
+    color: red; /* 错误消息为红色 */
+    text-align: center; /* 文本居中 */
+    margin: 10px 0; /* 在上下添加一些空间 */
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.modal-content span {
+    display: block;
+    margin-bottom: 15px;
+}
+

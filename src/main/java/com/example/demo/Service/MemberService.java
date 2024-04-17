@@ -12,4 +12,6 @@ public interface MemberService {
     List<Member> findAllMembers();
 
     void addMember(Member member);
+
+    boolean validateMember(String phone, String password);
 }
