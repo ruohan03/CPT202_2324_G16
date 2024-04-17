@@ -3,12 +3,10 @@ package com.example.demo.Controller;
 import com.example.demo.Model.Trainer;
 import com.example.demo.Service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.MatrixVariable;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +28,11 @@ public class TrainerController {
     public String addTrainer(@ModelAttribute("trainer") Trainer trainer){
         TrainerService.addTrainer(trainer);
         return "redirect:/trainers"; // 重定向到显示所有训练师的页面
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Trainer>> getTrainersByCourse(@RequestParam String courseId) {
+        List<Trainer> trainers = TrainerService.findTrainersByCourseId(courseId);
+        return ResponseEntity.ok(trainers);
     }
 }

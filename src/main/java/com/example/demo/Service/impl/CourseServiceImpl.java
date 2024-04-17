@@ -19,4 +19,9 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> findAllCourses() {
         return (List<Course>) courseRepository.findAll();
     }
+
+    @Override
+    public List<String> getAvailableCourseTypes() {
+        return List.of();
+    }
 }
