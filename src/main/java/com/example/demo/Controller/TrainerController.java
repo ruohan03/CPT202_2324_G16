@@ -1,6 +1,8 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Model.Course;
 import com.example.demo.Model.Trainer;
+import com.example.demo.Service.CourseService;
 import com.example.demo.Service.TrainerService;
 import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import java.util.List;
 public class TrainerController {
     @Autowired
     private TrainerService trainerService;
+    @Autowired
+    private CourseService courseService;
 
     @GetMapping("/trainers")
     public String getAllTrainers(Model model){
@@ -43,8 +47,9 @@ public class TrainerController {
     @GetMapping("/courses/{courseId}/trainers")
     public String getCourseTrainers(@PathVariable String courseId, Model model) {
         List<Trainer> trainers = trainerService.findTrainersByCourseId(courseId);
+        String courseName = courseService.findCourseNameById(courseId);
         model.addAttribute("trainers", trainers);
-        model.addAttribute("courseName", courseId); // 假设您已经有方法获取课程名称
+        model.addAttribute("courseName", courseName); // 假设您已经有方法获取课程名称
         return "course-trainers"; // Thymeleaf 模板名称
     }
 

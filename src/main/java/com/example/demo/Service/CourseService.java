@@ -14,4 +14,6 @@ public interface CourseService {
     List<String> getAvailableCourseTypes();
 
     Course findCourseById(String id);
+
+    String findCourseNameById(String courseId);
 }

@@ -27,4 +27,9 @@ public class CourseServiceImpl implements CourseService {
     public Course findCourseById(String id) {
         return courseRepository.findById(id).orElse(null);
     }
+    @Override
+    public String findCourseNameById(String courseId) {
+        Course course = findCourseById(courseId);
+        return course != null ? course.getName() : "Course not found";
+    }
 }
