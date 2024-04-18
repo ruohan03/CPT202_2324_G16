@@ -23,7 +23,7 @@ public class Member {
     }
 
     public Member(String member_id, String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed) {
-        this.member_id = member_id;
+        this.member_id = "M"+phone;
         this.name = name;
         this.phone = phone;
         this.gender = gender;

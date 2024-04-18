@@ -14,4 +14,8 @@ public interface MemberService {
     void addMember(Member member);
 
     boolean validateMember(String phone, String password);
+
+    Member saveMember(Member member);
+
+    Member findByPhone(String phone);
 }

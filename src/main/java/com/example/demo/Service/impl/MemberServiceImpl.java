@@ -26,14 +26,37 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findAll();
     }
 
-    @Override
-    public void addMember(Member member) {
-        memberRepository.save(member);
-    }
+//    @Override
+//    public void addMember(Member member) {
+//        memberRepository.save(member);
+//    }
 
     @Override
     public boolean validateMember(String phoneNumber, String password) {
         Member member = memberRepository.findByPhone(phoneNumber);
         return member != null && member.getPassword().equals(password);
     }
+
+    public Member saveMember(Member member) {
+        // 当创建新成员时，设置自定义的 member_id
+        if (member.getPhone() != null && !member.getPhone().isEmpty()) {
+            member.setMember_id("M" + member.getPhone());
+        }
+        // Save the member to the database
+        return memberRepository.save(member);
+    }
+
+    public Member findByPhone(String phone) {
+        return memberRepository.findByPhone(phone);
+    }
+
+    @Override
+    public void addMember(Member member) {
+        // 生成自定义的 member_id
+        if (member.getPhone() != null && !member.getPhone().isEmpty()) {
+            member.setMember_id("M" + member.getPhone());
+        }
+        memberRepository.save(member);
+    }
+
 }
