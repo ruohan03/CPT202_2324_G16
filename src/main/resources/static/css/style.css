@@ -93,10 +93,24 @@ tr:hover {
 
 /* Error message displayed below the form */
 .error-message {
+    display: block; /* 显示错误信息 */
+    color: #D32F2F; /* 明显的红色 */
+    background-color: #FFFFFF; /* 白色背景 */
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #D32F2F; /* 边框颜色与文本颜色一致 */
+    border-radius: 4px; /* 轻微的圆角 */
+    width: 90%; /* 响应式宽度，适应不同屏幕 */
+    box-shadow: none; /* 扁平化设计中通常没有阴影 */
     display: none; /* 默认隐藏 */
-    color: red; /* 错误消息为红色 */
+    color: #D32F2F; /* 更鲜艳的红色 */
+    background-color: #FFFFFF; /* 白色背景提升对比 */
     text-align: center; /* 文本居中 */
     margin: 10px 0; /* 在上下添加一些空间 */
+    border-radius: 4px; /* 轻微的圆角 */
+    padding: 10px; /* 内边距 */
+    box-shadow: none; /* 去除阴影 */
 }
 
 .modal-overlay {

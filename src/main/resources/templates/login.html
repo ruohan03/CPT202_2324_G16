@@ -18,57 +18,25 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" class="form-control" required>
         </div>
-
-        <!-- Adding radio buttons for login type selection -->
         <div class="form-group">
             <div>
                 <label><input type="radio" name="loginType" value="user" checked> User</label>
                 <label><input type="radio" name="loginType" value="admin"> Admin</label>
             </div>
         </div>
-
-        <!-- Error message container -->
-        <div id="error-message" class="error-message" th:if="${param.error}" th:text="${param.error}">
-            <span th:if="${param.error == 'admin'}">Please login from the administrator's interface.</span>
-            <span th:if="${param.error == 'user'}">Please login from the user interface.</span>
-            <span th:if="${param.error == 'invalid'}">Invalid phone number or password.</span>
-        </div>
-
         <button type="submit" class="btn">Login</button>
     </form>
 </div>
 
-<!-- Custom modal container -->
-<div id="custom-modal" class="modal-overlay" th:if="${param.error}" style="display: none;">
-    <div class="modal-content">
-        <span id="modal-error-message" th:text="${param.error}">An error has occurred. Please check the details and try again.</span>
-    </div>
-</div>
-
-
-
-
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var error = [[${param.error}]]; // Adapted to fetch error from URL query parameter
-    var modal = document.getElementById('custom-modal');
-    var errorMessageDiv = document.getElementById('error-message');
-
-    if (error) {
-        errorMessageDiv.style.display = 'block'; // Display the in-page error message
-        modal.style.display = 'flex'; // Display the modal with the error
+    // This script will check for an error message and display it if present
+    var error = [[${error}]]; // Make sure that this matches exactly with the model attribute name
+    if (error && error !== '') {
+        alert(error); // Display an alert if there is an error
     }
-
-    // Hide only the modal when user clicks anywhere outside the modal content
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    };
     /*]]>*/
 </script>
 
 </body>
 </html>
-
-
