@@ -19,28 +19,42 @@
             <input type="password" id="password" name="password" class="form-control" required>
         </div>
 
-        <!-- Error message container placed here -->
-        <div id="error-message" class="error-message" th:if="${error}" th:text="${error}" style="display: none;"></div>
+        <!-- Adding radio buttons for login type selection -->
+        <div class="form-group">
+            <div>
+                <label><input type="radio" name="loginType" value="user" checked> User</label>
+                <label><input type="radio" name="loginType" value="admin"> Admin</label>
+            </div>
+        </div>
+
+        <!-- Error message container -->
+        <div id="error-message" class="error-message" th:if="${param.error}" th:text="${param.error}">
+            <span th:if="${param.error == 'admin'}">Please login from the administrator's interface.</span>
+            <span th:if="${param.error == 'user'}">Please login from the user interface.</span>
+            <span th:if="${param.error == 'invalid'}">Invalid phone number or password.</span>
+        </div>
 
         <button type="submit" class="btn">Login</button>
     </form>
 </div>
 
 <!-- Custom modal container -->
-<div id="custom-modal" class="modal-overlay" style="display: none;">
+<div id="custom-modal" class="modal-overlay" th:if="${param.error}" style="display: none;">
     <div class="modal-content">
-        <span id="modal-error-message">Invalid phone number or password.</span>
+        <span id="modal-error-message" th:text="${param.error}">An error has occurred. Please check the details and try again.</span>
     </div>
 </div>
 
+
+
+
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var error = [[${error}]];
+    var error = [[${param.error}]]; // Adapted to fetch error from URL query parameter
     var modal = document.getElementById('custom-modal');
     var errorMessageDiv = document.getElementById('error-message');
 
     if (error) {
-        errorMessageDiv.textContent = error;
         errorMessageDiv.style.display = 'block'; // Display the in-page error message
         modal.style.display = 'flex'; // Display the modal with the error
     }
@@ -49,13 +63,12 @@
     window.onclick = function(event) {
         if (event.target === modal) {
             modal.style.display = "none";
-            // Do not hide the in-page error message
-            // errorMessageDiv.style.display = "none"; // Remove or comment out this line
         }
     };
     /*]]>*/
 </script>
 
-
 </body>
 </html>
+
+

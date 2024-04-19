@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Model.Member;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,13 +30,24 @@ public class LoginController {
     public ModelAndView login(
             @RequestParam("phone") String phone,
             @RequestParam("password") String password,
+            @RequestParam("loginType") String loginType,
             HttpSession session) {
 
-        boolean isValidUser = memberService.validateMember(phone, password);
+        Member member = memberService.validateMember(phone, password);
 
-        if (isValidUser) {
-            session.setAttribute("currentUser", phone);  // 将电话号码存储在会话中标识登录状态
-            return new ModelAndView("redirect:/home_page");  // 登录成功跳转
+        if (member != null) {
+            session.setAttribute("currentUser", member);
+            boolean isManagerLogin = "admin".equals(loginType);
+
+            if (member.isManager() && !isManagerLogin) {
+                return new ModelAndView("redirect:/login?error=admin");  // 提示管理员去管理员界面登录
+            } else if (!member.isManager() && isManagerLogin) {
+                return new ModelAndView("redirect:/login?error=user");  // 提示用户去用户界面登录
+            } else if (member.isManager()) {
+                return new ModelAndView("redirect:/members");  // 管理员主页
+            } else {
+                return new ModelAndView("redirect:/home_page");  // 用户主页
+            }
         } else {
             ModelAndView modelAndView = new ModelAndView("login");
             modelAndView.addObject("error", "Invalid phone number or password.");  // 登录失败返回登录页面并显示错误

@@ -5,9 +5,7 @@ import com.example.demo.Service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,4 +27,6 @@ public class MemberController {
         memberService.addMember(member);
         return "redirect:/members"; // 重定向到显示所有会员的页面
     }
+
+
 }

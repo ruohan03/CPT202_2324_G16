@@ -18,11 +18,13 @@ public class Member {
     private Boolean is_active;
     private Boolean locker_isAgreed;
 
+    private boolean manager;
+
     // Constructors
     public Member() {
     }
 
-    public Member(String member_id, String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed) {
+    public Member(String member_id, String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed,Boolean manager) {
         this.member_id = "M"+phone;
         this.name = name;
         this.phone = phone;
@@ -34,6 +36,7 @@ public class Member {
         this.is_purchased = is_purchased;
         this.is_active = is_active;
         this.locker_isAgreed = locker_isAgreed;
+        this.manager = manager;
     }
 
     // Getters and setters
@@ -124,4 +127,12 @@ public class Member {
     public void setLocker_isAgreed(Boolean locker_isAgreed) {
         this.locker_isAgreed = locker_isAgreed;
     }
+
+    public boolean isManager() {
+        return manager;
+    }
+
+
+
+
 }

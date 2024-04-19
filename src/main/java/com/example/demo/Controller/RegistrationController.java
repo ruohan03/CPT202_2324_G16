@@ -34,7 +34,7 @@ public class RegistrationController {
         }
 
         // 检查手机号唯一性
-        if (memberService.findByPhone(member.getPhone()) != null) {
+        if (MemberService.findByPhone(member.getPhone()) != null) {
             mav.addObject("error", "This phone number is already registered.");
             mav.setViewName("register");
             return mav;
