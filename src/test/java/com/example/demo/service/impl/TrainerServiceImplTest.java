@@ -3,10 +3,7 @@ package com.example.demo.service.impl;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.example.demo.Model.Trainer;
-import com.example.demo.Service.impl.TrainerServiceImpl;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repo.TrainerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

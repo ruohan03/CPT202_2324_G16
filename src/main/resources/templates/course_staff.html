@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Course Staff</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>Staff for the Course</h1>
+<div>
+    <h2 th:text="${courseName}">Course Name</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Staff ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Gender</th>
+            <th>Level</th>
+            <th>Salary</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="staff : ${staff}">
+            <td th:text="${staff.staffId}">S001</td>
+            <td th:text="${staff.name}">Jane Doe</td>
+            <td th:text="${staff.phone}">9876543210</td>
+            <td th:text="${staff.gender}">Female</td>
+            <td th:text="${staff.level != null ? staff.level : 'N/A'}">2</td>
+            <td th:text="${staff.salary != null ? staff.salary : 'N/A'}">50000</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<a href="/courses" class="back-button">Back to Courses</a>
+</body>
+</html>
