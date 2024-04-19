@@ -32,4 +32,11 @@ public class CourseServiceImpl implements CourseService {
         Course course = findCourseById(courseId);
         return course != null ? course.getName() : "Course not found";
     }
+
+    @Override
+    public List<Course> findCoursesByNameContaining(String name) {
+        return courseRepository.findByNameContaining(name);
+    }
+
+
 }

@@ -6,6 +6,12 @@
 </head>
 <body>
 <h1>Available Courses</h1>
+
+<form th:action="@{/courses}" method="get">
+    <input type="text" name="search" placeholder="Search by course name">
+    <button type="submit">Search</button>
+</form>
+
 <table>
     <thead>
     <tr>
