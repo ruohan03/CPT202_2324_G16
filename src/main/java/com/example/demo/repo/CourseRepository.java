@@ -11,9 +11,3 @@ import java.util.List;
 public interface CourseRepository extends CrudRepository<Course, String> {
     List<Course> findByNameContaining(String name);
 }
-
-
-
-
-
-
