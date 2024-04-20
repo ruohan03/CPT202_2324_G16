@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -27,12 +28,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member validateMember(String phoneNumber, String password) {
+    public Optional<Member> login(String phoneNumber, String password) {
         Member member = memberRepository.findByPhone(phoneNumber);
         if (member != null && member.getPassword().equals(password)) {
-            return member;  // 返回 Member 对象，如果电话号码和密码匹配
+            return Optional.of(member); // 如果电话号码和密码匹配，则返回Optional包含Member对象
         }
-        return null;  // 如果密码不匹配或用户不存在，则返回 null
+        return Optional.empty(); // 如果密码不匹配或用户不存在，则返回一个空的Optional
     }
 
     public Member saveMember(Member member) {
@@ -60,15 +61,6 @@ public class MemberServiceImpl implements MemberService {
             member.setMember_id("M" + member.getPhone());
         }
         memberRepository.save(member);
-    }
-
-    public String getRole(String phone) {
-        Member member = memberRepository.findByPhone(phone);
-        if (member != null && member.isManager()) {
-            return "ADMIN";
-        } else {
-            return "USER";
-        }
     }
 
 }

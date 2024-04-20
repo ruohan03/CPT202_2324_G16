@@ -2,41 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Member Login</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<div class="login-form">
-    <h1>Login</h1>
-    <form th:action="@{/login}" method="post">
+<div class="login-centered-container">
+    <div class="login-form">
+        <h1>Member Login</h1>
+        <!-- 使用 th:if 来检查是否有 flash 属性 'error' -->
+        <div id="error-message" class="error-message" style="display: none;">Invalid credentials. Please try again.</div>
+            <form th:action="@{/login}" method="post">
         <div class="form-group">
-            <label for="phone">Phone Number:</label>
-            <input type="text" id="phone" name="phone" class="form-control" required>
+            <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone number" required>
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         </div>
-        <div class="form-group">
-            <div>
-                <label><input type="radio" name="loginType" value="user" checked> User</label>
-                <label><input type="radio" name="loginType" value="admin"> Admin</label>
-            </div>
-        </div>
-        <button type="submit" class="btn">Login</button>
-    </form>
+          <button type="submit" class="btn">Login</button>
+        </form>
+    </div>
 </div>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    // This script will check for an error message and display it if present
-    var error = [[${error}]]; // Make sure that this matches exactly with the model attribute name
-    if (error && error !== '') {
-        alert(error); // Display an alert if there is an error
+<script>
+    // 检查URL中是否有错误参数，如果有，显示错误消息
+    if (window.location.search.indexOf('error=true') !== -1) {
+        document.getElementById('error-message').style.display = 'block';
     }
-    /*]]>*/
 </script>
-
 </body>
 </html>

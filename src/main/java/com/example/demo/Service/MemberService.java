@@ -3,6 +3,7 @@ package com.example.demo.Service;
 import com.example.demo.Model.Member;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberService {
     void demoMethod();
@@ -12,8 +13,7 @@ public interface MemberService {
     List<Member> findAllMembers();
 
     void addMember(Member member);
-
-    Member validateMember(String phone, String password);
+    Optional<Member> login(String phoneNumber, String password);
 
     Member saveMember(Member member);
 

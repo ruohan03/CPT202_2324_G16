@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manager Homepage</title>
+    <title>Manager Dashboard</title>
+    <!-- 引入 Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 可选的 Bootstrap 主题 -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css"> <!-- 确保此路径与你的CSS文件匹配 -->
+
 </head>
 <body>
 <div class="container">
-    <h2 class="mt-5">Welcome, Manager</h2>
-    <p>This is your dashboard.</p>
-    <ul>
-        <li><a href="/manage_staff">Manage Staff</a></li>
-        <li><a href="/manage_courses">Manage Courses</a></li>
-        <li><a href="/reports">View Reports</a></li>
-    </ul>
+    <div class="dashboard-header">
+        <h2>Welcome, Manager</h2>
+        <p>This is your dashboard. Use the links below to manage the platform.</p>
+    </div>
+    <div class="list-group">
+        <a href="/manage_staff" class="list-group-item list-group-item-action">Manage Staff</a>
+        <a href="/manage_courses" class="list-group-item list-group-item-action">Manage Courses</a>
+        <a href="/reports" class="list-group-item list-group-item-action">View Reports</a>
+    </div>
 </div>
+<!-- 引入Bootstrap和jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

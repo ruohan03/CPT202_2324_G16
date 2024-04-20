@@ -160,7 +160,4 @@ public class Member {
         return manager;
     }
 
-
-
-
 }

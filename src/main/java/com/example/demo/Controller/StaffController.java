@@ -60,6 +60,7 @@ public class StaffController {
     public String showLoginForm() {
         return "login_staff";
     }
+
     @PostMapping("/login/staff")
     public String login(@RequestParam String phone, @RequestParam String password, Model model) {
         Optional<Staff> staff = staffService.login(phone, password);
