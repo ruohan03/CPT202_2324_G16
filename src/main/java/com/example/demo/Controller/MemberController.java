@@ -28,5 +28,15 @@ public class MemberController {
         return "redirect:/members"; // 重定向到显示所有会员的页面
     }
 
-
+    @GetMapping("/member/details/{member_id}")
+    public String showMemberDetails(@PathVariable("member_id") String memberId, Model model) {
+        Member member = memberService.findMemberById(memberId);
+        if (member != null) {
+            model.addAttribute("member", member);
+            return "member-detail";  // 确保模板名称正确
+        } else {
+            model.addAttribute("errorMessage", "Member not found");
+            return "redirect:/members";  // 或处理错误情况
+        }
+    }
 }

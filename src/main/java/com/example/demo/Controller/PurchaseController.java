@@ -17,7 +17,8 @@ public class PurchaseController {
 
     @GetMapping("/purchases")
     public String listPurchases(Model model) {
-        List<Purchase> purchases = purchaseService.findAllPurchases();
+        // 直接从服务层获取所有购买记录，并确保包括关联的会员信息
+        List<Purchase> purchases = purchaseService.findAllWithMembers();
         model.addAttribute("purchases", purchases);
         return "purchase-list"; // Thymeleaf模板的名称
     }

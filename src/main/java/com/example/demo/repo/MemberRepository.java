@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, String> {
-    Member findByPhone(String phone);
-
-    // 根据手机号查找会员
+    Member findByPhone(String phone); // 根据手机号查找会员
 
 }

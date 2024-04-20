@@ -1,24 +1,48 @@
 package com.example.demo.Model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
+
 @Entity
 public class Member {
     @Id
+    @Column(name = "member_id")
     private String member_id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "phone")
     private String phone;
+
+    @Column
     private String gender;
+
+    @Column
     private String address;
+
+    @Column
     private String password;
+
+    @Column
     private Integer weight;
+
+    @Column
     private Integer height;
+
+    @Column
     private Boolean is_purchased;
+
+    @Column
     private Boolean is_active;
+
+    @Column(name = "locker_isagreed")
     private Boolean locker_isAgreed;
 
     private boolean manager;
+
+    @OneToMany(mappedBy = "member")
+    private Set<Purchase> purchases;
 
     // Constructors
     public Member() {
@@ -42,6 +66,10 @@ public class Member {
     // Getters and setters
     public String getMember_id() {
         return member_id;
+    }
+
+    public Set<Purchase> getPurchases() {
+        return purchases;
     }
 
     public void setMember_id(String member_id) {

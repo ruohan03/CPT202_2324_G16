@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Member Details</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>Member Details</h1>
+<div class="member-details">
+    <p><strong>Member ID:</strong> <span th:text="${member.member_id}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${member.name}"></span></p>
+    <p><strong>Phone:</strong> <span th:text="${member.phone}"></span></p>
+    <p><strong>Gender:</strong> <span th:text="${member.gender}"></span></p>
+    <p><strong>Address:</strong> <span th:text="${member.address}"></span></p>
+    <p><strong>Password:</strong> <span class="password" th:text="${member.password}">Password</span></p>
+    <p><strong>Weight:</strong> <span th:text="${member.weight}"></span> kg</p>
+    <p><strong>Height:</strong> <span th:text="${member.height}"></span> cm</p>
+    <p><strong>Purchased:</strong> <span th:text="${member.is_purchased ? 'Yes' : 'No'}"></span></p>
+    <p><strong>Active:</strong> <span th:text="${member.is_active ? 'Yes' : 'No'}"></span></p>
+    <p><strong>Locker Agreement:</strong> <span th:text="${member.locker_isAgreed != null ? (member.locker_isAgreed ? 'Yes' : 'No') : 'Unknown'}"></span></p>
+</div>
+
+<!-- Same JavaScript to handle password visibility -->
+<script>
+    var passwordSpan = document.querySelector('.password');
+    var originalPassword = passwordSpan.textContent;
+    passwordSpan.textContent = '*'.repeat(originalPassword.length);
+    passwordSpan.addEventListener('click', function() {
+        if (passwordSpan.textContent === '*'.repeat(originalPassword.length)) {
+            passwordSpan.textContent = originalPassword;
+        } else {
+            passwordSpan.textContent = '*'.repeat(originalPassword.length);
+        }
+    });
+</script>
+</body>
+</html>

@@ -3,47 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Member List</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
-            margin: 0 auto;
-            background-color: #fff;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        thead {
-            background-color: #f2f2f2;
-            color: #333;
-        }
-        tbody tr:hover {
-            background-color: #f9f9f9;
-        }
-        .password {
-            cursor: pointer; /* 鼠标指示可点击 */
-            color: #999; /* 初始颜色为灰色 */
-            transition: color 0.3s ease; /* 添加颜色过渡效果 */
-        }
-        .password:hover {
-            color: #333; /* 鼠标悬停时颜色变为黑色 */
-        }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <h1>Member List</h1>
@@ -78,7 +38,7 @@
         <td th:text="${member.height}"></td>
         <td th:text="${member.is_purchased} ? 'Yes' : 'No'"></td>
         <td th:text="${member.is_active} ? 'Yes' : 'No'"></td>
-        <!-- <td th:text="${member.locker_isagreed} ? 'Yes' : 'No'"></td> -->
+        <td th:text="${member.locker_isAgreed} ? 'Yes' : 'No'"></td>
     </tr>
     </tbody>
 </table>

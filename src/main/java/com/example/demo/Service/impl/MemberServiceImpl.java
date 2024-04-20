@@ -26,11 +26,6 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findAll();
     }
 
-//    @Override
-//    public void addMember(Member member) {
-//        memberRepository.save(member);
-//    }
-
     @Override
     public Member validateMember(String phoneNumber, String password) {
         Member member = memberRepository.findByPhone(phoneNumber);
@@ -51,6 +46,11 @@ public class MemberServiceImpl implements MemberService {
 
     public Member findByPhone(String phone) {
         return memberRepository.findByPhone(phone);
+    }
+
+    @Override
+    public Member findMemberById(String memberId) {
+        return memberRepository.findById(memberId).orElse(null);
     }
 
     @Override

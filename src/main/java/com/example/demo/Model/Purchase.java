@@ -12,8 +12,9 @@ public class Purchase {
     @Column(name = "purchase_id")
     private String purchaseId;
 
-    @Column(name = "member_id")
-    private String memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", referencedColumnName = "member_id")
+    private Member member;
 
     @Column(name = "plan")
     private String plan;
@@ -26,13 +27,15 @@ public class Purchase {
     @Temporal(TemporalType.DATE)
     private Date endDate;
 
+
+
     // Getters
     public String getPurchaseId() {
         return purchaseId;
     }
 
-    public String getMemberId() {
-        return memberId;
+    public Member getMember() {
+        return this.member;
     }
 
     public String getPlan() {
@@ -50,10 +53,6 @@ public class Purchase {
     // Setters
     public void setPurchaseId(String purchaseId) {
         this.purchaseId = purchaseId;
-    }
-
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
     }
 
     public void setPlan(String plan) {

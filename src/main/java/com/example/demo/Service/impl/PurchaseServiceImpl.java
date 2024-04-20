@@ -45,4 +45,9 @@ public class PurchaseServiceImpl implements PurchaseService {
     public List<Purchase> findPurchasesBetweenDates(Date startDate, Date endDate) {
         return purchaseRepository.findByPurchaseDateBetween(startDate, endDate);
     }
+
+    @Override
+    public List<Purchase> findAllWithMembers() {
+        return purchaseRepository.findAllWithMember();
+    }
 }

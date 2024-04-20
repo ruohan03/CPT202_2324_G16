@@ -21,5 +21,5 @@ public interface MemberService {
         return null;
     }
 
-
+    Member findMemberById(String memberId);
 }
