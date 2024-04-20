@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Reservation List</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Reservation ID</th>
+            <th>Member ID</th>
+            <th>Staff ID</th>
+            <th>Lesson Start Time</th>
+            <th>Cancelled</th>
+            <th>Sign-in</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate through reservations and display each row -->
+        <!-- Assuming 'reservations' is a list of Reservation objects passed from the controller -->
+        <!-- You may need to adjust the property names based on your actual Reservation class -->
+        <th:block th:each="reservation : ${reservations}">
+            <tr>
+                <td th:text="${reservation.reservation_id}"></td>
+                <td th:text="${reservation.member_id}"></td>
+                <td th:text="${reservation.staff_id}"></td>
+                <td th:text="${reservation.lesson_starttime}"></td>
+                <td th:text="${reservation.is_cancelled ? 'Yes' : 'No'}"></td>
+                <td th:text="${reservation.is_signin ? 'Yes' : 'No'}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
