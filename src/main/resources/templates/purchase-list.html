@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase List</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>Purchase List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Purchase ID</th>
+        <th>Member ID</th>
+        <th>Plan</th>
+        <th>Purchase Date</th>
+        <th>End Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="purchase : ${purchases}">
+        <td th:text="${purchase.purchaseId}"></td>
+        <td th:text="${purchase.memberId}"></td>
+        <td th:text="${purchase.plan}"></td>
+        <td th:text="${#dates.format(purchase.purchaseDate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#dates.format(purchase.endDate, 'yyyy-MM-dd')}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

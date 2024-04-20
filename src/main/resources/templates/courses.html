@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Courses</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <h1>Available Courses</h1>
@@ -15,7 +15,6 @@
 <table>
     <thead>
     <tr>
-        <th>Course ID</th>
         <th>Name</th>
         <th>Location</th>
     </tr>
@@ -23,12 +22,9 @@
     <tbody>
     <tr th:each="course : ${courses}"
         th:attr="onclick=|console.log('Redirecting to /courses/' + '${course.courseId}' + '/staff'); window.location.href='/courses/' + '${course.courseId}' + '/staff';|">
-        <td th:text="${course.courseId}">C001</td>
         <td th:text="${course.name}">Yoga</td>
         <td th:text="${course.location}">Room A</td>
     </tr>
-
-
     </tbody>
 </table>
 </body>
