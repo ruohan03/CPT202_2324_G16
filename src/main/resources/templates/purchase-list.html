@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Purchase List</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/full_updated_style.css">
 </head>
 <body>
 <h1>Purchase List</h1>
@@ -18,11 +18,13 @@
     </thead>
     <tbody>
     <tr th:each="purchase : ${purchases}"
-        th:attr="onclick=|window.location.href='/member/details?member_id=' + '${purchase.member?.member_id}';|">
+        th:attr="onclick=|window.location.href='/member/details/' + '${purchase.member?.member_id}';|">
         <td th:text="${purchase.purchaseId}"></td>
         <td>
             <!-- 如果member对象存在，显示为链接，否则显示文本 -->
-            <a th:if="${purchase.member != null}" th:href="@{/member/details(member_id=${purchase.member.member_id})}" th:text="${purchase.member.member_id}">Member ID</a>
+            <a th:if="${purchase.member != null}"
+               th:href="@{/member/details/{member_id}(member_id=${purchase.member.member_id})}"
+               th:text="${purchase.member.member_id}">Member ID</a>
             <span th:unless="${purchase.member != null}" th:text="${purchase.member.member_id ?: 'No Member'}">No Member</span>
         </td>
         <td th:text="${purchase.plan}"></td>
