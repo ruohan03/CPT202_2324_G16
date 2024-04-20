@@ -20,4 +20,7 @@ public interface StaffService {
     Optional<Staff> findById(String id);
     Staff save(Staff staff);
     void deleteById(String id);
+
+    Optional<Staff> login(String phone, String password);
+
 }

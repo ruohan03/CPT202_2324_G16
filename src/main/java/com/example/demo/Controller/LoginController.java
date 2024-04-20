@@ -26,8 +26,8 @@ public class LoginController {
             @RequestParam("phone") String phone,
             @RequestParam("password") String password,
             @RequestParam("loginType") String loginType,
-            HttpSession session) {
-
+           HttpSession session) {
+//改！！！！！！！！！！！！！！
         Member member = memberService.validateMember(phone, password);
         if (member != null && ((member.isManager() && "admin".equals(loginType)) || (!member.isManager() && "user".equals(loginType)))) {
             session.setAttribute("currentUser", member);

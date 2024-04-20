@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class StaffController {
@@ -52,4 +53,25 @@ public class StaffController {
         model.addAttribute("courseName", courseName); // 假设您已经有方法获取课程名称
         return "course_staff"; // Thymeleaf 模板名称
     }
+
+//登录
+
+    @GetMapping("/login/staff")
+    public String showLoginForm() {
+        return "login_staff";
+    }
+    @PostMapping("/login/staff")
+    public String login(@RequestParam String phone, @RequestParam String password, Model model) {
+        Optional<Staff> staff = staffService.login(phone, password);
+        if(staff.isPresent()) {
+            model.addAttribute("staff", staff.get());
+            // 修改这里，确保正确使用模板名称
+            return staff.get().isManager() ? "manager_homepage" : "trainer_homepage";
+        } else {
+            model.addAttribute("error", "Invalid credentials");
+            return "redirect:/login/staff?error=true";
+        }
+    }
+
+
 }

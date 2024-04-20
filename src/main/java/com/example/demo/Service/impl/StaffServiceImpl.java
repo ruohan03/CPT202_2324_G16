@@ -63,4 +63,13 @@ public class StaffServiceImpl implements StaffService {
     public void deleteById(String id) {
 
     }
+
+    @Override
+    public Optional<Staff> login(String phone, String password) {
+        Optional<Staff> staff = staffRepository.findByPhone(phone);
+        if(staff.isPresent() && staff.get().getPassword().equals(password)) {
+            return staff;
+        }
+        return Optional.empty();
+    }
 }
