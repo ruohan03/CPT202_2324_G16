@@ -121,4 +121,35 @@ public class MemberController {
         return "redirect:/member/profile";
     }
 
+    @GetMapping("/member/update-password")
+    public String showChangePasswordForm(HttpSession session, Model model) {
+        String memberId = (String) session.getAttribute("member_id");
+        if (memberId == null) {
+            return "redirect:/login";
+        }
+        Member member = memberService.findMemberById(memberId);
+        if (member != null) {
+            model.addAttribute("member", member);
+            model.addAttribute("currentPage","updatePassword");
+            return "update-password";
+        }else {
+            return "redirect:/";
+        }
+    }
+
+    @PostMapping("/member/update-password")
+    public String updatePassword(@RequestParam String oldPassword, @RequestParam String newPassword,
+                                 @RequestParam String confirmPassword, HttpSession session, RedirectAttributes redirectAttributes) {
+        String memberId = (String) session.getAttribute("member_id");
+        if (memberId == null) {
+            return "redirect:/login";
+        }
+        if (!newPassword.equals(confirmPassword)) {
+            redirectAttributes.addFlashAttribute("error", "Passwords do not match.");
+            return "redirect:/member/update-password";
+        }
+        return memberService.changePassword(memberId, oldPassword, newPassword, redirectAttributes);
+    }
+
+
 }

@@ -6,6 +6,7 @@ import com.example.demo.repo.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public Member saveMember(Member member) {
+    public void saveMember(Member member) {
         // 检查电话号码是否已提供，并尝试生成基于电话号码的 member_id
         if (member.getPhone() != null && !member.getPhone().isEmpty()) {
             String proposedId = "M" + member.getPhone();
@@ -60,7 +61,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         // 保存会员信息到数据库
-        return memberRepository.save(member);
+        memberRepository.save(member);
     }
 
     public Member findByPhone(String phone) {
@@ -88,4 +89,31 @@ public class MemberServiceImpl implements MemberService {
                 })
                 .orElse(false); // 如果找不到指定的成员，使用map和orElse来简化逻辑
     }
+
+    @Override
+    public String changePassword(String memberId, String oldPassword, String newPassword, RedirectAttributes redirectAttributes) {
+        // 首先，使用memberId查找现有的会员信息
+        Member existingMember = memberRepository.findById(memberId).orElse(null);
+
+        // 检查会员是否存在
+        if (existingMember == null) {
+            redirectAttributes.addFlashAttribute("error", "无法找到用户。");
+            return "redirect:/member/change-password";
+        }
+
+        // 验证旧密码是否正确
+        if (!existingMember.getPassword().equals(oldPassword)) {
+            redirectAttributes.addFlashAttribute("error", "当前密码不正确。");
+            return "redirect:/member/change-password";
+        }
+
+        // 更新密码
+        existingMember.setPassword(newPassword); // 假设密码是明文存储，实际应用中应使用加密处理
+        memberRepository.save(existingMember);
+        redirectAttributes.addFlashAttribute("success", "密码已成功更新。");
+
+        // 重定向到某个页面，比如个人资料页面或主页
+        return "redirect:/home_page";
+    }
+
 }

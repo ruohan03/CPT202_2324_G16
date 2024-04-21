@@ -133,14 +133,16 @@ a:hover {
 }
 
 .login-form .btn:hover {
-    background-color: #b446a2; /* 按钮悬停时的颜色变化 */
+    background-color: #FFFFFF;
+    color: #D51FBA;
+    border: 2px solid #D51FBA;
 }
 
 /* 错误消息样式 */
 .error-message {
-    color: #D32F2F; /* 错误消息的文本颜色 */
+    color: #C94F4F; /* 错误消息的文本颜色 */
     background-color: #FFFFFF; /* 背景颜色 */
-    border: 1px solid #D32F2F; /* 边框颜色 */
+    border: 1px solid #C94F4F; /* 边框颜色 */
     padding: 10px; /* 内边距 */
     width: 90%; /* 比输入框稍窄 */
     max-width: 400px; /* 错误消息的最大宽度 */
