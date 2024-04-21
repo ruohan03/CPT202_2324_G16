@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +57,7 @@ public class MemberController {
     // 显示主页或其他需要会员ID的方法
     @GetMapping("/home_page")
     public String homePage(Model model, HttpSession session) {
-        String memberId = (String) session.getAttribute("memberId");
+        String memberId = (String) session.getAttribute("member_id");
         if (memberId != null) {
             Member member = memberService.findMemberById(memberId);
             if (member != null) {
@@ -79,7 +80,7 @@ public class MemberController {
         Optional<Member> memberOpt = memberService.login(phone, password);
         if (memberOpt.isPresent()) {
             Member member = memberOpt.get();
-            session.setAttribute("memberId", member.getMember_id()); // 将会员ID存储到session中
+            session.setAttribute("member_id", member.getMember_id()); // 将会员ID存储到session中
             model.addAttribute("member", member);
             return "redirect:/home_page"; // 如果验证成功，重定向到主页
         } else {
@@ -90,7 +91,7 @@ public class MemberController {
 
     @GetMapping("/member/profile")
     public String showProfile(HttpSession session, Model model) {
-        String memberId = (String) session.getAttribute("memberId");
+        String memberId = (String) session.getAttribute("member_id");
         if (memberId == null) {
             return "redirect:/login";
         }
@@ -104,5 +105,20 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/member/update/{member_id}")
+    public String updateMember(@PathVariable String member_id, @ModelAttribute Member member, HttpSession session, RedirectAttributes redirectAttributes) {
+        String sessionMemberId = (String) session.getAttribute("member_id");
+        if (sessionMemberId == null || !sessionMemberId.equals(member_id)) {
+            redirectAttributes.addFlashAttribute("error", "Unauthorized access or session has expired");
+            return "redirect:/login";
+        }
+        boolean updateResult = memberService.updateMember(member);
+        if (updateResult) {
+            redirectAttributes.addFlashAttribute("success", "Successfully updated");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Update failed, please try again");
+        }
+        return "redirect:/member/profile";
+    }
 
 }

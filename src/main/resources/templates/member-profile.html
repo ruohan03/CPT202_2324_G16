@@ -12,9 +12,8 @@
 <div class="top-nav">
     <a href="/home_page" class="logo">H-XYZ | 打击代写就现在</a>
     <div class="nav-center">
-        <a href="/home_page" th:class="${currentPage == 'home'} ? 'current-page'">Home</a>
-        <a href="/member/profile" th:class="${currentPage == 'memberProfile'} ? 'current-page'">My Profile</a>
-        <!-- ... other links ... -->
+        <a href="/home_page" th:class="${currentPage == 'home' ? 'current-page':''}">Home</a>
+        <a href="/member/profile" th:class="${currentPage == 'memberProfile' ? 'current-page':''}">My Profile</a>
     </div>
     <div class="nav-right">
         <span th:text="${member.name}"></span>
@@ -25,37 +24,102 @@
 <!-- Profile Container -->
 <div class="member-profile-container">
     <h1 class="member-profile-header">Member Profile</h1>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <form th:action="@{/member/update/{memberId}(memberId=${member.member_id})}" th:object="${member}" method="post">
     <table class="member-profile-table">
-        <tr>
-            <th>ID</th>
-            <td th:text="${member.member_id}"></td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td th:text="${member.name}"></td>
-        </tr>
+            <tr>
+                <th>ID</th>
+                <td th:text="${member.member_id}"></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>
+                    <span class="text-display" th:text="${member.name}"></span>
+                    <label>
+                        <input type="text" th:field="*{name}" class="text-input" disabled>
+                    </label>
+                </td>
+            </tr>
         <tr>
             <th>Phone</th>
-            <td th:text="${member.phone}"></td>
+            <td>
+                <span class="text-display" th:text="${member.phone}"></span>
+                <label>
+                    <input type="text" th:field="*{phone}" class="text-input" disabled>
+                </label>
+            </td>
         </tr>
         <tr>
             <th>Gender</th>
-            <td th:text="${member.gender}"></td>
+            <td>
+                <span class="text-display" th:text="${member.gender}"></span>
+                <label>
+                    <input type="text" th:field="*{gender}" class="text-input" disabled>
+                </label>
+            </td>
         </tr>
         <tr>
             <th>Address</th>
-            <td th:text="${member.address}"></td>
+            <td>
+                <span class="text-display" th:text="${member.address}"></span>
+                <label>
+                    <input type="text" th:field="*{address}" class="text-input" disabled>
+                </label>
+            </td>
         </tr>
         <tr>
             <th>Weight</th>
-            <td th:text="${member.weight}"></td>
+            <td>
+                <span class="text-display" th:text="${member.weight}"></span>
+                <label>
+                    <input type="text" th:field="*{weight}" class="text-input" disabled>
+                </label>
+            </td>
         </tr>
         <tr>
             <th>Height</th>
-            <td th:text="${member.height}"></td>
+            <td>
+                <span class="text-display" th:text="${member.height}"></span>
+                <label>
+                    <input type="text" th:field="*{height}" class="text-input" disabled>
+                </label>
+            </td>
         </tr>
     </table>
+        <div class="button-container">
+            <button type="button" onclick="enableEdit()" class="edit-button">Edit</button>
+            <button type="submit" class="save-button" style="display: none;">Save</button>
+            <button type="button" class="cancel-button" style="display: none;" onclick="cancelEdit()">Cancel</button>
+        </div>
+    </form>
 </div>
 
+<script>
+    // JavaScript to toggle edit mode
+    function enableEdit() {
+        const container = document.querySelector('.member-profile-container');
+        container.classList.add('edit-mode');
+        document.querySelectorAll('.member-profile-table .text-input').forEach(function(input) {
+            input.disabled = false;
+        });
+        document.querySelector('.edit-button').style.display = 'none';
+        document.querySelector('.save-button').style.display = 'inline';
+        document.querySelector('.cancel-button').style.display = 'inline';
+    }
+
+
+    function cancelEdit() {
+        const container = document.querySelector('.member-profile-container');
+        container.classList.remove('edit-mode');
+        document.querySelectorAll('.member-profile-table .text-input').forEach(function(input) {
+            input.disabled = true;
+        });
+        document.querySelector('.edit-button').style.display = 'inline';
+        document.querySelector('.save-button').style.display = 'none';
+        document.querySelector('.cancel-button').style.display = 'none';
+        // Optionally, reset input values to initial state if needed
+    }
+</script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.example.demo.Service.impl;
 import com.example.demo.Model.Member;
 import com.example.demo.Service.MemberService;
 import com.example.demo.repo.MemberRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,20 +29,37 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public void addMember(Member member) {
+        memberRepository.save(member);
+    }
+
+    @Override
     public Optional<Member> login(String phoneNumber, String password) {
         Member member = memberRepository.findByPhone(phoneNumber);
-        if (member != null && member.getPassword().equals(password)) {
+        if (member != null && member.getPassword() != null && member.getPassword().equals(password)) {
             return Optional.of(member); // 如果电话号码和密码匹配，则返回Optional包含Member对象
         }
         return Optional.empty(); // 如果密码不匹配或用户不存在，则返回一个空的Optional
     }
 
+    @Transactional
+    @Override
     public Member saveMember(Member member) {
-        // 当创建新成员时，设置自定义的 member_id
+        // 检查电话号码是否已提供，并尝试生成基于电话号码的 member_id
         if (member.getPhone() != null && !member.getPhone().isEmpty()) {
-            member.setMember_id("M" + member.getPhone());
+            String proposedId = "M" + member.getPhone();
+            // 检查是否已存在相同的 member_id
+            if (memberRepository.existsById(proposedId)) {
+                // 如果已存在，处理冲突（例如抛出异常或生成一个不同的 ID）
+                throw new IllegalStateException("Member ID already exists for this phone number.");
+            }
+            member.setMember_id(proposedId);
+        } else {
+            // 如果电话号码没有提供，可以选择抛出异常或采取其他措施
+            throw new IllegalArgumentException("Phone number is required to generate member ID.");
         }
-        // Save the member to the database
+
+        // 保存会员信息到数据库
         return memberRepository.save(member);
     }
 
@@ -54,18 +72,20 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findById(memberId).orElse(null);
     }
 
+    @Transactional
     @Override
-    public void updateMember(Member member) {
-        memberRepository.save(member);
+    public boolean updateMember(Member member) {
+        return memberRepository.findById(member.getMember_id())
+                .map(existingMember -> {
+                    existingMember.setName(member.getName());
+                    existingMember.setPhone(member.getPhone());
+                    existingMember.setGender(member.getGender());
+                    existingMember.setAddress(member.getAddress());
+                    existingMember.setWeight(member.getWeight());
+                    existingMember.setHeight(member.getHeight());
+                    memberRepository.save(existingMember);
+                    return true;
+                })
+                .orElse(false); // 如果找不到指定的成员，使用map和orElse来简化逻辑
     }
-
-    @Override
-    public void addMember(Member member) {
-        // 生成自定义的 member_id
-        if (member.getPhone() != null && !member.getPhone().isEmpty()) {
-            member.setMember_id("M" + member.getPhone());
-        }
-        memberRepository.save(member);
-    }
-
 }

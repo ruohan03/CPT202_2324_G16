@@ -1,9 +1,13 @@
 package com.example.demo.Model;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Set;
 
 @Entity
 public class Member {
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
     @Id
     @Column(name = "member_id")
     private String member_id;
@@ -35,7 +39,7 @@ public class Member {
     @Column
     private Boolean is_active;
 
-    @Column(name = "locker_isagreed")
+    @Column(name = "locker_isAgreed")
     private Boolean locker_isAgreed;
 
     @OneToMany(mappedBy = "member")
@@ -45,8 +49,8 @@ public class Member {
     public Member() {
     }
 
-    public Member(String member_id, String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed) {
-        this.member_id = "M"+phone;
+    public Member(String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed) {
+        this.member_id = "M"+ phone;
         this.name = name;
         this.phone = phone;
         this.gender = gender;
@@ -57,6 +61,15 @@ public class Member {
         this.is_purchased = is_purchased;
         this.is_active = is_active;
         this.locker_isAgreed = locker_isAgreed;
+    }
+
+    public Member(String member_id, String name, String phone, String gender, String address, Integer weight, Integer height){
+        this.member_id = member_id;
+        this.name = name;
+        this.phone = phone;
+        this.address= address;
+        this.weight = weight;
+        this.height = height;
     }
 
     // Getters and setters

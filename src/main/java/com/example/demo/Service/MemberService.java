@@ -24,5 +24,5 @@ public interface MemberService {
 
     Member findMemberById(String memberId);
 
-    void updateMember(Member member);
+    boolean updateMember(Member member);
 }
