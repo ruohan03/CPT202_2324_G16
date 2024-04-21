@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration Page</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/Register.css">
 </head>
 <body>
 <div class="container">
-    <h1>Register</h1>
+    <h1>Register Your Account</h1>
     <form th:action="@{/register}" th:object="${member}" method="post">
         <div>
             <input type="text" id="name" th:field="*{name}" placeholder="Name" />
@@ -17,6 +17,10 @@
         </div>
         <div>
             <input type="password" id="password" th:field="*{password}" placeholder="Password" pattern="^(?=.*[0-9])(?=.*[a-zA-Z]).{5,}$" title="Password must be at least 5 characters long and include both letters and numbers."/>
+        </div>
+        <div>
+            <input type="checkbox" id="agreement" name="agreement" />
+            <label for="agreement">I've read and agree to the Terms of Service.</label>
         </div>
         <button type="submit">Register</button>
     </form>
