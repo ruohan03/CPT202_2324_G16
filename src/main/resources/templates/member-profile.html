@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${member.name} + ': Profile'">Profile</title>
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="top-nav">
+    <a href="/home_page" class="logo">H-XYZ | 打击代写就现在</a>
+    <div class="nav-center">
+        <a href="/home_page" th:class="${currentPage == 'home'} ? 'current-page'">Home</a>
+        <a href="/member/profile" th:class="${currentPage == 'memberProfile'} ? 'current-page'">My Profile</a>
+        <!-- ... other links ... -->
+    </div>
+    <div class="nav-right">
+        <span th:text="${member.name}"></span>
+        <a href="/logout" class="active">Logout</a>
+    </div>
+</div>
+
+<!-- Profile Container -->
+<div class="member-profile-container">
+    <h1 class="member-profile-header">Member Profile</h1>
+    <table class="member-profile-table">
+        <tr>
+            <th>ID</th>
+            <td th:text="${member.member_id}"></td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td th:text="${member.name}"></td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td th:text="${member.phone}"></td>
+        </tr>
+        <tr>
+            <th>Gender</th>
+            <td th:text="${member.gender}"></td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td th:text="${member.address}"></td>
+        </tr>
+        <tr>
+            <th>Weight</th>
+            <td th:text="${member.weight}"></td>
+        </tr>
+        <tr>
+            <th>Height</th>
+            <td th:text="${member.height}"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

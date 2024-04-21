@@ -13,6 +13,7 @@ public interface MemberService {
     List<Member> findAllMembers();
 
     void addMember(Member member);
+
     Optional<Member> login(String phoneNumber, String password);
 
     Member saveMember(Member member);
@@ -22,4 +23,6 @@ public interface MemberService {
     }
 
     Member findMemberById(String memberId);
+
+    void updateMember(Member member);
 }

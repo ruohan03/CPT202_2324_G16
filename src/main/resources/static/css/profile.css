@@ -1,0 +1,47 @@
+/* Member Profile Table Styles */
+.member-profile-container {
+    max-width: 600px; /* 容器的最大宽度 */
+    background-color: #fff; /* 白色背景 */
+    margin: 30px auto; /* 水平和垂直居中 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 轻微的阴影效果 */
+    padding: 20px; /* 内边距 */
+    border-radius: 8px; /* 圆角 */
+}
+
+.member-profile-table {
+    width: 100%; /* 表格宽度 */
+    border-collapse: collapse; /* 合并边框 */
+}
+
+.member-profile-table th,
+.member-profile-table td {
+    text-align: left; /* 左对齐文本 */
+    border-bottom: 1px solid #ddd; /* 底部边框线 */
+}
+
+.member-profile-table th{
+    padding: 10px 15px; /* 单元格内边距 */
+    width: 30%;
+    background-color: #010544;
+    color:#FFFFFF;
+}
+.member-profile-table tr:last-child th,
+.member-profile-table tr:last-child td {
+    border-bottom: none; /* 移除最后一行的底部边框 */
+}
+
+.member-profile-header {
+    font-size: 24px; /* 标题字体大小 */
+    color: #010544; /* 标题颜色 */
+    text-align: center; /* 标题居中 */
+    padding: 20px; /* 标题内边距 */
+    margin-bottom: 20px; /* 标题与表格间的空间 */
+    border-radius: 8px 8px 0 0; /* 上方圆角 */
+}
+
+/* 表格响应式布局 */
+@media (max-width: 768px) {
+    .member-profile-container {
+        width: 95%; /* 移动设备上的宽度调整 */
+    }
+}

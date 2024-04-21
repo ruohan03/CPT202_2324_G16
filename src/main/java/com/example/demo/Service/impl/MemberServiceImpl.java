@@ -55,6 +55,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public void updateMember(Member member) {
+        memberRepository.save(member);
+    }
+
+    @Override
     public void addMember(Member member) {
         // 生成自定义的 member_id
         if (member.getPhone() != null && !member.getPhone().isEmpty()) {

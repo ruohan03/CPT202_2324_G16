@@ -7,52 +7,81 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .jumbotron {
-            background-image: url("/images/VCG41N1210542422.jpg");
-            background-size: cover;
-            background-position: center;
-            height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+        .welcome-message {
+            text-align: center;
+            font-size: 2.5rem; /* 大号字体 */
+            color: #333;
+            margin-top: 20px; /* 顶部边距 */
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">Fitness Center</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Courses</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Trainers</a>
-                </li>
-            </ul>
-        </div>
+<div class="top-nav">
+    <a href="/home_page" class="logo">H-XYZ | 打击代写就现在</a>
+    <div class="nav-center">
+        <a href="/home_page" th:class="${currentPage == 'home'} ? 'current-page' : ''">Home</a>
+        <a href="/member/profile" th:class="${currentPage == 'memberProfile'} ? 'current-page' : ''">My Profile</a>
+        <!-- ... other links ... -->
     </div>
-</nav>
+    <div class="nav-right">
+        <span th:if="${isLoggedIn}" th:text="${member.name}">John Doe</span>
+        <a th:if="${isLoggedIn}" href="/logout" class="logout-button">Logout</a>
+        <a th:if="${!isLoggedIn}" href="/login" class="login-button">Login</a>
+    </div>
+</div>
+
+<div th:if="${welcomeMessage}" class="welcome-message" th:text="${welcomeMessage}"></div>
+<div th:if="${error}" class="error-message" th:text="${error}"></div>
 
 <div class="jumbotron">
     <div class="container text-center">
-        <h1 class="display-4">Welcome to the Fitness Center</h1>
         <p class="lead">Let's stay healthy and vibrant together!</p>
         <a class="btn btn-primary btn-lg" href="other/course_type.html" role="button">Book a Course</a>
     </div>
 </div>
 
+<script>
+    // 添加页面滚动事件，以改变导航栏背景
+    window.onscroll = function() {
+        if (window.scrollY > 50) {
+            document.querySelector('.navbar').classList.add('scrolled');
+        } else {
+            document.querySelector('.navbar').classList.remove('scrolled');
+        }
+    };
+</script>
+<footer class="bg-dark text-white mt-4">
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Contact Us</h5>
+                <address>
+                    <strong>Fitness Center Inc.</strong><br>
+                    123 Fitness Blvd.<br>
+                    Wellness City, 98765<br>
+                    <abbr title="Phone">P:</abbr> (123) 456-7890
+                </address>
+            </div>
+            <div class="col-md-6">
+                <h5>Follow Us</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Twitter</a></li>
+                    <li><a href="#" class="text-white">Facebook</a></li>
+                    <li><a href="#" class="text-white">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var memberId = sessionStorage.getItem('memberId'); // 假设在登录时已存储
+        var profileLink = document.getElementById('profile-link');
+        if (profileLink && memberId) {
+            profileLink.href = `/profile/${memberId}`;
+        }
+    });
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

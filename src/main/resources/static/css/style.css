@@ -1,9 +1,12 @@
 /* 基本样式和字体设置 */
+body, h1, a {
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* 统一字体 */
+}
 body {
-    font-family: Arial, sans-serif;
     background-color: #f8f9fa; /* 背景色 */
     color: #010544; /* 深蓝色文字 */
 }
+
 html, body {
     height: 100%;
     margin: 0;
@@ -17,32 +20,48 @@ h1 {
 
 /* 表格基础样式 */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse; /* 边框合并，更加紧凑 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加轻微阴影 */
 }
 
-/* 表格单元格样式 */
+/* 表格标题和单元格样式 */
 th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px 20px;
     text-align: left;
+    border-bottom: 2px solid #f8f9fa; /* 浅色底部边框 */
 }
 
 /* 表格头部样式 */
 th {
-    background-color: #026e99;
-    color: white;
+    background-color: #010544; /* 深蓝色背景 */
+    color: white; /* 文字颜色 */
+    font-size: 16px;
 }
 
-/* 隔行换色 */
+/* 表格行样式 */
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f8f9fa; /* 浅灰色背景，隔行变色 */
 }
 
 /* 行悬停效果 */
 tr:hover {
-    background-color: #ddd;
+    background-color: rgba(206, 86, 193, 0.3); /* 半透明的亮紫色 */
+    color: #010544; /* 保持文字颜色不变 */
+    cursor: pointer;
+}
+
+/* 链接样式 */
+a {
+    background-color: rgba(206, 86, 193, 0.3); /* 适用于链接的半透明背景 */
+    color: #010544;
+    text-decoration: none; /* 去除下划线 */
+}
+
+a:hover {
+    color: #CE56C1;
+    text-decoration: underline; /* 悬停时添加下划线 */
 }
 
 /* 返回按钮样式 */
@@ -57,41 +76,67 @@ tr:hover {
     transition: background-color 0.3s ease;
 }
 
-/* 返回按钮悬停效果 */
-.back-button:hover {
-    background-color: #014f6e;
+/* 悬停和动画效果 */
+.back-button, .login-form .btn, a {
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+}
+
+.back-button:hover, .login-form .btn:hover {
+    transform: translateY(-3px); /* 点击时轻微上移 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 增加阴影效果 */
 }
 
 /* 特定于登录页面的居中容器 */
 .login-centered-container {
     display: flex;
     justify-content: center;
-    min-height: 100vh; /* 使用视口的完整高度 */
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa; /* 轻柔的背景色 */
 }
 
 /* 登录表单容器样式 */
 .login-form {
-    width:  350px; /* 设定最大宽度，使得文本框和错误消息对齐 */
+    max-width: 400px; /* 最大宽度 */
+    width: 100%; /* 保持宽度为容器的100%，同时设置最大宽度 */
     margin: auto; /* 水平居中 */
-    background-color: rgba(255, 255, 255, 0.95);
     border-radius: 8px;
     text-align: center;
-    transform: translateY(-20%);
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 40px; /* 增加内边距以增加可读性 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 加强阴影效果提升层次感 */
     background-color: #fff;
+    border: 1px solid #e1e1e1; /* 柔和的边框色 */
 }
+
 
 /* 输入框和错误消息样式 */
 .login-form .form-control {
-    width: calc(100% - 20px); /* 计算宽度，考虑到内边距 */
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
+    width: 100%; /* 使输入框宽度与父元素相同 */
+    padding: 15px;
+    margin-bottom: 20px; /* 增加底部边距 */
+    border: 1px solid #dcdcdc;
     border-radius: 4px;
-    display: block; /* 块级元素，允许宽度设置 */
-    margin-right: auto;
+    font-size: 16px;
 }
+
+/* 登录按钮样式 */
+.login-form .btn {
+    width: 100%; /* 按钮宽度与输入框一致 */
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #CE56C1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-form .btn:hover {
+    background-color: #b446a2; /* 按钮悬停时的颜色变化 */
+}
+
+
 
 /* 错误消息样式 */
 .error-message {
@@ -108,17 +153,6 @@ tr:hover {
     display: none; /* 默认不显示，仅在出现错误时显示 */
 }
 
-/* 登录按钮样式，保持一致 */
-.login-form .btn {
-    width: calc(100% - 20px); /* 计算宽度，考虑到内边距 */
-    padding: 10px;
-    margin-top: 10px;
-    background-color: #CE56C1; /* 主题色 */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
 /* 页面背景 */
 /*body {*/
@@ -177,4 +211,117 @@ a:hover {
 .list-group-item:hover {
     background-color: #0056b3; /* 鼠标悬浮时的背景色 */
     color: white; /* 鼠标悬浮时的文字颜色 */
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .login-form, .table {
+        width: 95%; /* 在较小屏幕上调整宽度 */
+        margin-top: 10px;
+    }
+}
+
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Navigation Bar Styles */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff; /* White background for nav */
+    padding: 10px 30px;
+    border-bottom: 2px solid #ddd; /* Grey line to separate content */
+}
+
+.top-nav a, .top-nav span{
+    color: #010544; /* 深蓝色文字 */
+    background-color: #fff; /* 白色背景 */
+    text-decoration: none; /* 去除下划线 */
+    padding: 8px 16px;
+    border-radius: 5px; /* 圆角效果 */
+    transition: background-color 0.3s, color 0.3s; /* 平滑过渡效果 */
+}
+
+/* 当前页面链接的激活样式 */
+.top-nav a.current-page {
+    background-color: #f2f2f2; /* 背景变为灰色 */
+    color: #CE56C1; /* 文字颜色变为亮紫色 */
+    border-radius: 5px; /* 圆角效果 */
+    padding: 8px 16px;
+}
+
+/* 链接悬停效果，仅适用于非当前页面的链接 */
+.top-nav a:not(.current-page):hover {
+    background-color: #f2f2f2; /* 悬停背景变灰 */
+    color: #CE56C1; /* 悬停文字颜色变为亮紫色 */
+    text-decoration: none; /* 悬停时无下划线 */
+}
+
+/* Hover effect for links */
+.top-nav a:not(.logo):hover {
+    background-color: #e6e6e6; /* 非 logo 链接悬停背景变灰 */
+    color: #CE56C1; /* 非 logo 链接悬停文字颜色变成亮紫色 */
+    text-decoration: none; /* 确保悬停时没有下划线 */
+}
+/* Active link styling */
+.top-nav a.active {
+    background-color: #e6e6e6; /* Light grey background for active state */
+    color: #CE56C1; /* Purple text for active state */
+    border: none;
+}
+
+/* Logo链接样式 */
+.logo {
+    color: #010544; /* 深蓝色文字 */
+    text-decoration: none; /* 去除下划线 */
+    padding: 8px 16px;
+    background-color: transparent; /* 透明背景确保 logo 无背景填充 */
+    border-radius: 5px; /* 圆角效果，根据需要可调整或去除 */
+    transition: color 0.3s; /* 平滑文字颜色过渡 */
+}
+
+/* Logo 无悬停效果 */
+.logo:hover {
+    background-color: transparent; /* 透明背景，保持不变 */
+    color: #010544; /* 文字颜色保持不变 */
+}
+
+.nav-center {
+    display: flex;
+    justify-content: center; /* This will center the links */
+    flex-grow: 1; /* This will allow the container to take up all available space */
+    margin: 0 10px;
+}
+
+/* Right side of nav */
+.nav-right {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Allows right-side items to occupy the right space */
+    justify-content: flex-end; /* Aligns items to the right */
+}
+
+/* Username style */
+.username {
+    color: #010544; /* Deep blue text for username */
+    margin-right: 20px; /* Space before logout button */
+}
+
+/* Logout button styling */
+.logout-button {
+    color: #fff; /* White text for button */
+    background-color: #CE56C1; /* Purple background for button */
+    border-radius: 15px; /* Rounded corners for button */
+    padding: 8px 16px; /* Padding inside the button */
+    text-decoration: none; /* Removes underline from the button */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #BE46A2; /* Darker purple background on hover for button */
 }

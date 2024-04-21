@@ -27,7 +27,7 @@ public class PurchaseController {
     public String getPurchase(@PathVariable String id, Model model) {
         Purchase purchase = purchaseService.findPurchaseById(id).orElse(null);
         model.addAttribute("purchase", purchase);
-        return "purchase-detail"; // 返回purchase-detail.html模板
+        return "purchase-list"; // 返回purchase-detail.html模板
     }
 
     @PostMapping("/purchases")
