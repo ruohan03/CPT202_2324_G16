@@ -22,12 +22,12 @@
 </div>
 
 <!-- Profile Container -->
-<div class="member-profile-container">
-    <h1 class="member-profile-header">Member Profile</h1>
+<div class="profile-container">
+    <h1 class="profile-header">Member Profile</h1>
     <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
     <form th:action="@{/member/update/{memberId}(memberId=${member.member_id})}" th:object="${member}" method="post">
-    <table class="member-profile-table">
+    <table class="profile-table">
             <tr>
                 <th>ID</th>
                 <td th:text="${member.member_id}"></td>
