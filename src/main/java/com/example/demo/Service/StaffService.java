@@ -17,10 +17,15 @@ public interface StaffService {
     List<Staff> findStaffByCourseId(String courseId);
 
     List<Staff> findAll();
-    Optional<Staff> findById(String id);
+    Optional<Staff> findById(String StaffId);
     Staff save(Staff staff);
     void deleteById(String id);
 
     Optional<Staff> login(String phone, String password);
 
+
+    Staff findStaffById(String staffId);
+
+
+    boolean updateStaff(Staff staff);
 }

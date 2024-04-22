@@ -2,6 +2,7 @@ package com.example.demo.Service.impl;
 import com.example.demo.Model.Staff;  // Ensure you import the Staff model
 import com.example.demo.Service.StaffService;
 import com.example.demo.repo.StaffRepository;  // Import the StaffRepository
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -72,4 +73,31 @@ public class StaffServiceImpl implements StaffService {
         }
         return Optional.empty();
     }
+
+    @Override
+    public Staff findStaffById(String staffId) {
+        return staffRepository.findById(staffId).orElse(null);
+    }
+
+
+    @Transactional
+    @Override
+    public boolean updateStaff(Staff staff) {
+        return staffRepository.findById(staff.getStaffId())
+                .map(existingStaff -> {
+                    // 更新员工信息，这里假设员工实体有以下字段
+                    existingStaff.setName(staff.getName());
+                    existingStaff.setPhone(staff.getPhone());
+                    existingStaff.setGender(staff.getGender());
+                    existingStaff.setLevel(staff.getLevel());
+                    existingStaff.setSalary(staff.getSalary());
+                    existingStaff.setCourseId(staff.getCourseId());
+
+                    staffRepository.save(existingStaff);
+                    return true;
+                })
+                .orElse(false);  // 如果找不到指定的员工，返回false
+    }
+
+
 }

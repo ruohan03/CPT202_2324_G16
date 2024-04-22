@@ -5,11 +5,13 @@ import com.example.demo.Model.Staff;
 import com.example.demo.Service.CourseService;
 import com.example.demo.Service.StaffService;
 import com.example.demo.exception.ResourceNotFoundException;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,11 +64,11 @@ public class StaffController {
     }
 
     @PostMapping("/login/staff")
-    public String login(@RequestParam String phone, @RequestParam String password, Model model) {
+    public String login(@RequestParam String phone, @RequestParam String password, HttpSession session, Model model) {
         Optional<Staff> staff = staffService.login(phone, password);
-        if(staff.isPresent()) {
+        if (staff.isPresent()) {
+            session.setAttribute("staffId", staff.get().getStaffId());  // 设置会话属性
             model.addAttribute("staff", staff.get());
-            // 修改这里，确保正确使用模板名称
             return staff.get().isManager() ? "manager_homepage" : "trainer_homepage";
         } else {
             model.addAttribute("error", "Invalid credentials");
@@ -75,4 +77,52 @@ public class StaffController {
     }
 
 
+    @GetMapping("/staff/profile")
+    public String showStaffProfile(HttpSession session, Model model) {
+        String staffId = (String) session.getAttribute("staffId");
+        if (staffId == null) {
+            // 没有找到 staff_id 时，重定向到登录页面
+            return "redirect:/login/staff";
+        }
+
+        Staff staff = staffService.findStaffById(staffId);
+        if (staff != null) {
+            // 如果找到员工，将其添加到模型中并跳转到员工资料页面
+            model.addAttribute("staff", staff);
+            model.addAttribute("currentPage", "staffProfile");
+            return "staff-profile";
+        } else {
+            // 如果没有找到员工，重定向到首页或其他适当页面
+            return "redirect:/";
+        }
+    }
+
+
+
+    @PostMapping("/staff/update/{staffId}")
+    public String updateStaff(@PathVariable String staffId, @ModelAttribute Staff staff, HttpSession session, RedirectAttributes redirectAttributes) {
+        String sessionStaffId = (String) session.getAttribute("staffId");
+        if (sessionStaffId == null|| !sessionStaffId.equals(staffId)) {
+            redirectAttributes.addFlashAttribute("error", "Session expired or unauthorized access.");
+            return "redirect:/login/staff";  // 确保重定向到正确的登录页
+        }
+
+        staff.setStaffId(sessionStaffId); // 设置会话中的ID到员工对象
+        boolean updateResult = staffService.updateStaff(staff);
+        if (updateResult) {
+            redirectAttributes.addFlashAttribute("success", "Successfully updated");
+
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Update failed, please try again");
+
+        }
+        return "redirect:/staff/profile";
+    }
+
+
+
+
+
 }
+
+

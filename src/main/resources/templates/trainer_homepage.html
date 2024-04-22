@@ -5,24 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trainer Homepage</title>
     <!-- 引入 Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- 可选的 Bootstrap 主题 -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap-theme.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css"> <!-- 确保此路径与你的CSS文件匹配 -->
+    <style>
+        .dashboard-header h2 {
+            margin-top: 20px; /* 顶部边距 */
+            text-align: center; /* 文字居中 */
+        }
+        .list-group-item {
+            text-align: center; /* 列表项文字居中 */
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h2 class="mt-5">Welcome, Trainer</h2>
-    <p>This is your dashboard.</p>
+    <div class="dashboard-header">
+        <h2>Welcome, Trainer</h2>
+        <p>This is your dashboard. Use the links below to manage your activities.</p>
+    </div>
     <div class="list-group">
+        <a href="/staff/profile" class="list-group-item list-group-item-action">Personal Information</a>
         <a href="/view_schedule" class="list-group-item list-group-item-action">View Schedule</a>
         <a href="/submit_reports" class="list-group-item list-group-item-action">Submit Reports</a>
         <a href="/client_progress" class="list-group-item list-group-item-action">Track Client Progress</a>
     </div>
 </div>
-<!-- 引入Bootstrap和jQuery -->
+<!-- 引入 Bootstrap 和 jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

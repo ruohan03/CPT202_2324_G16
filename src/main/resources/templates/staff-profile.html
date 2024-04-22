@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${staff.name} + ': Profile'">Profile</title>
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="top-nav">
+    <a href="/home_page" class="logo">H-XYZ | 打击代写就现在</a>
+    <div class="nav-center">
+        <a href="/home_page" th:class="${currentPage == 'home' ? 'current-page':''}">Home</a>
+        <a href="/staff/profile" th:class="${currentPage == 'staffProfile' ? 'current-page':''}">My Profile</a>
+    </div>
+    <div class="nav-right">
+        <span th:text="${staff.name}"></span>
+        <a href="/logout" class="active">Logout</a>
+    </div>
+</div>
+
+<!-- Profile Container -->
+<div class="profile-container">
+    <h1 class="profile-header">Staff Profile</h1>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <form th:action="@{/staff/update/{staffId}(staffId=${staff.staffId})}" th:object="${staff}" method="post">
+        <table class="profile-table">
+            <tr>
+                <th>ID</th>
+                <td th:text="${staff.staffId}"></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>
+                    <input type="text" th:field="*{name}" class="text-input">
+                </td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>
+                    <input type="text" th:field="*{phone}" class="text-input">
+                </td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>
+                    <select th:field="*{gender}" class="select-input">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Level</th>
+                <td>
+                    <input type="number" th:field="*{level}" class="text-input">
+                </td>
+            </tr>
+            <tr>
+                <th>Salary</th>
+                <td>
+                    <input type="number" th:field="*{salary}" class="text-input">
+                </td>
+            </tr>
+            <tr>
+                <th>Course ID</th>
+                <td>
+                    <input type="text" th:field="*{courseId}" class="text-input">
+                </td>
+            </tr>
+        </table>
+        <div class="button-container">
+            <button type="submit" class="save-button">Save</button>
+            <button type="button" class="cancel-button" onclick="cancelEdit()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function cancelEdit() {
+        window.location.reload(); // Reloads the page to reset any changes made to the form
+    }
+</script>
+</body>
+</html>
+

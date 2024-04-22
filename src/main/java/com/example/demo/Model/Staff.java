@@ -88,7 +88,7 @@ public class Staff {
     }
 
     public Integer getSalary() {
-        return salary != null ? level : 0;  // 如果 level 为 null，则返回一个默认值，如 0
+        return salary != null ? salary : 0;  // 如果 level 为 null，则返回一个默认值，如 0
     }
 
     public void setSalary(int salary) {
