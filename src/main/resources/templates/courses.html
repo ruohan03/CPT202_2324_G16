@@ -3,6 +3,8 @@
 <head>
     <title>Courses</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- 引入 jQuery 库 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <h1>Available Courses</h1>
@@ -27,9 +29,14 @@
         <td th:text="${course.name}">Yoga</td>
         <td th:text="${course.location}">Room A</td>
     </tr>
-
-
     </tbody>
 </table>
+
+<!-- JavaScript 代码，在搜索结果为空时显示弹窗 -->
+<script th:if="${#lists.isEmpty(courses)}">
+    $(document).ready(function(){
+        alert("This course is not yet available");
+    });
+</script>
 </body>
 </html>

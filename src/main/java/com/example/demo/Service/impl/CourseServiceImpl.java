@@ -38,5 +38,10 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findByNameContaining(name);
     }
 
+    @Override
+    public List<Course> findCoursesByCourseIdContaining(String courseId) {
+        return courseRepository.findByCourseIdContaining(courseId);
+    }
+
 
 }
