@@ -99,16 +99,15 @@
 <script>
     // JavaScript to toggle edit mode
     function enableEdit() {
-        const container = document.querySelector('.member-profile-container');
+        const container = document.querySelector('.profile-container');
         container.classList.add('edit-mode');
-        document.querySelectorAll('.member-profile-table .text-input').forEach(function(input) {
+        document.querySelectorAll('.profile-table .text-input').forEach(function(input) {
             input.disabled = false;
         });
         document.querySelector('.edit-button').style.display = 'none';
         document.querySelector('.save-button').style.display = 'inline';
         document.querySelector('.cancel-button').style.display = 'inline';
     }
-
 
     function cancelEdit() {
         const container = document.querySelector('.member-profile-container');
