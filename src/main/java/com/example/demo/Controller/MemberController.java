@@ -148,6 +148,10 @@ public class MemberController {
             redirectAttributes.addFlashAttribute("error", "Passwords do not match.");
             return "redirect:/member/update-password";
         }
+        if (newPassword.length() < 5 || !newPassword.matches(".*[a-zA-Z]+.*")) {
+            redirectAttributes.addFlashAttribute("error", "The new password must contain at least one letter and be at least five characters long.");
+            return "redirect:/member/update-password";
+        }
         return memberService.changePassword(memberId, oldPassword, newPassword, redirectAttributes);
     }
 

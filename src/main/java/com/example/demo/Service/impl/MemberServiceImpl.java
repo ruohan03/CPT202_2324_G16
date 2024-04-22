@@ -107,6 +107,12 @@ public class MemberServiceImpl implements MemberService {
             return "redirect:/member/change-password";
         }
 
+        // 检查新密码的复杂度
+        if (newPassword.length() < 5 || !newPassword.matches(".*[a-zA-Z]+.*")) {
+            redirectAttributes.addFlashAttribute("error", "新密码必须包含至少一个字母且长度不少于五位。");
+            return "redirect:/member/change-password";
+        }
+
         // 更新密码
         existingMember.setPassword(newPassword); // 假设密码是明文存储，实际应用中应使用加密处理
         memberRepository.save(existingMember);
@@ -115,5 +121,6 @@ public class MemberServiceImpl implements MemberService {
         // 重定向到某个页面，比如个人资料页面或主页
         return "redirect:/home_page";
     }
+
 
 }
