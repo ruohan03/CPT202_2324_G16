@@ -127,11 +127,3 @@
     margin-left: auto;
     margin-right: auto;
 }
-
-.alert-success {
-    background-color: #57965D; /* 绿色背景表示成功 */
-}
-
-.alert-danger {
-    background-color: #C94F4F; /* 红色背景表示错误 */
-}

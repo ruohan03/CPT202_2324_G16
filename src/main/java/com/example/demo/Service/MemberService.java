@@ -28,4 +28,6 @@ public interface MemberService {
     boolean updateMember(Member member);
 
     String changePassword(String memberId, String oldPassword, String newPassword, RedirectAttributes redirectAttributes);
+
+    boolean isPasswordComplex(String newPassword);
 }

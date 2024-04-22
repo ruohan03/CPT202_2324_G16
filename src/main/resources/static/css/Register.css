@@ -74,9 +74,10 @@ button:hover {
 }
 
 .error {
-    color: #D32F2F; /* Error message color */
+    font-weight: bold;
+    color: #C94F4F; /* Error message color */
     background-color: #FFFFFF; /* Error message background */
-    border: 1px solid #D32F2F;
+    border: 2px solid #C94F4F;
     padding: 10px;
     width: 90%; /* Error message width slightly narrower than input */
     max-width: 400px; /* Maximum width for error messages */
