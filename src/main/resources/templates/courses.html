@@ -5,15 +5,44 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- 引入 jQuery 库 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        /* 在这里添加自定义样式 */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            transition: all 0.3s ease-in-out;
+        }
+        .alert-danger {
+            max-width: 300px;
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        /* 可以在这里添加更多样式 */
+    </style>
 </head>
 <body>
-<h1>Available Courses</h1>
+<div class="title">
+    <h1>Available Courses</h1>
+</div>
 
-<form th:action="@{/courses}" method="get">
-    <input type="text" name="search" placeholder="Search by course name">
-    <button type="submit">Search</button>
-</form>
-
+<div class="search-container">
+    <form th:action="@{/courses}" method="get" class="search-form">
+        <input type="text" name="search" placeholder="Search by course name" class="search-input">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+    <!-- 添加提示消息 -->
+    <div th:if="${noSearchMessage}" class="alert alert-danger" th:text="${noSearchMessage}" ></div>
+</div>
 <table>
     <thead>
     <tr>

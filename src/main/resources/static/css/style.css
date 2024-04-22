@@ -352,3 +352,38 @@ a:hover {
 .logout-button:hover {
     background-color: #BE46A2; /* Darker purple background on hover for button */
 }
+
+.search-form {
+    display: flex;
+    align-items: center;
+    /*justify-content: center;*/
+    margin-bottom: 20px; /* 调整垂直间距 */
+    margin-left: 150px; /* 调整左边距 */
+}
+
+.search-input {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 300px; /* 调整搜索框宽度 */
+}
+
+.search-button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.title {
+    margin-bottom: 20px; /* 调整标题与下面内容的间距 */
+}

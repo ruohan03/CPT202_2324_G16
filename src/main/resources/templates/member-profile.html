@@ -14,6 +14,7 @@
     <div class="nav-center">
         <a href="/home_page" th:class="${currentPage == 'home' ? 'current-page':''}">Home</a>
         <a href="/member/profile" th:class="${currentPage == 'memberProfile' ? 'current-page':''}">My Profile</a>
+        <a href="/member/update-password" th:class="${currentPage == 'changePassword' ? 'current-page':''}">Update Password</a>
     </div>
     <div class="nav-right">
         <span th:text="${member.name}"></span>
