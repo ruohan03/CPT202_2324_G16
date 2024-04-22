@@ -1,5 +1,5 @@
 /* Member Profile Table Styles */
-.member-profile-container {
+.profile-container {
     max-width: 600px; /* 容器的最大宽度 */
     background-color: #fff; /* 白色背景 */
     margin: 30px auto; /* 水平和垂直居中 */
@@ -8,29 +8,29 @@
     border-radius: 8px; /* 圆角 */
 }
 
-.member-profile-table {
+.profile-table {
     width: 100%; /* 表格宽度 */
     border-collapse: collapse; /* 合并边框 */
 }
 
-.member-profile-table th,
-.member-profile-table td {
+.profile-table th,
+.profile-table td {
     text-align: left; /* 左对齐文本 */
     border-bottom: 1px solid #ddd; /* 底部边框线 */
 }
 
-.member-profile-table th{
+.profile-table th{
     padding: 10px 15px; /* 单元格内边距 */
     width: 30%;
     background-color: #010544;
     color:#FFFFFF;
 }
-.member-profile-table tr:last-child th,
-.member-profile-table tr:last-child td {
+.profile-table tr:last-child th,
+.profile-table tr:last-child td {
     border-bottom: none; /* 移除最后一行的底部边框 */
 }
 
-.member-profile-header {
+.profile-header {
     font-size: 24px; /* 标题字体大小 */
     color: #010544; /* 标题颜色 */
     text-align: center; /* 标题居中 */
@@ -95,7 +95,7 @@
 }
 
 /* 输入框默认隐藏，仅在编辑模式下显示 */
-.member-profile-table input[type="text"] {
+.profile-table input[type="text"] {
     display: none;
     width: 100%;
     padding: 8px;
@@ -104,7 +104,7 @@
 }
 
 /* 文本显示样式 */
-.member-profile-table .text-display {
+.profile-table .text-display {
     display: block;
 }
 
@@ -126,12 +126,4 @@
     width: 90%;
     margin-left: auto;
     margin-right: auto;
-}
-
-.alert-success {
-    background-color: #57965D; /* 绿色背景表示成功 */
-}
-
-.alert-danger {
-    background-color: #C94F4F; /* 红色背景表示错误 */
 }

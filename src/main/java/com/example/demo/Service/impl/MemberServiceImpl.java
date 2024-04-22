@@ -11,6 +11,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.demo.util.Constants.*;
+
 @Service
 public class MemberServiceImpl implements MemberService {
     @Autowired
@@ -92,35 +94,30 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public String changePassword(String memberId, String oldPassword, String newPassword, RedirectAttributes redirectAttributes) {
-        // 首先，使用memberId查找现有的会员信息
         Member existingMember = memberRepository.findById(memberId).orElse(null);
-
-        // 检查会员是否存在
         if (existingMember == null) {
-            redirectAttributes.addFlashAttribute("error", "无法找到用户。");
+            redirectAttributes.addFlashAttribute(ERROR, "Member not found.");
             return "redirect:/member/change-password";
         }
-
-        // 验证旧密码是否正确
         if (!existingMember.getPassword().equals(oldPassword)) {
-            redirectAttributes.addFlashAttribute("error", "当前密码不正确。");
-            return "redirect:/member/change-password";
+            redirectAttributes.addFlashAttribute(ERROR, PASSWORD_INCORRECT);
+            return "redirect:/member/update-password";
         }
-
-        // 检查新密码的复杂度
-        if (newPassword.length() < 5 || !newPassword.matches(".*[a-zA-Z]+.*")) {
-            redirectAttributes.addFlashAttribute("error", "新密码必须包含至少一个字母且长度不少于五位。");
-            return "redirect:/member/change-password";
+        if (!isPasswordComplex(newPassword)) {
+            redirectAttributes.addFlashAttribute(ERROR, WEAK_PASSWORD);
+            return "redirect:/member/update-password";
         }
-
-        // 更新密码
-        existingMember.setPassword(newPassword); // 假设密码是明文存储，实际应用中应使用加密处理
+        existingMember.setPassword(newPassword); // 确保此处使用加密
         memberRepository.save(existingMember);
-        redirectAttributes.addFlashAttribute("success", "密码已成功更新。");
 
-        // 重定向到某个页面，比如个人资料页面或主页
+        redirectAttributes.addFlashAttribute(SUCCESS, "密码已成功更新。");
         return "redirect:/home_page";
     }
 
+
+    @Override
+    public boolean isPasswordComplex(String newPassword) {
+        return newPassword.matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{5,}$");
+    }
 
 }

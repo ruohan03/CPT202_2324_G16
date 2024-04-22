@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Model.Member;
 import com.example.demo.Service.MemberService;
+import com.example.demo.util.Constants;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.demo.util.Constants.*;
 
 @Controller
 public class MemberController {
@@ -66,7 +69,7 @@ public class MemberController {
                 model.addAttribute("welcomeMessage", "Welcome back, " + member.getName() + "!");
                 model.addAttribute("currentPage", "home"); // 添加当前页面的标识
             } else {
-                model.addAttribute("error", "Member not found");
+                model.addAttribute(ERROR, MEMBER_NOT_FOUND);
                 return "redirect:/login";
             }
         } else {
@@ -114,9 +117,9 @@ public class MemberController {
         }
         boolean updateResult = memberService.updateMember(member);
         if (updateResult) {
-            redirectAttributes.addFlashAttribute("success", "Successfully updated");
+            redirectAttributes.addFlashAttribute(SUCCESS, "Successfully updated");
         } else {
-            redirectAttributes.addFlashAttribute("error", "Update failed, please try again");
+            redirectAttributes.addFlashAttribute(ERROR, "Update failed, please try again");
         }
         return "redirect:/member/profile";
     }
@@ -142,18 +145,22 @@ public class MemberController {
                                  @RequestParam String confirmPassword, HttpSession session, RedirectAttributes redirectAttributes) {
         String memberId = (String) session.getAttribute("member_id");
         if (memberId == null) {
+            redirectAttributes.addFlashAttribute(ERROR, SESSION_EXPIRED);
             return "redirect:/login";
         }
+//        if (!memberService.isPasswordComplex(newPassword)) {
+//            redirectAttributes.addFlashAttribute(ERROR, WEAK_PASSWORD);
+//            return "redirect:/member/update-password";
+//        }
         if (!newPassword.equals(confirmPassword)) {
-            redirectAttributes.addFlashAttribute("error", "Passwords do not match.");
+            redirectAttributes.addFlashAttribute(ERROR, PASSWORD_MISMATCH);
             return "redirect:/member/update-password";
         }
-        if (newPassword.length() < 5 || !newPassword.matches(".*[a-zA-Z]+.*")) {
-            redirectAttributes.addFlashAttribute("error", "The new password must contain at least one letter and be at least five characters long.");
-            return "redirect:/member/update-password";
+        String updateResult = memberService.changePassword(memberId, oldPassword, newPassword, redirectAttributes);
+        if (updateResult.equals("redirect:/home_page")) {
+            redirectAttributes.addFlashAttribute(SUCCESS, PASSWORD_CHANGE_SUCCESS);
         }
-        return memberService.changePassword(memberId, oldPassword, newPassword, redirectAttributes);
+        return updateResult;
     }
-
 
 }
