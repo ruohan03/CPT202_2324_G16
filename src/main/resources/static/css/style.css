@@ -140,6 +140,7 @@ a:hover {
 
 /* 错误消息样式 */
 .error-message {
+    font-weight: bold;
     color: #C94F4F; /* 错误消息的文本颜色 */
     background-color: #FFFFFF; /* 背景颜色 */
     border: 1px solid #C94F4F; /* 边框颜色 */
@@ -152,6 +153,32 @@ a:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 轻微的阴影 */
     display: none; /* 默认不显示，仅在出现错误时显示 */
 }
+
+.alert {
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.alert-success {
+    font-weight: bold;
+    border:2px solid #57965D;
+    background-color: #FFFFFF; /* 绿色背景表示成功 */
+    color: #57965D;
+}
+
+.alert-danger {
+    font-weight: bold;
+    background-color: #FFFFFF;
+    border: 2px solid #C94F4F;
+    color: #C94F4F
+}
+
 
 
 /* 页面背景 */
@@ -324,4 +351,39 @@ a:hover {
 
 .logout-button:hover {
     background-color: #BE46A2; /* Darker purple background on hover for button */
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    /*justify-content: center;*/
+    margin-bottom: 20px; /* 调整垂直间距 */
+    margin-left: 150px; /* 调整左边距 */
+}
+
+.search-input {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 300px; /* 调整搜索框宽度 */
+}
+
+.search-button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.title {
+    margin-bottom: 20px; /* 调整标题与下面内容的间距 */
 }

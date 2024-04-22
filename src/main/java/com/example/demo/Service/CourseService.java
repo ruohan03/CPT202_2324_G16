@@ -18,5 +18,7 @@ public interface CourseService {
     String findCourseNameById(String courseId);
 
     List<Course> findCoursesByNameContaining(String name);
+
+    List<Course> findCoursesByCourseIdContaining(String courseId);
 }
 
