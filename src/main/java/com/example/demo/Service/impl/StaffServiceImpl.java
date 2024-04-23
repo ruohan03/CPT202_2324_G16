@@ -14,17 +14,6 @@ import java.util.Optional;
 public class StaffServiceImpl implements StaffService {
     @Autowired
     private StaffRepository staffRepository;
-
-    @Override
-    public void demoMethod() {
-        System.out.println("This is a demo method");
-    }
-
-    @Override
-    public void staffMethod() {
-        // Implement specific methods for staff
-    }
-
     @Override
     public List<Staff> findAllStaff() {
         return this.staffRepository.findAll();
@@ -43,26 +32,6 @@ public class StaffServiceImpl implements StaffService {
             throw new ResourceNotFoundException("No staff found for Course ID: " + courseId);
         }
         return staffs;
-    }
-
-    @Override
-    public List<Staff> findAll() {
-        return null;
-    }
-
-    @Override
-    public Optional<Staff> findById(String id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Staff save(Staff staff) {
-        return null;
-    }
-
-    @Override
-    public void deleteById(String id) {
-
     }
 
     @Override

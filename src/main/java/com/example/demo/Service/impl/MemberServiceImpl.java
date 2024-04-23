@@ -19,14 +19,6 @@ public class MemberServiceImpl implements MemberService {
     private MemberRepository memberRepository;
 
     @Override
-    public void demoMethod() {
-        System.out.println("This is a demo method for Member");
-    }
-
-    @Override
-    public void memberMethod() {}
-
-    @Override
     public List<Member> findAllMembers() {
         return memberRepository.findAll();
     }
@@ -64,10 +56,6 @@ public class MemberServiceImpl implements MemberService {
 
         // 保存会员信息到数据库
         memberRepository.save(member);
-    }
-
-    public Member findByPhone(String phone) {
-        return memberRepository.findByPhone(phone);
     }
 
     @Override

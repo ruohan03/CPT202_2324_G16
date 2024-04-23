@@ -148,10 +148,6 @@ public class MemberController {
             redirectAttributes.addFlashAttribute(ERROR, SESSION_EXPIRED);
             return "redirect:/login";
         }
-//        if (!memberService.isPasswordComplex(newPassword)) {
-//            redirectAttributes.addFlashAttribute(ERROR, WEAK_PASSWORD);
-//            return "redirect:/member/update-password";
-//        }
         if (!newPassword.equals(confirmPassword)) {
             redirectAttributes.addFlashAttribute(ERROR, PASSWORD_MISMATCH);
             return "redirect:/member/update-password";
