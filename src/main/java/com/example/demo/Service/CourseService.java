@@ -11,8 +11,6 @@ import java.util.List;
 public interface CourseService {
     List<Course> findAllCourses();
 
-    List<String> getAvailableCourseTypes();
-
     Course findCourseById(String id);
 
     String findCourseNameById(String courseId);

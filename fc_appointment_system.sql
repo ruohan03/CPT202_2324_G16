@@ -122,7 +122,7 @@ CREATE TABLE `member` (
   `height` int DEFAULT NULL,
   `is_purchased` binary(1) DEFAULT NULL,
   `is_active` binary(1) DEFAULT NULL,
-  `locker_isagreed` binary(1) DEFAULT NULL,
+  `locker_isAgreed` binary(1) DEFAULT NULL,
   PRIMARY KEY (`member_id`),
   UNIQUE KEY `member_id_UNIQUE` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

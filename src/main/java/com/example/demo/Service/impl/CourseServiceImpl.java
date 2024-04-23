@@ -19,11 +19,6 @@ public class CourseServiceImpl implements CourseService {
         return (List<Course>) courseRepository.findAll();
     }
 
-    @Override
-    public List<String> getAvailableCourseTypes() {
-        return List.of();
-    }
-
     public Course findCourseById(String id) {
         return courseRepository.findById(id).orElse(null);
     }
@@ -42,6 +37,4 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> findCoursesByCourseIdContaining(String courseId) {
         return courseRepository.findByCourseIdContaining(courseId);
     }
-
-
 }
