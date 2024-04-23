@@ -9,23 +9,40 @@ body, html {
     background-color: #f4f4f4;
 }
 
-.container {
+/* 欢迎标题样式 */
+.welcome-title {
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    padding: 20px;
-    background-color: #f9f9f9; /* 背景色为浅灰色 */
-    border-radius: 8px;
+    font-size: 24px; /* 或根据设计需要调整 */
+    margin-top: 50px; /* 或根据设计需要调整 */
+    color: #333;
+}
+
+.container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around; /* 调整子元素间距 */
+    align-items: center;
+    flex-direction: row; /* 设置水平布局 */
+    margin: 20px auto; /* 居中容器 */
+    padding: 20px;
+    max-width: 600px; /* 调整为合适的宽度 */
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.left {
-    width: 48%;
+.divider {
+    border: none; /* 移除默认边界 */
+    border-left: 1px solid #ccc; /* 创建垂直分割线 */
+    height: 100px; /* 分割线的高度，根据需要调整 */
+    margin: 0 20px; /* 分割线的左右边距 */
 }
 
-.right {
-    width: 48%;
+.column {
+    flex: 1; /* 确保两边栏目等宽 */
+    padding: 0 20px; /* 栏目内边距 */
+    text-align: center;
 }
+
 
 h1 {
      text-align: center;  /* 将文字居中 */
@@ -35,26 +52,41 @@ h1 {
      margin-bottom: 10px; /* 标题下方添加间隔 */
  }
 
-Button{
-    border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+.btn {
+    padding: 10px 25px;
     font-size: 16px;
-    margin: 4px 2px;
-    -webkit-transition-duration: 0.4s;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    width: 100%; /* 按钮宽度与输入框一致 */
-    padding: 15px;
-    margin-top: 20px;
-    background-color: #CE56C1;
+    color: white;
+    background-color: #D51FBA;
+    border: none;
     border-radius: 4px;
-    transition: background-color 0.3s;
+    cursor: pointer;
+    margin: 10px; /* 给按钮之间留出空间 */
+    transition: background-color 0.3s, transform 0.3s;
 }
 Button:hover {
     background-color: #FFFFFF;
     color: #D51FBA;
     border: 2px solid #D51FBA;
 }
+
+/* 如果需要响应式布局，添加以下媒体查询 */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* 在小屏幕上垂直堆叠栏目 */
+    }
+
+    .divider {
+        border-left: none; /* 在小屏幕上移除垂直分割线 */
+        border-top: 1px solid #ccc; /* 添加水平分割线 */
+        width: 100%; /* 分割线宽度 */
+        height: auto; /* 分割线高度 */
+        margin: 20px 0; /* 分割线的上下边距 */
+    }
+}
+
+
+
+
+
+
+

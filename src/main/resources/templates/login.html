@@ -3,6 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Member Login</title>
+    <style>
+        #registerOption{
+            text-align: center;
+            margin-top: 20px;
+        }
+        #registerOption a{
+            color: #CE56C1;
+            text-decoration: none;
+        }
+        #registerOption p{
+            color: #999999;
+        }
+    </style>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -19,7 +32,12 @@
         <div class="form-group">
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         </div>
-          <button type="submit" class="btn">Login</button>
+        <button type="submit" class="btn">Login</button>
+        <div id="registerOption">
+            <a href="/forget-password" > Forget Password?</a>
+            <p>Don't have an account? <a href="/register">Sign up here.</a></p>
+        </div>
+
         </form>
     </div>
 </div>
