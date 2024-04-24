@@ -108,13 +108,24 @@ button:hover {
     width: 60%;
     max-width: 640px;
     max-height: 80vh; /* 最大高度不超过视口的80% */
-    overflow-y: auto; /* 如果内容超出最大高度，则允许滚动 */
+    overflow-y: auto; /* 允许在模态窗口内滚动 */
+}
+
+
+.modal-body {
+    padding: 60px 20px 20px; /* 增加顶部填充，以防止内容与fixed header重叠 */
+    overflow-y: auto; /* 确保内容区可滚动 */
+}
+
+.modal h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
 }
 
 .modal h2 {
     font-size: 1.5em;
-    color: #333;
     margin-bottom: 0.5em;
+
 }
 
 .modal p {
@@ -123,19 +134,27 @@ button:hover {
     color: #666;
 }
 
+.modal-header {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1010; /* 确保标题栏在内容上方 */
+    padding: 10px 20px; /* 调整内边距 */
+    border-top-left-radius: 5px; /* 顶部圆角 */
+    border-top-right-radius: 5px;
+}
+
+
 .close {
-    color: #aaa;
-    position: absolute;
-    top: 1em;
-    right: 1em;
+    float: right;
     font-size: 24px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .close:hover,
 .close:focus {
     color: #000;
-    cursor: pointer;
     text-decoration: none;
 }
 
@@ -147,6 +166,3 @@ button:hover {
         margin-bottom: 10%;
     }
 }
-
-
-
