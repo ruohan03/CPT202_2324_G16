@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Model.Member;
 import com.example.demo.Service.MemberService;
+import com.example.demo.Service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,9 @@ public class RegistrationController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private PasswordService passwordService;
 
     @GetMapping("/register")
     public ModelAndView registrationForm() {
@@ -39,6 +43,9 @@ public class RegistrationController {
             mav.setViewName("register");
             return mav;
         }
+
+        String encodedPassword = passwordService.encodePassword(member.getPassword());
+        member.setEncodedPassword(encodedPassword);
 
         // 保存会员信息到数据库
         memberService.saveMember(member);

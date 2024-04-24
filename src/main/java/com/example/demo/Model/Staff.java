@@ -1,4 +1,5 @@
 package com.example.demo.Model;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -10,6 +11,8 @@ public class Staff {
     private String staffId;
     private String name;
     private String password;  // 密码字段在Trainer模型中没有，但在Staff中需要
+    @Column(name = "encoded_password")
+    private String encodedPassword; // 加密密码
     private String phone;
     private String gender;
     private Integer level;
@@ -61,6 +64,10 @@ public class Staff {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getEncodedPassword() {return encodedPassword;}
+
+    public void setEncodedPassword(String encodedPassword) {this.encodedPassword = encodedPassword;}
 
     public String getPhone() {
         return phone;

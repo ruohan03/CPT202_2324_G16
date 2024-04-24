@@ -1,6 +1,7 @@
 package com.example.demo.Service.impl;
 import com.example.demo.Model.Staff;  // Ensure you import the Staff model
 import com.example.demo.Service.StaffService;
+import com.example.demo.Service.PasswordService;
 import com.example.demo.repo.StaffRepository;  // Import the StaffRepository
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,13 @@ import java.util.Optional;
 
 @Service
 public class StaffServiceImpl implements StaffService {
+
     @Autowired
     private StaffRepository staffRepository;
+
+    @Autowired
+    private PasswordService passwordService;
+
     @Override
     public List<Staff> findAllStaff() {
         return this.staffRepository.findAll();
@@ -36,9 +42,9 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Optional<Staff> login(String phone, String password) {
-        Optional<Staff> staff = staffRepository.findByPhone(phone);
-        if(staff.isPresent() && staff.get().getPassword().equals(password)) {
-            return staff;
+        Staff staff = staffRepository.findByPhone(phone);
+        if(staff != null && passwordService.matchPassword(password, staff.getEncodedPassword())) {
+            return Optional.of(staff);
         }
         return Optional.empty();
     }

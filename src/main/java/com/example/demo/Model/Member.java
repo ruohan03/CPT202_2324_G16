@@ -27,6 +27,9 @@ public class Member {
     @Column
     private String password;
 
+    @Column(name = "encoded_Password")
+    private String encodedPassword;
+
     @Column
     private Integer weight;
 
@@ -39,7 +42,7 @@ public class Member {
     @Column
     private Boolean is_active;
 
-    @Column(name = "locker_isAgreed")
+    @Column(name = "locker_is_agreed")
     private Boolean locker_isAgreed;
 
     @OneToMany(mappedBy = "member")
@@ -124,6 +127,10 @@ public class Member {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getEncodedPassword() {return encodedPassword;}
+
+    public void setEncodedPassword(String encodedPassword) {this.encodedPassword = encodedPassword;}
 
     public Integer getWeight() {
         return weight;

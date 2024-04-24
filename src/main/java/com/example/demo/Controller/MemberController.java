@@ -2,9 +2,11 @@ package com.example.demo.Controller;
 
 import com.example.demo.Model.Member;
 import com.example.demo.Service.MemberService;
-import com.example.demo.util.Constants;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,29 @@ import static com.example.demo.util.Constants.*;
 
 @Controller
 public class MemberController {
-    @Autowired
-    private MemberService memberService;
+    private final MemberService memberService;
+
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    private static final Logger log = LoggerFactory.getLogger(MemberController.class);
+
+    private boolean validateMember(String memberId, Model model) {
+        Member member = memberService.findMemberById(memberId);
+        if (member == null) {
+            model.addAttribute("errorMessage", "Member not found");
+            return false;
+        }
+        model.addAttribute("member", member);
+        return true;
+    }
+
 
     @GetMapping("/members")
     public String getAllMembers(Model model){
         List<Member> members = memberService.findAllMembers();
-        System.out.println(members); // 用于调试，查看获取的会员信息
+        log.info("Members: {}", members);
         model.addAttribute("members", members);
         return "Member";
     }
@@ -37,7 +55,7 @@ public class MemberController {
     @GetMapping("/member/details/{member_id}")
     public String showMemberDetails(@PathVariable("member_id") String memberId, Model model) {
         Member member = memberService.findMemberById(memberId);
-        if (member != null) {
+        if (validateMember(memberId, model)) {
             model.addAttribute("member", member);
             return "member-detail";  // 确保模板名称正确
         } else {
@@ -61,9 +79,9 @@ public class MemberController {
     @GetMapping("/home_page")
     public String homePage(Model model, HttpSession session) {
         String memberId = (String) session.getAttribute("member_id");
-        if (memberId != null) {
+        if (validateMember(memberId, model)) {
             Member member = memberService.findMemberById(memberId);
-            if (member != null) {
+            if (validateMember(memberId, model)) {
                 model.addAttribute("member", member);
                 model.addAttribute("isLoggedIn", true);
                 model.addAttribute("welcomeMessage", "Welcome back, " + member.getName() + "!");
@@ -79,12 +97,12 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("phone") String phone, @RequestParam("password") String password, Model model, HttpSession session) {
+    public String login(@RequestParam("phone") String phone, @RequestParam("password") String password, Model model, HttpSession session, HttpServletRequest request) {
         Optional<Member> memberOpt = memberService.login(phone, password);
         if (memberOpt.isPresent()) {
-            Member member = memberOpt.get();
-            session.setAttribute("member_id", member.getMember_id()); // 将会员ID存储到session中
-            model.addAttribute("member", member);
+            session.invalidate();
+            HttpSession newSession = request.getSession(true);
+            newSession.setAttribute("member_id", memberOpt.get().getMember_id());
             return "redirect:/home_page"; // 如果验证成功，重定向到主页
         } else {
             model.addAttribute("error", "Invalid credentials");
@@ -92,14 +110,16 @@ public class MemberController {
         }
     }
 
+
+
     @GetMapping("/member/profile")
     public String showProfile(HttpSession session, Model model) {
         String memberId = (String) session.getAttribute("member_id");
-        if (memberId == null) {
+        if (!validateMember(memberId, model)) {
             return "redirect:/login";
         }
         Member member = memberService.findMemberById(memberId);
-        if (member != null) {
+        if (validateMember(memberId, model)) {
             model.addAttribute("member", member);
             model.addAttribute("currentPage", "memberProfile"); // 添加当前页面的标识
             return "member-profile";
@@ -127,11 +147,11 @@ public class MemberController {
     @GetMapping("/member/update-password")
     public String showChangePasswordForm(HttpSession session, Model model) {
         String memberId = (String) session.getAttribute("member_id");
-        if (memberId == null) {
+        if (!validateMember(memberId, model)) {
             return "redirect:/login";
         }
         Member member = memberService.findMemberById(memberId);
-        if (member != null) {
+        if (validateMember(memberId, model)) {
             model.addAttribute("member", member);
             model.addAttribute("currentPage","updatePassword");
             return "update-password";

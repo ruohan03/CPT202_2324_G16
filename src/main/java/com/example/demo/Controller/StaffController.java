@@ -58,12 +58,12 @@ public class StaffController {
 
 //登录
 
-    @GetMapping("/login/staff")
+    @GetMapping("/staff/login")
     public String showLoginForm() {
         return "login_staff";
     }
 
-    @PostMapping("/login/staff")
+    @PostMapping("/staff/login")
     public String login(@RequestParam String phone, @RequestParam String password, HttpSession session, Model model) {
         Optional<Staff> staff = staffService.login(phone, password);
         if (staff.isPresent()) {
@@ -72,7 +72,7 @@ public class StaffController {
             return staff.get().isManager() ? "manager_homepage" : "trainer_homepage";
         } else {
             model.addAttribute("error", "Invalid credentials");
-            return "redirect:/login/staff?error=true";
+            return "redirect:/staff/login?error=true";
         }
     }
 
@@ -82,7 +82,7 @@ public class StaffController {
         String staffId = (String) session.getAttribute("staffId");
         if (staffId == null) {
             // 没有找到 staff_id 时，重定向到登录页面
-            return "redirect:/login/staff";
+            return "redirect:/staff/login";
         }
 
         Staff staff = staffService.findStaffById(staffId);
@@ -104,7 +104,7 @@ public class StaffController {
         String sessionStaffId = (String) session.getAttribute("staffId");
         if (sessionStaffId == null|| !sessionStaffId.equals(staffId)) {
             redirectAttributes.addFlashAttribute("error", "Session expired or unauthorized access.");
-            return "redirect:/login/staff";  // 确保重定向到正确的登录页
+            return "redirect:/staff/login";  // 确保重定向到正确的登录页
         }
 
         staff.setStaffId(sessionStaffId); // 设置会话中的ID到员工对象
@@ -118,10 +118,6 @@ public class StaffController {
         }
         return "redirect:/staff/profile";
     }
-
-
-
-
 
 }
 
