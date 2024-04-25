@@ -2,6 +2,7 @@ package com.example.demo.Service.impl;
 
 import com.example.demo.Model.Member;
 import com.example.demo.Service.MemberService;
+import com.example.demo.Service.PasswordService;
 import com.example.demo.repo.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,8 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Override
-    public void demoMethod() {
-        System.out.println("This is a demo method for Member");
-    }
-
-    @Override
-    public void memberMethod() {}
+    @Autowired
+    private PasswordService passwordService;
 
     @Override
     public List<Member> findAllMembers() {
@@ -39,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Optional<Member> login(String phoneNumber, String password) {
         Member member = memberRepository.findByPhone(phoneNumber);
-        if (member != null && member.getPassword() != null && member.getPassword().equals(password)) {
+        if (member != null && passwordService.matchPassword(password, member.getEncodedPassword())) {
             return Optional.of(member); // 如果电话号码和密码匹配，则返回Optional包含Member对象
         }
         return Optional.empty(); // 如果密码不匹配或用户不存在，则返回一个空的Optional
@@ -64,10 +60,6 @@ public class MemberServiceImpl implements MemberService {
 
         // 保存会员信息到数据库
         memberRepository.save(member);
-    }
-
-    public Member findByPhone(String phone) {
-        return memberRepository.findByPhone(phone);
     }
 
     @Override
@@ -107,7 +99,8 @@ public class MemberServiceImpl implements MemberService {
             redirectAttributes.addFlashAttribute(ERROR, WEAK_PASSWORD);
             return "redirect:/member/update-password";
         }
-        existingMember.setPassword(newPassword); // 确保此处使用加密
+        existingMember.setPassword(newPassword);
+        existingMember.setEncodedPassword(passwordService.encodePassword(newPassword));// 确保此处使用加密
         memberRepository.save(existingMember);
 
         redirectAttributes.addFlashAttribute(SUCCESS, "密码已成功更新。");

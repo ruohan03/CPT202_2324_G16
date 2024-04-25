@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MemberService {
-    void demoMethod();
-
-    void memberMethod();
-
     List<Member> findAllMembers();
 
     void addMember(Member member);

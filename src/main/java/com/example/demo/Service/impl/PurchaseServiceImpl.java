@@ -23,12 +23,6 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Autowired
     private PurchaseRepository purchaseRepository;
-
-    @Override
-    public List<Purchase> findAllPurchases() {
-        return purchaseRepository.findAll();
-    }
-
     @Override
     public Optional<Purchase> findPurchaseById(String id) {
         return purchaseRepository.findById(id);
@@ -50,16 +44,6 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public void deletePurchase(String id) {
         purchaseRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Purchase> findPurchasesByPlan(String plan) {
-        return purchaseRepository.findByPlan(plan);
-    }
-
-    @Override
-    public List<Purchase> findPurchasesBetweenDates(Date startDate, Date endDate) {
-        return purchaseRepository.findByPurchaseDateBetween(startDate, endDate);
     }
 
     @Override

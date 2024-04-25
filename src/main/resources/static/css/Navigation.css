@@ -9,28 +9,84 @@ body, html {
     background-color: #f4f4f4;
 }
 
-.container {
+/* 欢迎标题样式 */
+.welcome-title {
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    font-size: 24px; /* 或根据设计需要调整 */
+    margin-top: 50px; /* 或根据设计需要调整 */
+    color: #333;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around; /* 调整子元素间距 */
+    align-items: center;
+    flex-direction: row; /* 设置水平布局 */
+    margin: 20px auto; /* 居中容器 */
     padding: 20px;
-    background-color: white;
+    max-width: 600px; /* 调整为合适的宽度 */
     border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.login-section {
-    margin: 20px 0;
+.divider {
+    border: none; /* 移除默认边界 */
+    border-left: 1px solid #ccc; /* 创建垂直分割线 */
+    height: 100px; /* 分割线的高度，根据需要调整 */
+    margin: 0 20px; /* 分割线的左右边距 */
 }
 
-.login-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007BFF;
+.column {
+    flex: 1; /* 确保两边栏目等宽 */
+    padding: 0 20px; /* 栏目内边距 */
+    text-align: center;
+}
+
+
+h1 {
+     text-align: center;  /* 将文字居中 */
+     color: #333;         /* 文字颜色为深灰色 */
+     padding: 20px;       /* 文字周围添加空间 */
+     background-color: #f9f9f9; /* 背景色为浅灰色 */
+     margin-bottom: 10px; /* 标题下方添加间隔 */
+ }
+
+.btn {
+    padding: 10px 25px;
+    font-size: 16px;
     color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    background-color: #D51FBA;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px; /* 给按钮之间留出空间 */
+    transition: background-color 0.3s, transform 0.3s;
+}
+Button:hover {
+    background-color: #FFFFFF;
+    color: #D51FBA;
+    border: 2px solid #D51FBA;
 }
 
-.login-button:hover {
-    background-color: #0056b3;
+/* 如果需要响应式布局，添加以下媒体查询 */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* 在小屏幕上垂直堆叠栏目 */
+    }
+
+    .divider {
+        border-left: none; /* 在小屏幕上移除垂直分割线 */
+        border-top: 1px solid #ccc; /* 添加水平分割线 */
+        width: 100%; /* 分割线宽度 */
+        height: auto; /* 分割线高度 */
+        margin: 20px 0; /* 分割线的上下边距 */
+    }
 }
+
+
+
+
+
+
+

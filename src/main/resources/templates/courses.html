@@ -53,7 +53,7 @@
     </thead>
     <tbody>
     <tr th:each="course : ${courses}"
-        th:attr="onclick=|console.log('Redirecting to /courses/' + '${course.courseId}' + '/trainers'); window.location.href='/courses/' + '${course.courseId}' + '/trainers';|">
+        th:attr="onclick=|console.log('Redirecting to /courses/' + '${course.courseId}' + '/staff'); window.location.href='/courses/' + '${course.courseId}' + '/staff';|">
         <td th:text="${course.courseId}">C001</td>
         <td th:text="${course.name}">Yoga</td>
         <td th:text="${course.location}">Room A</td>

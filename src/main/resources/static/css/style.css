@@ -54,7 +54,6 @@ tr:hover {
 
 /* 链接样式 */
 a {
-    background-color: rgba(206, 86, 193, 0.3); /* 适用于链接的半透明背景 */
     color: #010544;
     text-decoration: none; /* 去除下划线 */
 }

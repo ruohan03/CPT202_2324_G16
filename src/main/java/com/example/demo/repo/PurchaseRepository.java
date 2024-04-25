@@ -12,12 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, String> {
-    // Custom query to find purchases by plan
-    List<Purchase> findByPlan(String plan);
-
-    // Additional custom query to find purchases within a specific date range
-    List<Purchase> findByPurchaseDateBetween(Date startDate, Date endDate);
-
     @Query("SELECT p FROM Purchase p JOIN FETCH p.member")
     List<Purchase> findAllWithMember();
 
