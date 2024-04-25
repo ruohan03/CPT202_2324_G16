@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase Form</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="top-nav">
+    <a href="/home_page" class="logo">H-XYZ | Fight Against Ghostwriting Starts Now</a>
+    <div class="nav-center">
+        <a href="/home_page" th:class="${currentPage == 'home' ? 'current-page':''}">Home</a>
+        <a href="/member/profile" th:class="${currentPage == 'memberProfile' ? 'current-page':''}">My Profile</a>
+    </div>
+    <div class="nav-right">
+        <span th:text="${member != null ? member.name : 'Guest'}"></span>
+        <a href="/logout" class="active">Logout</a>
+    </div>
+</div>
+
+<!-- Purchase Form Container -->
+<div class="profile-container">
+    <h1 class="profile-header">Purchase Plan</h1>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <form th:action="@{/purchase}" th:object="${purchase}" method="post">
+        <table class="profile-table">
+            <tr>
+                <th>Plan</th>
+                <td>
+                    <select th:field="*{plan}" class="select-input" onchange="updatePrice(this.value)">
+                        <option value="">Please select a plan</option>
+                        <option value="Diamond Super VIP">Diamond Super VIP - 12 Months</option>
+                        <option value="Gold Super VIP">Gold Super VIP - 12 Months</option>
+                        <option value="Silver Super VIP">Silver Super VIP - 12 Months</option>
+                        <option value="Diamond VIP">Diamond VIP - 6 Months</option>
+                        <option value="Gold VIP">Gold VIP - 6 Months</option>
+                        <option value="Silver VIP">Silver VIP - 6 Months</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td id="planPrice">Please select a plan</td>
+            </tr>
+            <tr>
+                <th>Purchase Date</th>
+                <td>
+                    <input type="date" th:field="*{purchaseDate}" class="text-input">
+                </td>
+            </tr>
+            <tr>
+                <th>Duration (Months)</th>
+                <td>
+                    <input type="text" th:field="*{duration}" class="text-input" id="durationField" readonly>
+                </td>
+            </tr>
+        </table>
+        <div class="button-container">
+            <button type="submit" class="save-button">Submit</button>
+            <button type="button" class="cancel-button" onclick="cancelEdit()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function updatePrice(plan) {
+        const prices = {
+            "Diamond Super VIP": 8888,
+            "Gold Super VIP": 6888,
+            "Silver Super VIP": 3888,
+            "Diamond VIP": 5666,
+            "Gold VIP": 3666,
+            "Silver VIP": 1666
+        };
+        document.getElementById('planPrice').textContent = prices[plan] || "Please select a plan";
+    }
+
+    document.querySelector('select[name="plan"]').addEventListener('change', function() {
+        updatePrice(this.value);
+        var durationField = document.getElementById('durationField');
+        if (this.value.includes('Super VIP')) {
+            durationField.value = 12;  // 12 months for VIP plans
+        } else if (this.value.includes('VIP')) {
+            durationField.value = 6;   // 6 months for Member plans
+        } else {
+            durationField.value = '';  // clear if nothing selected or recognized
+        }
+    });
+
+    function cancelEdit() {
+        window.location.href = '/home_page'; // Redirect to home page on cancel
+    }
+</script>
+</body>
+</html>
+
+
+

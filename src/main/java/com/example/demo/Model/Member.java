@@ -2,12 +2,11 @@ package com.example.demo.Model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.Date;
 import java.util.Set;
 
 @Entity
 public class Member {
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
     @Id
     @Column(name = "member_id")
     private String member_id;
@@ -45,12 +44,22 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private Set<Purchase> purchases;
 
+    @Column(name = "plan")
+    private String plan;
+
+    @Column(name = "enddate")
+    private Date enddate;
+
+    @Column(name = "remaining_sum", nullable = false)
+    private double remaining_sum = 0.0;  // Default value is set to 0.0
+
+
     // Constructors
     public Member() {
     }
 
-    public Member(String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed) {
-        this.member_id = "M"+ phone;
+    public Member(String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed, String plan, Date enddate) {
+        this.member_id = "M" + phone;
         this.name = name;
         this.phone = phone;
         this.gender = gender;
@@ -61,28 +70,55 @@ public class Member {
         this.is_purchased = is_purchased;
         this.is_active = is_active;
         this.locker_isAgreed = locker_isAgreed;
+        this.plan = plan;
+        this.enddate = enddate;
+        this.remaining_sum = remaining_sum;
     }
 
-    public Member(String member_id, String name, String phone, String gender, String address, Integer weight, Integer height){
+    public Member(String member_id, String name, String phone, String gender, String address, Integer weight, Integer height, String plan, Date enddate){
         this.member_id = member_id;
         this.name = name;
         this.phone = phone;
-        this.address= address;
+        this.address = address;
         this.weight = weight;
         this.height = height;
+        this.plan = plan;
+        this.enddate = enddate;
     }
 
     // Getters and setters
+    // Include getters and setters for plan and enddate
+    public String getPlan() {
+        return plan;
+    }
+
+    public void setPlan(String plan) {
+        this.plan = plan;
+    }
+
+    public Date getEndDate() {
+        return enddate;
+    }
+
+    public void setEndDate(Date enddate) {
+        this.enddate = enddate;
+    }
+
+    // Existing getters and setters
     public String getMember_id() {
         return member_id;
+    }
+
+    public void setMember_id(String member_id) {
+        this.member_id = member_id;
     }
 
     public Set<Purchase> getPurchases() {
         return purchases;
     }
 
-    public void setMember_id(String member_id) {
-        this.member_id = member_id;
+    public void setPurchases(Set<Purchase> purchases) {
+        this.purchases = purchases;
     }
 
     public String getName() {
@@ -164,4 +200,14 @@ public class Member {
     public void setLocker_isAgreed(Boolean locker_isAgreed) {
         this.locker_isAgreed = locker_isAgreed;
     }
+
+    public double getRemaining_sum() {
+        return remaining_sum;
+    }
+
+    public void setRemaining_sum(double remaining_sum) {
+        this.remaining_sum = remaining_sum;
+    }
+
+
 }

@@ -30,4 +30,8 @@ public interface MemberService {
     String changePassword(String memberId, String oldPassword, String newPassword, RedirectAttributes redirectAttributes);
 
     boolean isPasswordComplex(String newPassword);
+
+    static Member findById(String memberId) {
+        return null;
+    }
 }
