@@ -52,7 +52,7 @@ public class PurchaseController {
     // 显示购买页面
     @GetMapping("/purchase/new")
     public String showPurchaseForm(HttpSession session, Model model) {
-        String memberId = (String) session.getAttribute("member_id");
+        String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
             return "redirect:/login"; // 如果用户未登录，重定向到登录页面
         }
@@ -65,7 +65,7 @@ public class PurchaseController {
     @PostMapping("/purchase")
     public String addPurchase(@ModelAttribute Purchase purchase, HttpSession session, RedirectAttributes redirectAttributes) {
         // Retrieve member ID from session
-        String memberId = (String) session.getAttribute("member_id");
+        String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
             // If member ID is not available from the session, prompt the user to log in again
             redirectAttributes.addFlashAttribute("error", "Your session has expired, please log in again.");

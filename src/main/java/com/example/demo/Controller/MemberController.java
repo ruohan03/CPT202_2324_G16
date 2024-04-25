@@ -2,11 +2,13 @@ package com.example.demo.Controller;
 
 import com.example.demo.Model.Member;
 import com.example.demo.Service.MemberService;
+import com.example.demo.exception.MembershipValidationException;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,8 +54,8 @@ public class MemberController {
         return "redirect:/members"; // 重定向到显示所有会员的页面
     }
 
-    @GetMapping("/member/details/{member_id}")
-    public String showMemberDetails(@PathVariable("member_id") String memberId, Model model) {
+    @GetMapping("/member/details/{memberId}")
+    public String showMemberDetails(@PathVariable("memberId") String memberId, Model model) {
         Member member = memberService.findMemberById(memberId);
         if (validateMember(memberId, model)) {
             model.addAttribute("member", member);
@@ -78,7 +80,7 @@ public class MemberController {
     // 显示主页或其他需要会员ID的方法
     @GetMapping("/home_page")
     public String homePage(Model model, HttpSession session) {
-        String memberId = (String) session.getAttribute("member_id");
+        String memberId = (String) session.getAttribute("memberId");
         if (validateMember(memberId, model)) {
             Member member = memberService.findMemberById(memberId);
             if (validateMember(memberId, model)) {
@@ -102,7 +104,7 @@ public class MemberController {
         if (memberOpt.isPresent()) {
             session.invalidate();
             HttpSession newSession = request.getSession(true);
-            newSession.setAttribute("member_id", memberOpt.get().getMember_id());
+            newSession.setAttribute("memberId", memberOpt.get().getMemberId());
             return "redirect:/home_page"; // 如果验证成功，重定向到主页
         } else {
             model.addAttribute("error", "Invalid credentials");
@@ -114,7 +116,7 @@ public class MemberController {
 
     @GetMapping("/member/profile")
     public String showProfile(HttpSession session, Model model) {
-        String memberId = (String) session.getAttribute("member_id");
+        String memberId = (String) session.getAttribute("memberId");
         if (!validateMember(memberId, model)) {
             return "redirect:/login";
         }
@@ -128,10 +130,10 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/member/update/{member_id}")
-    public String updateMember(@PathVariable String member_id, @ModelAttribute Member member, HttpSession session, RedirectAttributes redirectAttributes) {
-        String sessionMemberId = (String) session.getAttribute("member_id");
-        if (sessionMemberId == null || !sessionMemberId.equals(member_id)) {
+    @PostMapping("/member/update/{memberId}")
+    public String updateMember(@PathVariable String memberId, @ModelAttribute Member member, HttpSession session, RedirectAttributes redirectAttributes) {
+        String sessionMemberId = (String) session.getAttribute("memberId");
+        if (sessionMemberId == null || !sessionMemberId.equals(memberId)) {
             redirectAttributes.addFlashAttribute("error", "Unauthorized access or session has expired");
             return "redirect:/login";
         }
@@ -146,7 +148,7 @@ public class MemberController {
 
     @GetMapping("/member/update-password")
     public String showChangePasswordForm(HttpSession session, Model model) {
-        String memberId = (String) session.getAttribute("member_id");
+        String memberId = (String) session.getAttribute("memberId");
         if (!validateMember(memberId, model)) {
             return "redirect:/login";
         }
@@ -163,7 +165,7 @@ public class MemberController {
     @PostMapping("/member/update-password")
     public String updatePassword(@RequestParam String oldPassword, @RequestParam String newPassword,
                                  @RequestParam String confirmPassword, HttpSession session, RedirectAttributes redirectAttributes) {
-        String memberId = (String) session.getAttribute("member_id");
+        String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
             redirectAttributes.addFlashAttribute(ERROR, SESSION_EXPIRED);
             return "redirect:/login";
@@ -177,6 +179,17 @@ public class MemberController {
             redirectAttributes.addFlashAttribute(SUCCESS, PASSWORD_CHANGE_SUCCESS);
         }
         return updateResult;
+    }
+
+    @GetMapping("/members/check-validity/{memberId}")
+    @ResponseBody
+    public ResponseEntity<?> checkMembershipValidity(@PathVariable String memberId) {
+        try {
+            memberService.checkMembershipStatus(memberId);
+            return ResponseEntity.ok().build();  // 会员状态有效
+        } catch (MembershipValidationException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());  // 返回错误信息
+        }
     }
 
 }

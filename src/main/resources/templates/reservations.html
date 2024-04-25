@@ -63,7 +63,7 @@
         <th:block th:each="reservation : ${reservations}">
             <tr>
                 <td th:text="${reservation.reservation_id}"></td>
-                <td th:text="${reservation.member_id}"></td>
+                <td th:text="${reservation.memberId}"></td>
                 <td th:text="${reservation.staff_id}"></td>
                 <td th:text="${reservation.lesson_starttime}"></td>
                 <td th:text="${reservation.is_cancelled ? 'Yes' : 'No'}"></td>

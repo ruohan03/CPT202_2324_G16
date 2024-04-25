@@ -6,6 +6,7 @@
     <title th:text="${member != null ? member.name + ' : Profile' : 'Fitness Center'}">Fitness Center</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <style>
         .welcome-message {
             text-align: center;
@@ -39,7 +40,7 @@
 <div class="jumbotron">
     <div class="container text-center">
         <p class="lead">Let's stay healthy and vibrant together!</p>
-        <a class="btn btn-primary btn-lg" href="other/course_type.html" role="button">Book a Course</a>
+        <a onclick="checkMembershipAndBook(memberId)" class="btn btn-primary btn-lg" role="button" id="bookCourseBtn">Book a Course</a>
     </div>
 </div>
 
@@ -82,6 +83,45 @@
         var profileLink = document.getElementById('profile-link');
         if (profileLink && memberId) {
             profileLink.href = `/profile/${memberId}`;
+        }
+    });
+</script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const memberId = [[${session.memberId}]];
+    /*]]>*/
+</script>
+
+<script>
+    document.getElementById('bookCourseBtn').addEventListener('click', function() {
+        if (memberId) {
+            fetch(`/members/check-validity/${memberId}`)
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/member/reserve';
+                    } else {
+                        return response.text();
+                    }
+                })
+                .then(message => {
+                    if (message) {
+                        Swal.fire({
+                            title: 'Member Status',
+                            text: message,
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            Swal.fire({
+                title: 'Error',
+                text: 'Member ID is not available.',
+                icon: 'error',
+                confirmButtonText: 'Close'
+            });
         }
     });
 </script>

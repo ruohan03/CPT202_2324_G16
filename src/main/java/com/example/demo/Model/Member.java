@@ -9,7 +9,7 @@ import java.util.Set;
 public class Member {
     @Id
     @Column(name = "member_id")
-    private String member_id;
+    private String memberId;
 
     @Column(name = "name")
     private String name;
@@ -50,7 +50,7 @@ public class Member {
     @Column(name = "plan")
     private String plan;
 
-    @Column(name = "enddate")
+    @Column(name = "end_date")
     private Date enddate;
 
     @Column(name = "remaining_sum", nullable = false)
@@ -62,7 +62,7 @@ public class Member {
     }
 
     public Member(String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed, String plan, Date enddate) {
-        this.member_id = "M" + phone;
+        this.memberId = "M" + phone;
         this.name = name;
         this.phone = phone;
         this.gender = gender;
@@ -78,8 +78,8 @@ public class Member {
         this.remaining_sum = remaining_sum;
     }
 
-    public Member(String member_id, String name, String phone, String gender, String address, Integer weight, Integer height, String plan, Date enddate){
-        this.member_id = member_id;
+    public Member(String memberId, String name, String phone, String gender, String address, Integer weight, Integer height, String plan, Date enddate){
+        this.memberId = memberId;
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -108,12 +108,12 @@ public class Member {
     }
 
     // Existing getters and setters
-    public String getMember_id() {
-        return member_id;
+    public String getMemberId() {
+        return memberId;
     }
 
-    public void setMember_id(String member_id) {
-        this.member_id = member_id;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
     public Set<Purchase> getPurchases() {
@@ -215,6 +215,4 @@ public class Member {
     public void setRemaining_sum(double remaining_sum) {
         this.remaining_sum = remaining_sum;
     }
-
-
 }

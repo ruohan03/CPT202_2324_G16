@@ -30,4 +30,6 @@ public interface MemberService {
     static Member findById(String memberId) {
         return null;
     }
+
+    boolean checkMembershipStatus(String memberId);
 }

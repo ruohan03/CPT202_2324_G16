@@ -27,7 +27,7 @@
     <!-- Assuming members is the list of members passed from your Spring controller -->
     <!--/*@thymesVar id="members" type="aj"*/-->
     <tr th:each="member : ${members}">
-        <td th:text="${member.member_id}"></td>
+        <td th:text="${member.memberId}"></td>
         <td th:text="${member.name}"></td>
         <td th:text="${member.phone}"></td>
         <td th:text="${member.gender}"></td>

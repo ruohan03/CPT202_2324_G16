@@ -12,7 +12,7 @@ public class Reservation {
     private String reservation_id;
 
     @Column(name = "member_id")
-    private String member_id;
+    private String memberId;
 
     @Column(name = "staff_id")
     private String staff_id;
@@ -29,9 +29,9 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String reservation_id, String member_id, String staff_id, LocalDateTime lesson_starttime, boolean is_cancelled, boolean is_signin) {
+    public Reservation(String reservation_id, String memberId, String staff_id, LocalDateTime lesson_starttime, boolean is_cancelled, boolean is_signin) {
         this.reservation_id = reservation_id;
-        this.member_id = member_id;
+        this.memberId = memberId;
         this.staff_id = staff_id;
         this.lesson_starttime = lesson_starttime;
         this.is_cancelled = is_cancelled;
@@ -46,12 +46,12 @@ public class Reservation {
         this.reservation_id = reservation_id;
     }
 
-    public String getMember_id() {
-        return member_id;
+    public String getMemberId() {
+        return memberId;
     }
 
-    public void setMember_id(String member_id) {
-        this.member_id = member_id;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
     public String getStaff_id() {
