@@ -1,23 +1,41 @@
 /* Reset and base styles */
+
 html, body {
-    height: 100%; /* 必须指定高度为100% */
+    height: 100%;
     margin: 0;
     padding: 0;
-    display: flex; /* 启用 Flexbox */
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    background-color: #f8f9fa; /* 轻灰色背景 */
-    font-family: Arial, sans-serif; /* 字体样式 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+}
+body::before {
+    content: '';
+    position: fixed; /* Fixed position to cover the entire view */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://s3.bmp.ovh/imgs/2024/04/24/bbbfcdea091d69aa.jpg') no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.5; /* Set the background image transparency */
+    z-index: -1; /* Place the background behind the content */
 }
 
-.container {
-    width: 90%;
-    max-width: 400px; /* 控制最大宽度，避免过宽 */
-    padding: 90px;
-    background-color: rgba(255, 255, 255, 0.8); /* 半透明背景 */
-    border-radius: 8px;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.15);
-    /* 添加内边距和最大宽度可以使表单看起来更整齐 */
+.registration-container {
+    display: flex;
+    justify-content: space-around; /* 调整子元素间距 */
+    align-items: center; /* Center the content horizontally */
+    flex-direction: column; /* 设置水平布局 */
+    margin: 20px auto; /* 居中容器 */
+    z-index: 1; /* Ensure the container appears above the background */
+    height: 40%;
+    width: 400px; /* Fixed width for the registration box */
+    padding: 40px;
+    background-color: #fff; /* Pure white background */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 
@@ -84,6 +102,22 @@ button:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: none; /* Initially hidden */
 }
+
+/* 响应式设计，根据需要调整 */
+@media (max-width: 768px) {
+    body {
+        align-items: center; /* Center the registration box on smaller screens */
+    }
+
+    .registration-container {
+        width: 90%; /* Full width on smaller screens */
+        margin-bottom: 20px; /* Adjust margin for mobile view */
+    }
+
+    body::before {
+        background-position: top center; /* Adjust background position for mobile view */
+    }
+}
 /*Agreement*/
 /* 样式用于隐藏和显示模态 */
 .modal {
@@ -102,19 +136,26 @@ button:hover {
     position: relative;
     background-color: #fff;
     margin: 5% auto;
-    padding: 2em;
+    padding: 0;
     border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 60%;
     max-width: 640px;
-    max-height: 80vh; /* 最大高度不超过视口的80% */
-    overflow-y: auto; /* 允许在模态窗口内滚动 */
+    overflow: hidden; /* 确保溢出内容不显示 */
 }
 
+.modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 1010;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-.modal-body {
-    padding: 60px 20px 20px; /* 增加顶部填充，以防止内容与fixed header重叠 */
-    overflow-y: auto; /* 确保内容区可滚动 */
+.scrollable-content {
+    overflow-y: auto; /* 允许此部分内容滚动 */
+    max-height: 400px; /* 设置一个最大高度 */
+    padding: 20px; /* 添加适当的内边距 */
 }
 
 .modal h1 {
@@ -122,10 +163,29 @@ button:hover {
     margin-bottom: 0.5em;
 }
 
+.close {
+    position: absolute; /* 绝对定位 */
+    top: 10px; /* 距离顶部10px */
+    right: 20px; /* 距离右侧20px */
+    font-size: 24px; /* 图标大小 */
+    font-weight: bold; /* 加粗显示更明显 */
+    cursor: pointer; /* 鼠标样式 */
+    color: #aaa; /* 按钮颜色，根据需求调整 */
+    z-index: 1050; /* 确保在顶部 */
+}
+
+.close:hover, .close:focus {
+    text-decoration: none;
+    color: #000;
+}
+.modal-body {
+    padding: 60px 20px 20px; /* 增加顶部填充，以防止内容与fixed header重叠 */
+    overflow-y: auto; /* 确保内容区可滚动 */
+}
+
 .modal h2 {
     font-size: 1.5em;
     margin-bottom: 0.5em;
-
 }
 
 .modal p {
@@ -134,35 +194,10 @@ button:hover {
     color: #666;
 }
 
-.modal-header {
-    position: sticky;
-    top: 0;
-    background-color: #fff;
-    z-index: 1010; /* 确保标题栏在内容上方 */
-    padding: 10px 20px; /* 调整内边距 */
-    border-top-left-radius: 5px; /* 顶部圆角 */
-    border-top-right-radius: 5px;
-}
-
-
-.close {
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-}
-
 /* 考虑到响应式设计 */
 @media (max-width: 768px) {
-    .modal-content {
-        width: 90%;
-        margin-top: 10%;
-        margin-bottom: 10%;
+    .modal-content,
+    .modal-header {
+        width: 90%; /* 响应式调整宽度 */
     }
 }

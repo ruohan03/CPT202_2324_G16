@@ -6,16 +6,30 @@ body, html {
     align-items: center;
     justify-content: center;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-}
 
+}
+body::before {
+    content: '';
+    position: fixed; /* Fixed position to cover the entire view */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://s3.bmp.ovh/imgs/2024/04/24/bbbfcdea091d69aa.jpg') no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.5; /* Set the background image transparency */
+    z-index: -1; /* Place the background behind the content */
+}
 /* 欢迎标题样式 */
 .welcome-title {
     text-align: center;
-    font-size: 24px; /* 或根据设计需要调整 */
+    font-size: 48px; /* 或根据设计需要调整 */
     margin-top: 50px; /* 或根据设计需要调整 */
-    color: #333;
+    color: rebeccapurple;
+    font-weight: bold; /* 这会使字体加粗 */
 }
+
+
 
 .container {
     display: flex;
@@ -23,42 +37,55 @@ body, html {
     align-items: center;
     flex-direction: row; /* 设置水平布局 */
     margin: 20px auto; /* 居中容器 */
-    padding: 20px;
-    max-width: 600px; /* 调整为合适的宽度 */
-    border-radius: 8px;
+    padding: 30px;
+    max-width: 800px; /* 调整为合适的宽度 */
+    border-radius: 0px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;  /* 确保容器使用相对定位 */
+    width: 100%;         /* 指定容器的宽度 */
 }
 
 .divider {
-    border: none; /* 移除默认边界 */
-    border-left: 1px solid #ccc; /* 创建垂直分割线 */
-    height: 100px; /* 分割线的高度，根据需要调整 */
-    margin: 0 20px; /* 分割线的左右边距 */
+    position: absolute;   /* 使用绝对定位 */
+    left: 66.67%;         /* 将分割线定位在容器宽度的三分之二处，这样它位于右侧三分之一 */
+    top: 100px;               /* 从容器的顶部开始 */
+    bottom: 0;            /* 延伸到容器的底部 */
+    border-left: 1px solid #ccc; /* 保持原有的垂直线样式 */
+    height: 100px;        /* 分割线的高度，根据需要调整 */
+    margin: 0 5px;       /* 分割线的左右边距，这里可能需要调整 */
 }
 
 .column {
-    flex: 1; /* 确保两边栏目等宽 */
     padding: 0 20px; /* 栏目内边距 */
     text-align: center;
 }
+.left {
+    flex: 2;                 /* 左栏目占用两份空间 */
+}
 
+.right {
+    flex: 1; /* 右栏目占用一份空间 */
+    padding: 20px;
+    margin-right: -20px;
+}
 
 h1 {
      text-align: center;  /* 将文字居中 */
      color: #333;         /* 文字颜色为深灰色 */
-     padding: 20px;       /* 文字周围添加空间 */
-     background-color: #f9f9f9; /* 背景色为浅灰色 */
+     padding: 0px;       /* 文字周围添加空间 */
      margin-bottom: 10px; /* 标题下方添加间隔 */
+     font-size: 24px; /* 更改这个值以调整字体大小 */
+     font-weight: bold; /* 这会使字体加粗 */
  }
 
 .btn {
-    padding: 10px 25px;
+    padding: 10px 60px;
     font-size: 16px;
     color: white;
     background-color: #D51FBA;
     border: none;
-    border-radius: 4px;
+    border-radius: 0;
     cursor: pointer;
     margin: 10px; /* 给按钮之间留出空间 */
     transition: background-color 0.3s, transform 0.3s;
@@ -68,7 +95,22 @@ Button:hover {
     color: #D51FBA;
     border: 2px solid #D51FBA;
 }
-
+.btn1 {
+    padding: 8px 30px;
+    font-size: 16px;
+    color: #D51FBA;
+    background-color: white;
+    border: 2px solid #D51FBA; /* 指定边框的样式、宽度和颜色 */
+    border-radius: 0;
+    cursor: pointer;
+    margin: 10px; /* 给按钮之间留出空间 */
+    transition: background-color 0.3s, transform 0.3s;
+}
+Button1:hover {
+    background-color: #D51FBA;
+    color: #FFFFFF;
+    border: 2px solid #D51FBA;
+}
 /* 如果需要响应式布局，添加以下媒体查询 */
 @media (max-width: 768px) {
     .container {
@@ -76,11 +118,12 @@ Button:hover {
     }
 
     .divider {
+        position: static;  /* 恢复正常流中的位置，移除绝对定位 */
         border-left: none; /* 在小屏幕上移除垂直分割线 */
         border-top: 1px solid #ccc; /* 添加水平分割线 */
         width: 100%; /* 分割线宽度 */
-        height: auto; /* 分割线高度 */
-        margin: 20px 0; /* 分割线的上下边距 */
+        height: 100%; /* 分割线高度 */
+        margin: 0px 20px; /* 分割线的上下边距 */
     }
 }
 

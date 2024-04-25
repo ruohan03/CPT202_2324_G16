@@ -4,99 +4,103 @@
     <meta charset="UTF-8">
     <title>Registration Page</title>
     <link rel="stylesheet" href="/css/Register.css">
+
+
+
 </head>
 <body>
-<div class="container">
-    <h1>Register Your Account</h1>
-    <form id="registrationForm" th:action="@{/register}" th:object="${member}" method="post">
-    <div>
-            <input type="text" id="name" th:field="*{name}" placeholder="Name" />
-        </div>
+        <div class="background-image"></div>
+        <div class="registration-container">
+        <h1>Register Your Account</h1>
+        <form id="registrationForm" th:action="@{/register}" th:object="${member}" method="post">
         <div>
-            <input type="text" id="phone" th:field="*{phone}" placeholder="Phone" required />
-        </div>
-        <div>
-            <input type="password" id="password" th:field="*{password}" placeholder="Password" pattern="^(?=.*[0-9])(?=.*[a-zA-Z]).{5,}$" title="Password must be at least 5 characters long and include both letters and numbers."/>
-        </div>
-        <div>
-            <input type="checkbox" id="agreement" name="agreement" required />
-            <label for="agreement">I've read and agree to the <a href="#!" id="termsLink">Terms of Service</a>.</label>
-        </div>
-        <div id="termsModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="close">&times;</span>
-                    <h1>Terms of Service</h1>
-                </div>
-                <div class="modal-body">
-                    <p>Fitness Aide respects and protects the personal privacy of all users of the system. In order to provide you with a more accurate and personalized service, Fitness Little Helper will use and disclose your personal information as described in this Privacy Policy. However, Fitness Little Helper will treat this information with a high degree of diligence and duty of care. Except as otherwise provided in this Privacy Policy, Fitness Helpers will not disclose or provide this information to third parties without your prior permission. Fitness Helpers may update this Privacy Policy from time to time. You will be deemed to have agreed to this Privacy Policy in its entirety when you agree to the Fitness Helper Service Usage Agreement. This Privacy Policy is an integral part of the Fitness Helper Service Usage Agreement.</p>
-
-                    <h2>Scope of Application</h2>
-                    <p>
-                        a) When you fill in the personal information of the Fitness Assistant, you provide your personal physical information according to the request of the Fitness Assistant;<br>
-                        b) When you use the map track function of Fitness Assistant, Fitness Assistant will obtain your location information and record it.
-                    </p>
-
-                    <h2>Use of Information</h2>
-                    <p>
-                        a) Fitness Helpers will not provide, sell, rent, share, or trade your personal information with any unrelated third party unless you have given us your permission in advance.<br>
-                        b) Fitness Helper does not allow any third party to collect, edit, sell, or distribute your personal information by any means without compensation.
-                    </p>
-
-                    <h2>Information Disclosure</h2>
-                    <p>
-                        Under the following circumstances, Fitness Assistant will disclose your personal information in whole or in part in accordance with your personal wishes or the provisions of the law:<br>
-                        a) In order to provide the products and services you request, it is necessary to share your personal information with third parties;<br>
-                        b) If you are a qualified intellectual property rights complainant and have filed a complaint, at the request of the respondent, it will be disclosed to the respondent so that both parties can deal with possible disputes over rights;
-                    </p>
-
-                    <h2>Locker Usage Agreement</h2>
-                    <p>
-                        As part of our services, we provide lockers for the convenience of our members to store personal items while using our facilities. The use of these lockers is subject to the following terms and conditions:<br>
-                        a) Lockers are available on a first-come, first-served basis and can only be used during your registered time within the premises.<br>
-                        b) Fitness Aide is not responsible for any loss, theft, or damage to your personal belongings while they are stored in the lockers.<br>
-                        c) Do not store any valuable items such as jewelry, money, or sensitive documents within the lockers.<br>
-                        d) All items must be removed from the locker after each visit. Lockers must be left empty and unlocked. Items left overnight will be removed and may be disposed of if not claimed within 30 days.<br>
-                        e) The use of the locker for any unlawful purpose or the storage of prohibited items such as drugs, weapons, or explosive materials is strictly forbidden and will result in immediate termination of your membership.
-                    </p>
-
-                    <h2>Information Storage and Exchange</h2>
-                    <p>
-                        The information and data collected about you by Fitness Assistant will be stored on your cell phone and will not be transferred to, accessed, stored, or displayed outside of your country, region, or the country where Fitness Assistant collects the information and data.
-                    </p>
-                </div>
+                <input type="text" id="name" th:field="*{name}" placeholder="Name" />
             </div>
-        <script>
-            // 获取模态元素
-            var modal = document.getElementById('termsModal');
-            var btn = document.getElementById('termsLink'); // 获取打开模态的链接按钮// 确保您的链接按钮ID是'termsLink'
-            var span = document.querySelector('.close'); // 获取关闭模态的 <span> 元素// 这里使用了 querySelector 方法
-            // 当用户点击链接时打开模态
-            btn.onclick = function() {
-                modal.style.display = "block";
-            };
-            // 当用户点击 <span> (x), 关闭模态
-            span.onclick = function() {
-                modal.style.display = "none";
-            };
-            // 获取表单和复选框元素
-            var form = document.getElementById('registrationForm');
-            var checkbox = document.getElementById('agreement');
-            form.onsubmit = function(event) { // 表单提交事件监听器
-                // 检查复选框是否勾选
-                if (!checkbox.checked) { // 阻止表单提交
-                    event.preventDefault(); // 提醒用户勾选复选框
-                    alert('You must agree to the terms of service before registering.');
-                }
-            };
-        </script>
+            <div>
+                <input type="text" id="phone" th:field="*{phone}" placeholder="Phone" required />
+            </div>
+            <div>
+                <input type="password" id="password" th:field="*{password}" placeholder="Password" pattern="^(?=.*[0-9])(?=.*[a-zA-Z]).{5,}$" title="Password must be at least 5 characters long and include both letters and numbers."/>
+            </div>
+            <div>
+                <input type="checkbox" id="agreement" name="agreement" required />
+                <label for="agreement">I've read and agree to the <a href="#!" id="termsLink">Terms of Service</a>.</label>
+            </div>
+            <div id="termsModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1>Terms of Service</h1>
+                        <span class="close">&times;</span>
+                    </div>
+                    <div class="scrollable-content">
+                        <p>Fitness Aide respects and protects the personal privacy of all users of the system. In order to provide you with a more accurate and personalized service, Fitness Little Helper will use and disclose your personal information as described in this Privacy Policy. However, Fitness Little Helper will treat this information with a high degree of diligence and duty of care. Except as otherwise provided in this Privacy Policy, Fitness Helpers will not disclose or provide this information to third parties without your prior permission. Fitness Helpers may update this Privacy Policy from time to time. You will be deemed to have agreed to this Privacy Policy in its entirety when you agree to the Fitness Helper Service Usage Agreement. This Privacy Policy is an integral part of the Fitness Helper Service Usage Agreement.</p>
+
+                        <h2>Scope of Application</h2>
+                        <p>
+                            a) When you fill in the personal information of the Fitness Assistant, you provide your personal physical information according to the request of the Fitness Assistant;<br>
+                            b) When you use the map track function of Fitness Assistant, Fitness Assistant will obtain your location information and record it.
+                        </p>
+
+                        <h2>Use of Information</h2>
+                        <p>
+                            a) Fitness Helpers will not provide, sell, rent, share, or trade your personal information with any unrelated third party unless you have given us your permission in advance.<br>
+                            b) Fitness Helper does not allow any third party to collect, edit, sell, or distribute your personal information by any means without compensation.
+                        </p>
+
+                        <h2>Information Disclosure</h2>
+                        <p>
+                            Under the following circumstances, Fitness Assistant will disclose your personal information in whole or in part in accordance with your personal wishes or the provisions of the law:<br>
+                            a) In order to provide the products and services you request, it is necessary to share your personal information with third parties;<br>
+                            b) If you are a qualified intellectual property rights complainant and have filed a complaint, at the request of the respondent, it will be disclosed to the respondent so that both parties can deal with possible disputes over rights;
+                        </p>
+
+                        <h2>Locker Usage Agreement</h2>
+                        <p>
+                            As part of our services, we provide lockers for the convenience of our members to store personal items while using our facilities. The use of these lockers is subject to the following terms and conditions:<br>
+                            a) Lockers are available on a first-come, first-served basis and can only be used during your registered time within the premises.<br>
+                            b) Fitness Aide is not responsible for any loss, theft, or damage to your personal belongings while they are stored in the lockers.<br>
+                            c) Do not store any valuable items such as jewelry, money, or sensitive documents within the lockers.<br>
+                            d) All items must be removed from the locker after each visit. Lockers must be left empty and unlocked. Items left overnight will be removed and may be disposed of if not claimed within 30 days.<br>
+                            e) The use of the locker for any unlawful purpose or the storage of prohibited items such as drugs, weapons, or explosive materials is strictly forbidden and will result in immediate termination of your membership.
+                        </p>
+
+                        <h2>Information Storage and Exchange</h2>
+                        <p>
+                            The information and data collected about you by Fitness Assistant will be stored on your cell phone and will not be transferred to, accessed, stored, or displayed outside of your country, region, or the country where Fitness Assistant collects the information and data.
+                        </p>
+                    </div>
+                </div>
+            <script>
+                // 获取模态元素
+                var modal = document.getElementById('termsModal');
+                var btn = document.getElementById('termsLink'); // 获取打开模态的链接按钮// 确保您的链接按钮ID是'termsLink'
+                var span = document.querySelector('.close'); // 获取关闭模态的 <span> 元素// 这里使用了 querySelector 方法
+                // 当用户点击链接时打开模态
+                btn.onclick = function() {
+                    modal.style.display = "block";
+                };
+                // 当用户点击 <span> (x), 关闭模态
+                span.onclick = function() {
+                    this.parentElement.parentElement.parentElement.style.display = 'none';
+                };
+                // 获取表单和复选框元素
+                var form = document.getElementById('registrationForm');
+                var checkbox = document.getElementById('agreement');
+                form.onsubmit = function(event) { // 表单提交事件监听器
+                    // 检查复选框是否勾选
+                    if (!checkbox.checked) { // 阻止表单提交
+                        event.preventDefault(); // 提醒用户勾选复选框
+                        alert('You must agree to the terms of service before registering.');
+                    }
+                };
+            </script>
+            </div>
+            <button type="submit" id="registerButton">Register</button>
+        </form>
+        <div th:if="${error}">
+            <p class="error" th:text="${error}"></p>
         </div>
-        <button type="submit" id="registerButton">Register</button>
-    </form>
-    <div th:if="${error}">
-        <p class="error" th:text="${error}"></p>
-    </div>
-</div>
+        </div>
 </body>
 </html>
 

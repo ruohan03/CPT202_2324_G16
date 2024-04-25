@@ -10,12 +10,17 @@ body {
 html, body {
     height: 100%;
     margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
 }
 
 /* 标题颜色 */
 h1 {
     color: #010544; /* 深蓝色标题 */
     text-align: center;
+    margin-bottom: 20px;
 }
 
 /* 表格基础样式 */
@@ -92,6 +97,7 @@ a:hover {
     align-items: center;
     height: 100vh;
     background-color: #f8f9fa; /* 轻柔的背景色 */
+    z-index: 1; /* Ensure the container appears above the background */
 }
 
 /* 登录表单容器样式 */
@@ -105,6 +111,7 @@ a:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 加强阴影效果提升层次感 */
     background-color: #fff;
     border: 1px solid #e1e1e1; /* 柔和的边框色 */
+    z-index: 1; /* Ensure the container appears above the background */
 }
 
 
