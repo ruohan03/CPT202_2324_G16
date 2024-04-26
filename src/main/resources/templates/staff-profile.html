@@ -35,53 +35,94 @@
             <tr>
                 <th>Name</th>
                 <td>
-                    <input type="text" th:field="*{name}" class="text-input">
+                    <span class="text-display" th:text="${staff.name}"></span>
+                    <input type="text" th:field="*{name}" class="text-input" disabled>
                 </td>
             </tr>
             <tr>
                 <th>Phone</th>
-                <td>
-                    <input type="text" th:field="*{phone}" class="text-input">
-                </td>
+                <td th:text="${staff.phone}"></td>
             </tr>
             <tr>
                 <th>Gender</th>
                 <td>
-                    <select th:field="*{gender}" class="select-input">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+                    <!-- Add a class for easy selection and initially hide it with inline style -->
+                    <span class="text-display gender-display" th:text="${staff.gender}"></span>
+                    <!-- Remove th:if and th:unless -->
+                    <select th:field="*{gender}" class="text-input gender-select" style="display: none;">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <th>Level</th>
-                <td>
-                    <input type="number" th:field="*{level}" class="text-input">
-                </td>
+                <td th:text="${staff.level}"></td>
             </tr>
             <tr>
                 <th>Salary</th>
-                <td>
-                    <input type="number" th:field="*{salary}" class="text-input">
-                </td>
+                <td th:text="${staff.salary}"></td>
             </tr>
             <tr>
                 <th>Course ID</th>
-                <td>
-                    <input type="text" th:field="*{courseId}" class="text-input">
-                </td>
+                <td th:text="${staff.courseId}"></td>
             </tr>
         </table>
         <div class="button-container">
-            <button type="submit" class="save-button">Save</button>
-            <button type="button" class="cancel-button" onclick="cancelEdit()">Cancel</button>
+            <button type="button" onclick="enableEdit()" class="edit-button">Edit</button>
+            <button type="submit" class="save-button" style="display: none;">Save</button>
+            <button type="button" class="cancel-button" style="display: none;" onclick="cancelEdit()">Cancel</button>
         </div>
     </form>
 </div>
 
 <script>
+    function enableEdit() {
+        const container = document.querySelector('.profile-container');
+        container.classList.add('edit-mode');
+        document.querySelectorAll('.profile-table .text-input').forEach(function(input) {
+            input.disabled = false;
+        });
+
+        // 显示性别的下拉菜单并隐藏文本显示
+        const genderSelect = document.querySelector('select[name="gender"]');
+        const genderTextDisplay = document.querySelector('.text-display.gender');
+
+        if (genderSelect) {
+            genderSelect.disabled = false;
+            genderSelect.style.display = 'block';
+        }
+        if (genderTextDisplay) {
+            genderTextDisplay.style.display = 'none';
+        }
+
+        document.querySelector('.edit-button').style.display = 'none';
+        document.querySelector('.save-button').style.display = 'inline';
+        document.querySelector('.cancel-button').style.display = 'inline';
+    }
+
     function cancelEdit() {
-        window.location.reload(); // Reloads the page to reset any changes made to the form
+        const container = document.querySelector('.profile-container');
+        container.classList.remove('edit-mode');
+        document.querySelectorAll('.profile-table .text-input').forEach(function(input) {
+            input.disabled = true;
+        });
+
+        // 隐藏性别的下拉菜单并显示文本
+        const genderSelect = document.querySelector('select[name="gender"]');
+        const genderTextDisplay = document.querySelector('.text-display.gender');
+
+        if (genderSelect) {
+            genderSelect.disabled = true;
+            genderSelect.style.display = 'none';
+        }
+        if (genderTextDisplay) {
+            genderTextDisplay.style.display = 'block';
+        }
+
+        document.querySelector('.edit-button').style.display = 'inline';
+        document.querySelector('.save-button').style.display = 'none';
+        document.querySelector('.cancel-button').style.display = 'none';
     }
 </script>
 </body>

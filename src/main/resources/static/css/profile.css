@@ -1,52 +1,64 @@
 /* Member Profile Table Styles */
 .profile-container {
-    max-width: 600px; /* 容器的最大宽度 */
-    background-color: #fff; /* 白色背景 */
-    margin: 30px auto; /* 水平和垂直居中 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 轻微的阴影效果 */
-    padding: 20px; /* 内边距 */
-    border-radius: 8px; /* 圆角 */
+    max-width: 600px; /* Container maximum width */
+    background-color: #fff; /* White background */
+    margin: 30px auto; /* Horizontally and vertically centered */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow effect */
+    padding: 20px; /* Padding */
+    border-radius: 8px; /* Rounded corners */
 }
 
 .profile-table {
-    width: 100%; /* 表格宽度 */
-    border-collapse: collapse; /* 合并边框 */
+    width: 100%; /* Table width */
+    border-collapse: collapse; /* Collapse borders */
 }
 
-.profile-table th,
-.profile-table td {
-    text-align: left; /* 左对齐文本 */
-    border-bottom: 1px solid #ddd; /* 底部边框线 */
-}
-
-.profile-table th{
-    padding: 10px 15px; /* 单元格内边距 */
-    width: 30%;
+.profile-table th {
+    padding: 10px 15px; /* Cell padding */
+    width: 30%; /* Reduced width for the left column */
     background-color: #010544;
-    color:#FFFFFF;
+    color: #FFFFFF;
+    /* If you prefer a fixed width instead of a percentage, you could use:
+    width: 120px; */
 }
+
+.profile-table td {
+    padding: 10px 15px; /* Cell padding */
+    /* Ensure the table data cells (td) take up the remaining space */
+    width: 70%; /* Adjust this value as needed */
+    /* For fixed-width adjustment, you can use:
+    width: calc(100% - 120px); */
+}
+
+
+.profile-table th {
+    padding: 10px 15px; /* Cell padding */
+    background-color: #010544;
+    color: #FFFFFF;
+}
+
 .profile-table tr:last-child th,
 .profile-table tr:last-child td {
-    border-bottom: none; /* 移除最后一行的底部边框 */
+    border-bottom: none; /* Remove bottom border from the last row */
 }
 
 .profile-header {
-    font-size: 24px; /* 标题字体大小 */
-    color: #010544; /* 标题颜色 */
-    text-align: center; /* 标题居中 */
-    padding: 20px; /* 标题内边距 */
-    margin-bottom: 20px; /* 标题与表格间的空间 */
-    border-radius: 8px 8px 0 0; /* 上方圆角 */
+    font-size: 24px; /* Header font size */
+    color: #010544; /* Header color */
+    text-align: center; /* Center-align header */
+    padding: 20px; /* Header padding */
+    margin-bottom: 20px; /* Space between header and table */
+    border-radius: 8px 8px 0 0; /* Top rounded corners */
 }
 
-/* 按钮容器样式 */
+/* Button Container Styles */
 .button-container {
     display: flex;
-    justify-content: center; /* 水平居中 */
-    gap: 10px; /* 按钮之间的间隙 */
+    justify-content: center; /* Horizontally center */
+    gap: 10px; /* Gap between buttons */
 }
 
-/* 按钮公共样式 */
+/* Common Button Styles */
 .edit-button, .save-button, .cancel-button {
     font-weight: bold;
     color: white;
@@ -56,7 +68,8 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: 150px; /* 固定宽度 */
+    width: 150px; /* Fixed width */
+    transition: background-color 0.3s, color 0.3s, border 0.3s; /* Smooth transition for hover state */
 }
 
 .edit-button {
@@ -64,59 +77,53 @@
 }
 
 .save-button {
-    background-color: #57965D; /* 绿色背景 */
+    background-color: #57965D; /* Green background */
 }
 
 .cancel-button {
-    background-color: #C94F4F; /* 红色背景 */
+    background-color: #C94F4F; /* Red background */
 }
 
-.edit-button:hover{
-    background-color: #FFFFFF;
-    color: #007BFF;
-    border: 2px solid #007BFF;
-}
-.save-button:hover{
-    background-color: #FFFFFF;
-    color: #C94F4F;
-    border: 2px solid #C94F4F;
-}
+.edit-button:hover,
+.save-button:hover,
 .cancel-button:hover {
-    background-color: #FFFFFF;
-    color: #57965D;
-    border: 2px solid #57965D;
+    color: #010544; /* Text color on hover */
+    background-color: #f8f9fa; /* Background color on hover */
+    border: 2px solid #010544; /* Border color on hover */
 }
 
-/* 表格响应式布局 */
-@media (max-width: 768px) {
-    .member-profile-container {
-        width: 95%; /* 移动设备上的宽度调整 */
-    }
-}
-
-/* 输入框默认隐藏，仅在编辑模式下显示 */
-.profile-table input[type="text"] {
-    display: none;
+/* Input Field Styles */
+.profile-table input[type="text"], .profile-table select.text-input {
+    display: none; /* Hide by default */
     width: 100%;
     padding: 8px;
     margin: 4px 0;
+    border: 1px solid #ccc; /* Default border */
     box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions for focus */
 }
 
-/* 文本显示样式 */
+.profile-table input[type="text"]:focus, .profile-table select.text-input:focus {
+    border-color: #007bff; /* Focus border color */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focus shadow for better visibility */
+}
+
+/* Text Display Styles */
 .profile-table .text-display {
     display: block;
 }
 
-/* 编辑模式下输入框显示，文本隐藏 */
+/* Edit Mode Styles */
 .edit-mode .text-display {
     display: none;
 }
 
-.edit-mode input[type="text"] {
-    display: block;
+.edit-mode .profile-table input[type="text"],
+.edit-mode .profile-table select.text-input {
+    display: block; /* Show in edit mode */
 }
 
+/* Alert Styles */
 .alert {
     padding: 10px;
     color: white;
@@ -126,4 +133,49 @@
     width: 90%;
     margin-left: auto;
     margin-right: auto;
+    background-color: #010544; /* Consistent with profile header */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Consistent shadow with the container */
+}
+
+.alert-success {
+    background-color: #57965D; /* Success color */
+}
+
+.alert-danger {
+    background-color: #C94F4F; /* Error color */
+}
+
+/* Responsive Layout Styles */
+@media (max-width: 768px) {
+    .profile-container {
+        width: 95%; /* Adjust width on mobile devices */
+    }
+    .button-container {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+        align-items: stretch; /* Stretch buttons to full width */
+    }
+    .edit-button, .save-button, .cancel-button {
+        width: 100%; /* Full width for better touch targets on mobile */
+        margin-bottom: 10px; /* Spacing between stacked buttons */
+    }
+}
+
+.select-input,
+.text-input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-top: 0.25rem;
+}
+
+.select-input:focus,
+.text-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.profile-table input[type="text"].always-visible,
+.profile-table select.text-input.always-visible {
+    display: block;
 }

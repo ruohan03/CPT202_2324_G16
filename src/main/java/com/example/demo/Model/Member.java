@@ -90,7 +90,7 @@ public class Member {
     }
 
     // Getters and setters
-    // Include getters and setters for plan and enddate
+    // Include getters and setters for plan and endDate
     public String getPlan() {
         return plan;
     }
