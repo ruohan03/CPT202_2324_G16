@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface StaffRepository extends JpaRepository<Staff, String> {
     List<Staff> findStaffByCourseId(String courseId);
 
+    List<Staff> findStaffByCourseIdAndLevelLessThanEqual(String courseId, int level);
+
     Staff findByPhone(String phone);
 
 }

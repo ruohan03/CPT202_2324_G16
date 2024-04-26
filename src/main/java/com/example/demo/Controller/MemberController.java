@@ -85,6 +85,7 @@ public class MemberController {
             Member member = memberService.findMemberById(memberId);
             if (validateMember(memberId, model)) {
                 model.addAttribute("member", member);
+                model.addAttribute("memberId", memberId);
                 model.addAttribute("isLoggedIn", true);
                 model.addAttribute("welcomeMessage", "Welcome back, " + member.getName() + "!");
                 model.addAttribute("currentPage", "home"); // 添加当前页面的标识

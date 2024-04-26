@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.Model.Member;
 import com.example.demo.Model.Purchase;
 import com.example.demo.Service.PurchaseService;
+import com.example.demo.Service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -21,6 +22,9 @@ public class PurchaseController {
 
     @Autowired
     private PurchaseService purchaseService;
+
+    @Autowired
+    private MemberService memberService;
 
     @GetMapping("/purchases")
     public String listPurchases(Model model) {
@@ -57,7 +61,10 @@ public class PurchaseController {
             return "redirect:/login"; // 如果用户未登录，重定向到登录页面
         }
         model.addAttribute("purchase", new Purchase());
-        model.addAttribute("currentPage", "purchaseForm");
+        model.addAttribute("currentPage", "newPurchase");
+        model.addAttribute("isLoggedIn", true);
+        Member member = memberService.findMemberById(memberId);
+        model.addAttribute("member", member);
         return "purchase-form";
     }
 

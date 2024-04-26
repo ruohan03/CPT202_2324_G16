@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select a Coach</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="top-nav">
+    <a href="/home_page" class="logo">H-XYZ | 打击代写就现在</a>
+    <div class="nav-center">
+        <a href="/home_page" th:class="${currentPage == 'home'} ? 'current-page' : ''">Home</a>
+        <a href="/member/order/course" th:class="${currentPage == 'bookCourse'} ? 'current-page' : ''">Book Course</a>
+        <a href="/member/profile" th:class="${currentPage == 'memberProfile' ? 'current-page':''}" th:if="${isLoggedIn}">My Profile</a>
+        <a href="/member/update-password" th:class="${currentPage == 'changePassword' ? 'current-page':''}" th:if="${isLoggedIn}">Update Password</a>
+        <a href="/purchases/new" th:class="${currentPage == 'newPurchase' ? 'purchase' : ''}" th:if="${isLoggedIn}">Buy Plans</a>
+
+        <!-- ... other links ... -->
+    </div>
+    <div class="nav-right">
+        <span th:text="${isLoggedIn ? member.name : 'Visitor'}"></span>
+        <a th:if="${isLoggedIn}" href="/logout" class="logout-button">Logout</a>
+        <a th:if="${!isLoggedIn}" href="/login" class="login-button">Login</a>
+    </div>
+</div>
+<div class="container mt-5">
+    <h2>Select a Coach for Course: <span th:text="${selectedCourse.name}"></span></h2>
+    <div th:if="${coaches.isEmpty()}">
+        <p>No coaches available for this course.</p>
+    </div>
+    <div class="list-group">
+        <!-- Loop through each coach and display them as options -->
+        <div th:each="coach : ${coaches}">
+            <a href="#" th:href="@{/select-time/{coachId}(coachId=${coach.staffId})}"
+               class="list-group-item list-group-item-action"
+               th:text="${coach.name + ' - Level: ' + coach.level}">
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
