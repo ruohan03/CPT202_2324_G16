@@ -32,4 +32,7 @@ public interface MemberService {
     }
 
     boolean checkMembershipStatus(String memberId);
+
+    Member findByPhoneAndName(String phone, String name);
+    boolean updatePassword(String phone, String newPassword);
 }

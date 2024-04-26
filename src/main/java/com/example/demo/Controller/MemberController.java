@@ -41,7 +41,7 @@ public class MemberController {
 
 
     @GetMapping("/members")
-    public String getAllMembers(Model model){
+    public String getAllMembers(Model model) {
         List<Member> members = memberService.findAllMembers();
         log.info("Members: {}", members);
         model.addAttribute("members", members);
@@ -49,7 +49,7 @@ public class MemberController {
     }
 
     @PostMapping("/addMember")
-    public String addMember(@ModelAttribute("member") Member member){
+    public String addMember(@ModelAttribute("member") Member member) {
         memberService.addMember(member);
         return "redirect:/members"; // 重定向到显示所有会员的页面
     }
@@ -113,7 +113,6 @@ public class MemberController {
     }
 
 
-
     @GetMapping("/member/profile")
     public String showProfile(HttpSession session, Model model) {
         String memberId = (String) session.getAttribute("memberId");
@@ -155,9 +154,9 @@ public class MemberController {
         Member member = memberService.findMemberById(memberId);
         if (validateMember(memberId, model)) {
             model.addAttribute("member", member);
-            model.addAttribute("currentPage","updatePassword");
+            model.addAttribute("currentPage", "updatePassword");
             return "update-password";
-        }else {
+        } else {
             return "redirect:/";
         }
     }
@@ -192,4 +191,38 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordForm() {
+        return "forgot-password"; // 返回忘记密码页面的视图名称
+    }
+
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(@RequestParam("phone") String phone, @RequestParam("username") String username,
+                                        @RequestParam("newPassword") String newPassword, Model model) {
+        Member member = memberService.findByPhoneAndName(phone, username);
+        if (member != null) {
+            // Check if the new password contains both letters and digits
+            if (!newPassword.matches(".*[a-zA-Z].*") || !newPassword.matches(".*\\d.*")) {
+                model.addAttribute("errorMessage", "Password must contain both letters and digits.");
+                return "forgot-password";
+            }
+
+            boolean updateResult = memberService.updatePassword(phone, newPassword);
+            if (updateResult) {
+                // Password updated successfully, redirect to login page or display success message
+                return "redirect:/login?password_updated=true";
+            } else {
+                // Password update failed, display error message
+                model.addAttribute("errorMessage", "Failed to update password, please try again later.");
+                return "forgot-password";
+            }
+        } else {
+            // User does not exist or phone and username do not match, display error message
+            model.addAttribute("errorMessage", "Incorrect username or phone number.");
+            return "forgot-password";
+        }
+    }
+
 }
+
+

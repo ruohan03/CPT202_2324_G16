@@ -127,5 +127,21 @@ public class MemberServiceImpl implements MemberService {
         return true; // 所有检查都通过
     }
 
+    @Override
+    public Member findByPhoneAndName(String phone, String name) {
+        return memberRepository.findByPhoneAndName(phone, name);
+    }
+
+    @Override
+    public boolean updatePassword(String phone, String newPassword) {
+        Member member = memberRepository.findByPhone(phone);
+        if (member != null) {
+            member.setPassword(newPassword);
+            memberRepository.save(member);
+            return true;
+        }
+        return false;
+    }
+
 
 }
