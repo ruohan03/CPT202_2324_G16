@@ -2,8 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <title>H-XYZ</title>
     <title>Member Login</title>
-    <style>
+   <style>
         #registerOption{
             text-align: center;
             margin-top: 20px;
@@ -43,9 +44,16 @@
         }
 
     </style>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/Login.css">
 </head>
 <body>
+
+<nav class="navbar">
+    <div class="navbar-brand">H-XYZ Fitness Appointment System</div>
+    </div>
+    <a href="/navigation" class="nav-button">Return</a>
+</nav>
+
 
 <div class="login-centered-container">
     <div class="login-form">
@@ -61,8 +69,8 @@
         </div>
         <button type="submit" class="btn">Login</button>
         <div id="registerOption">
-            <a href="/forgot-password" > Forget Password?</a>
-            <p>Don't have an account? <a href="/register">Sign up here.</a></p>
+            <a href="/forgot-password" > Forgot Password?</a>
+            <p>Don't have an account? <a href="/register">Sign up here</a>.</p>
         </div>
                 <!-- 在登录表单下方添加一个 div 来显示成功消息 -->
                 <div th:if="${param.password_updated}">

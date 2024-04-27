@@ -14,6 +14,7 @@ html, body {
     align-items: center;
     justify-content: center;
     font-family: Arial, sans-serif;
+    z-index: 2; /* 将背景置于内容之后 */
 }
 
 /* 标题颜色 */
@@ -97,7 +98,7 @@ a:hover {
     align-items: center;
     height: 100vh;
     background-color: #f8f9fa; /* 轻柔的背景色 */
-    z-index: 1; /* Ensure the container appears above the background */
+    z-index: 2; /* Ensure the container appears above the background */
 }
 
 /* 登录表单容器样式 */
@@ -109,9 +110,9 @@ a:hover {
     text-align: center;
     padding: 40px; /* 增加内边距以增加可读性 */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 加强阴影效果提升层次感 */
-    background-color: #fff;
+    /*background-color: #fff;
     border: 1px solid #e1e1e1; /* 柔和的边框色 */
-    z-index: 1; /* Ensure the container appears above the background */
+    z-index: 2; /* Ensure the container appears above the background */
 }
 
 
@@ -184,15 +185,6 @@ a:hover {
     border: 2px solid #C94F4F;
     color: #C94F4F
 }
-
-
-
-/* 页面背景 */
-/*body {*/
-/*    background-image: url('path-to-your-background-image.jpg'); !* 背景图片链接，替换为实际路径 *!*/
-/*    background-size: cover;*/
-/*    background-position: center;*/
-/*}*/
 
 /* 模态框覆盖层样式 */
 .modal-overlay {

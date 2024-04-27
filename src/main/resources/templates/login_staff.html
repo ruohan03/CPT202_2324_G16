@@ -5,20 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Login</title>
 
-    <style>
-        #registerOption a{
-            color: #CE56C1;
-            text-decoration: none;
-        }
-        #registerOption p{
-            color: #999999;
-        }
-        /* CSS样式 */
-        .success-message-container {
-            text-align: center;
-            animation: slideIn 0.5s ease-in-out forwards;
-        }
-
+   <style>
         .success-message {
             background-color: #4CAF50;
             color: white;
@@ -40,10 +27,15 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/Login.css">
 
 </head>
 <body>
+<nav class="navbar">
+    <div class="navbar-brand">H-XYZ Fitness Appointment System</div>
+    </div>
+    <a href="/navigation" class="nav-button">Return</a>
+</nav>
 <div class="login-centered-container">
     <div class="login-form">
         <h1>Staff Login</h1>
@@ -65,7 +57,6 @@
             <button type="submit" class="btn">Login</button>
             <div id="registerOption">
                 <a href="/forgetPassword_trainer" > Forget Password?</a>
-                <p>Don't have an account? <a href="/register">Sign up here.</a></p>
             </div>
         </form>
     </div>

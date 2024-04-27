@@ -1,0 +1,158 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-family: 'Arial', sans-serif;
+    color: #010544; /* 深蓝色文字 */
+}
+
+body::before {
+    content: '';
+    position: fixed; /* Fixed position to cover the entire view */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://s3.bmp.ovh/imgs/2024/04/27/9cf42773d7235857.jpg') no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.8; /* Set the background image transparency */
+    z-index: -1; /* Place the background behind the content */
+}
+
+/* Centering the login container */
+.login-centered-container {
+    width: 400px;
+    max-width: 500px; /* Adjust the max-width as needed for your design */
+    padding: 60px;
+    height: 400px;
+    background-color: rgba(250, 250, 250, 0.85); /* Semi-transparent white background */
+    border-radius: 5px; /* Optional: for rounded corners */
+    display: flex;
+    justify-content: space-around; /* 调整子元素间距 */
+    align-items: center;
+    flex-direction: row; /* 设置水平布局 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;  /* 确保容器使用相对定位 */
+    right: 200px; /* 将容器向左移动 50px，可调整此值以满足具体需求 */
+    overflow: hidden; /* Ensure that nothing spills outside the border-radius */
+}
+
+/* Further styling of your form and elements */
+.login-form h1 {
+    color: #010544; /* Dark blue as specified */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-form .form-control {
+    width: 300px; /* 计算宽度，考虑到内边距 */
+    padding: 10px;
+    margin-bottom: 15px; /* 标题下方添加间隔 */
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-form .btn {
+    display: block;
+    font-size: 16px; /* 或根据设计需要调整 */
+    width: 60%;
+    padding: 10px;
+    margin: 10px auto;
+    background-color: #D51FBA;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 平滑过渡效果 */
+}
+.login-form .btn:hover  {
+    background-color: #FFFFFF;
+    color: #D51FBA;
+    border: 2px solid #D51FBA;
+}
+
+/* 错误消息样式 */
+.error-message {
+    font-weight: bold;
+    color: #C94F4F; /* 错误消息的文本颜色 */
+    background-color: #FFFFFF; /* 背景颜色 */
+    border: 1px solid #C94F4F; /* 边框颜色 */
+    padding: 10px; /* 内边距 */
+    width: 90%; /* 比输入框稍窄 */
+    max-width: 400px; /* 错误消息的最大宽度 */
+    margin: 10px auto 20px; /* 上下外边距为10px和20px, 水平居中 */
+    text-align: center; /* 文本居中 */
+    border-radius: 4px; /* 轻微圆角 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 轻微的阴影 */
+    display: none; /* 默认不显示，仅在出现错误时显示 */
+}
+
+/* 基础样式重置，保证在所有浏览器上表现一致 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar {
+    position: fixed; /* Fixes the navbar at the top of the viewport */
+    top: 0; /* Aligns the navbar to the very top of the viewport */
+    left: 0; /* Aligns the navbar to the left of the viewport */
+    width: 100%; /* Ensures the navbar extends across the full width of the viewport */
+    display: flex;
+    justify-content: space-between; /* Keeps items spaced out across the navbar */
+    padding: 5px 20px; /* Adds padding inside the navbar */
+    background-color: rgb(128, 128, 128); /* Dark background for better visibility */
+    color: #fff; /* White text color */
+    z-index: 1000; /* Ensures the navbar stays on top of other content */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25); /* Adds shadow for better separation from the page content */
+}
+
+.navbar-brand {
+    font-size: 22px; /* 品牌名字的大小 */
+    font-weight: bold; /* 字体加粗 */
+}
+
+.nav-button {
+    padding: 10px 40px; /* Padding to make the button larger */
+    background-color: rgb(128, 128, 128); /* Pink background color */
+    color: white; /* White text color */
+    text-decoration: none; /* Removes underline from links */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    margin-right: 30px; /* Right margin to move the button slightly to the left */
+}
+
+.nav-button:hover {
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+}
+
+/* Styling for your register and forgot password options */
+#registerOption {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#registerOption a {
+    color: #CE56C1; /* Keeping the link color consistent with the button */
+    text-decoration: none;
+}
+
+#registerOption a:hover {
+    text-decoration: underline; /* Underline on hover for better user interaction */
+}
+
+#registerOption p {
+    color: #999999; /* Grey text for less emphasis */
+}
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .login-form { /* 在较小屏幕上调整宽度 */
+        margin-top: 10px;
+    }
+}
