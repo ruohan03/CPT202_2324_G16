@@ -203,7 +203,7 @@ public class MemberController {
         if (member != null) {
             // Check if the new password contains both letters and digits
             if (!newPassword.matches("^(?=.*[a-zA-Z])(?=.*\\d).{5,}$")) {
-                model.addAttribute("errorMessage", "Password must contain both letters and digits and have a length of 5.");
+                model.addAttribute("errorMessage", "Password must contain both letters and digits and the minimum length is 5.");
                 return "forgot-password";
             }
 

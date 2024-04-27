@@ -54,6 +54,10 @@ public class StaffServiceImpl implements StaffService {
         return staffRepository.findById(staffId).orElse(null);
     }
 
+    @Override
+    public Staff findByPhoneAndName(String phone, String name) {
+        return staffRepository.findByPhoneAndName(phone, name);
+    }
 
     @Transactional
     @Override

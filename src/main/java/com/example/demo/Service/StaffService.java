@@ -17,4 +17,6 @@ public interface StaffService {
     Staff findStaffById(String staffId);
 
     boolean updateStaff(Staff staff);
+
+    Staff findByPhoneAndName(String phone, String name);
 }

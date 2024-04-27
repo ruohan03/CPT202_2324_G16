@@ -4,7 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Login</title>
+
+    <style>
+        /* CSS样式 */
+        .success-message-container {
+            text-align: center;
+            animation: slideIn 0.5s ease-in-out forwards;
+        }
+
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 18px; /* 设置字体大小为18px */
+        }
+
+        /* 定义动画 */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
     <link rel="stylesheet" href="/css/style.css">
+
 </head>
 <body>
 <div class="login-centered-container">
@@ -12,6 +42,12 @@
         <h1>Staff Login</h1>
         <!-- 显示错误消息的区域 -->
         <div id="error-message" class="error-message" style="display: none;">Invalid credentials. Please try again.</div>
+        <!-- 在登录表单下方添加一个 div 来显示成功消息 -->
+        <div th:if="${param.password_updated}">
+            <div class="success-message-container">
+                <div class="success-message">Password updated successfully.</div>
+            </div>
+        </div>
         <form action="/staff/login" method="post">  <!-- 确保action的URL正确 -->
             <div class="form-group">
                 <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone number" required>
