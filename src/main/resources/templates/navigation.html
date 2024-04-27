@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +8,14 @@
 </head>
 <body>
 <div class="container">
-    <div class="column left">
-        <div class="welcome-title">H-XYZ</div>
-        <hr>
-        <h1>Welcome to Fitness Appointment system!</h1>
-        <p>Please log in to access your account:</p>
-        <button onclick="window.location.href= '/login'" class="btn">Member Login</button>
+    <h1>Navigation</h1>
+    <div class="login-section">
+        <h2>Member Login</h2>
+        <a href="/member-login" class="login-button">Member Login</a> <!-- 修改此处的href以指向正确的URL -->
     </div>
-    <hr class="divider" />
-    <div class="column right">
-        <p>If you are a staff, please log in here:</p>
-        <button1 onclick="window.location.href='/staff/login' " class="btn1">Staff Login</button1>
+    <div class="login-section">
+        <h2>Staff Login</h2>
+        <a href="/non-member-login" class="login-button">Staff Login</a>
     </div>
 </div>
 </body>
