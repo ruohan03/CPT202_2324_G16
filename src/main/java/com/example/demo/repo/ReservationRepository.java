@@ -13,7 +13,7 @@ import java.util.List;
     @Repository
     public interface ReservationRepository extends JpaRepository<Reservation,String> {
 
-        @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Reservation r WHERE r.staff_id = :staffId AND r.isCancelled = false AND r.lessonStartDate = :date AND ((r.lessonStartTime < :endTime AND r.lessonEndTime > :startTime) OR (r.lessonStartTime <= :startTime AND r.lessonEndTime >= :endTime))")
+        @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Reservation r WHERE r.staffId = :staffId AND r.isCancelled = false AND r.lessonStartDate = :date AND ((r.lessonStartTime < :endTime AND r.lessonEndTime > :startTime) OR (r.lessonStartTime <= :startTime AND r.lessonEndTime >= :endTime))")
         boolean existsByStaffIdAndNotCancelledAndTimeOverlap(@Param("staffId") String staffId, @Param("date") LocalDate date, @Param("startTime") LocalTime startTime, @Param("endTime") LocalTime endTime);
 
 
