@@ -6,6 +6,13 @@
     <title>Staff Login</title>
 
     <style>
+        #registerOption a{
+            color: #CE56C1;
+            text-decoration: none;
+        }
+        #registerOption p{
+            color: #999999;
+        }
         /* CSS样式 */
         .success-message-container {
             text-align: center;
@@ -56,6 +63,10 @@
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
             </div>
             <button type="submit" class="btn">Login</button>
+            <div id="registerOption">
+                <a href="/forgetPassword_trainer" > Forget Password?</a>
+                <p>Don't have an account? <a href="/register">Sign up here.</a></p>
+            </div>
         </form>
     </div>
 </div>

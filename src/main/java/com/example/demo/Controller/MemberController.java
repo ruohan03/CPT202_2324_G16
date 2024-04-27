@@ -220,8 +220,9 @@ public class MemberController {
         } else {
             // User does not exist or phone and username do not match, display error message
             model.addAttribute("errorMessage", "Incorrect username or phone number.");
-            return "forgot-password";
+
         }
+        return "forgot-password";
     }
 
 }
