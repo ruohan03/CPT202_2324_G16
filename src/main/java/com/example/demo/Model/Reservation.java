@@ -1,8 +1,8 @@
 package com.example.demo.Model;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 public class Reservation {
@@ -17,25 +17,33 @@ public class Reservation {
     @Column(name = "staff_id")
     private String staff_id;
 
-    @Column(name = "lesson_starttime")
-    private LocalDateTime lesson_starttime;
-
     @Column(name = "is_cancelled")
-    private boolean is_cancelled;
+    private boolean isCancelled;
 
     @Column(name = "is_signin")
-    private boolean is_signin;
+    private boolean isSignIn;
+
+    @Column(name = "lesson_start_date")
+    private LocalDate lessonStartDate;
+
+    @Column(name = "lesson_start_time")
+    private LocalTime lessonStartTime;
+
+    @Column(name = "lesson_end_time")
+    private LocalTime lessonEndTime;
 
     public Reservation() {
     }
 
-    public Reservation(String reservation_id, String memberId, String staff_id, LocalDateTime lesson_starttime, boolean is_cancelled, boolean is_signin) {
+    public Reservation(String reservation_id, String memberId, String staff_id, boolean is_cancelled, boolean is_signIn,LocalDate lessonStartDate, LocalTime lessonStartTime, LocalTime lessonEndTime) {
         this.reservation_id = reservation_id;
         this.memberId = memberId;
         this.staff_id = staff_id;
-        this.lesson_starttime = lesson_starttime;
-        this.is_cancelled = is_cancelled;
-        this.is_signin = is_signin;
+        this.isCancelled = is_cancelled;
+        this.isSignIn = is_signIn;
+        this.lessonStartDate = lessonStartDate;
+        this.lessonStartTime = lessonStartTime;
+        this.lessonEndTime = lessonEndTime;
     }
 
     public String getReservation_id() {
@@ -62,27 +70,30 @@ public class Reservation {
         this.staff_id = staff_id;
     }
 
-    public LocalDateTime getLesson_starttime() {
-        return lesson_starttime;
+    public boolean getIsCancelled() {return isCancelled;}
+
+    public void setIsCancelled(boolean isCancelled) {
+        this.isCancelled = isCancelled;
     }
 
-    public void setLesson_starttime(LocalDateTime lesson_starttime) {
-        this.lesson_starttime = lesson_starttime;
+    public boolean getIsSignIn() {
+        return isSignIn;
     }
 
-    public boolean isIs_cancelled() {
-        return is_cancelled;
+    public void setIsSignIn(boolean is_signIn) {
+        this.isSignIn = is_signIn;
     }
 
-    public void setIs_cancelled(boolean is_cancelled) {
-        this.is_cancelled = is_cancelled;
-    }
+    public LocalDate getLessonStartDate() {return lessonStartDate;}
 
-    public boolean isIs_signin() {
-        return is_signin;
-    }
+    public void setLessonStartDate(LocalDate lessonStartDate) {this.lessonStartDate = lessonStartDate;}
 
-    public void setIs_signin(boolean is_signin) {
-        this.is_signin = is_signin;
-    }
+    public LocalTime getLessonStartTime() {return lessonStartTime;}
+
+    public void setLessonStartTime(LocalTime lessonStartTime) {this.lessonStartTime = lessonStartTime;}
+
+    public LocalTime getLessonEndTime() {return lessonEndTime;}
+
+    public void setLessonEndTime(LocalTime lessonEndTime) {this.lessonEndTime = lessonEndTime;}
+
 }

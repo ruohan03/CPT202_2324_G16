@@ -16,10 +16,10 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    @GetMapping("/reservations")
+    @GetMapping("/reservation-list")
     public String viewReservations(Model model) {
         // 调用服务层获取预约信息列表
-        model.addAttribute("reservations", reservationService.getAllReservations());
-        return "reservations";
+        model.addAttribute("reservationList", reservationService.getAllReservations());
+        return "reservation-list";
     }
 }
