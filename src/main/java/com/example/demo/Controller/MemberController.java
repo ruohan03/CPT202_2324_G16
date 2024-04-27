@@ -202,13 +202,14 @@ public class MemberController {
         Member member = memberService.findByPhoneAndName(phone, username);
         if (member != null) {
             // Check if the new password contains both letters and digits
-            if (!newPassword.matches(".*[a-zA-Z].*") || !newPassword.matches(".*\\d.*")) {
-                model.addAttribute("errorMessage", "Password must contain both letters and digits.");
+            if (!newPassword.matches("^(?=.*[a-zA-Z])(?=.*\\d).{5,}$")) {
+                model.addAttribute("errorMessage", "Password must contain both letters and digits and the minimum length is 5.");
                 return "forgot-password";
             }
 
             boolean updateResult = memberService.updatePassword(phone, newPassword);
             if (updateResult) {
+                model.addAttribute("successMessage", "Password updated successfully.");
                 // Password updated successfully, redirect to login page or display success message
                 return "redirect:/login?password_updated=true";
             } else {
@@ -219,8 +220,9 @@ public class MemberController {
         } else {
             // User does not exist or phone and username do not match, display error message
             model.addAttribute("errorMessage", "Incorrect username or phone number.");
-            return "forgot-password";
+
         }
+        return "forgot-password";
     }
 
 }

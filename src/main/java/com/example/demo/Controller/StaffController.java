@@ -119,6 +119,33 @@ public class StaffController {
         return "redirect:/staff/profile";
     }
 
+    @GetMapping("/forgetPassword_trainer")
+    public String showForgetPasswordForm() {
+        return "forgetPassword_trainer";
+    }
+
+    @PostMapping("/forgetPassword_trainer")
+    public String resetPassword(@RequestParam String phone, @RequestParam String name, @RequestParam String newPassword, RedirectAttributes redirectAttributes) {
+        Staff staff = staffService.findByPhoneAndName(phone, name);
+        if (staff != null) {
+            if (staff.isManager()) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Administrators cannot update passwords.");
+            } else {
+                if (!newPassword.matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{5,}$")) {
+                    redirectAttributes.addFlashAttribute("errorMessage", "Password must contain at least one letter and one number, and be at least 5 characters long.");
+                } else {
+                    staff.setPassword(newPassword);
+                    staffService.updateStaff(staff);
+                    redirectAttributes.addFlashAttribute("successMessage", "Password updated successfully.");
+                    return "redirect:/staff/login?password_updated=true";
+                }
+            }
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Invalid phone or name.");
+        }
+        return "redirect:/forgetPassword_trainer";
+    }
+
 }
 
 
