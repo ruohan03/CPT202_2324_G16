@@ -71,13 +71,13 @@ body::before {
 }
 
 h1 {
-     text-align: center;  /* 将文字居中 */
-     color: #333;         /* 文字颜色为深灰色 */
-     padding: 0px;       /* 文字周围添加空间 */
-     margin-bottom: 10px; /* 标题下方添加间隔 */
-     font-size: 24px; /* 更改这个值以调整字体大小 */
-     font-weight: bold; /* 这会使字体加粗 */
- }
+    text-align: center;  /* 将文字居中 */
+    color: #333;         /* 文字颜色为深灰色 */
+    padding: 0px;       /* 文字周围添加空间 */
+    margin-bottom: 10px; /* 标题下方添加间隔 */
+    font-size: 24px; /* 更改这个值以调整字体大小 */
+    font-weight: bold; /* 这会使字体加粗 */
+}
 
 .btn {
     padding: 10px 60px;
@@ -126,10 +126,3 @@ Button1:hover {
         margin: 0px 20px; /* 分割线的上下边距 */
     }
 }
-
-
-
-
-
-
-
