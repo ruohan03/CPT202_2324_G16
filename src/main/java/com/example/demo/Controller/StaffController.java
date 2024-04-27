@@ -81,7 +81,7 @@ public class StaffController {
     public String showStaffProfile(HttpSession session, Model model) {
         String staffId = (String) session.getAttribute("staffId");
         if (staffId == null) {
-            // 没有找到 staff_id 时，重定向到登录页面
+            // 没有找到 staffId 时，重定向到登录页面
             return "redirect:/staff/login";
         }
 

@@ -9,13 +9,13 @@ public class Reservation {
 
     @Id
     @Column(name = "reservation_id")
-    private String reservation_id;
+    private String reservationId;
 
     @Column(name = "member_id")
     private String memberId;
 
     @Column(name = "staff_id")
-    private String staff_id;
+    private String staffId;
 
     @Column(name = "is_cancelled")
     private boolean isCancelled;
@@ -35,10 +35,10 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String reservation_id, String memberId, String staff_id, boolean is_cancelled, boolean is_signIn,LocalDate lessonStartDate, LocalTime lessonStartTime, LocalTime lessonEndTime) {
-        this.reservation_id = reservation_id;
+    public Reservation(String reservationId, String memberId, String staffId, boolean is_cancelled, boolean is_signIn,LocalDate lessonStartDate, LocalTime lessonStartTime, LocalTime lessonEndTime) {
+        this.reservationId = reservationId;
         this.memberId = memberId;
-        this.staff_id = staff_id;
+        this.staffId = staffId;
         this.isCancelled = is_cancelled;
         this.isSignIn = is_signIn;
         this.lessonStartDate = lessonStartDate;
@@ -46,12 +46,12 @@ public class Reservation {
         this.lessonEndTime = lessonEndTime;
     }
 
-    public String getReservation_id() {
-        return reservation_id;
+    public String getReservationId() {
+        return reservationId;
     }
 
-    public void setReservation_id(String reservation_id) {
-        this.reservation_id = reservation_id;
+    public void setReservationId(String reservation_id) {
+        this.reservationId = reservationId;
     }
 
     public String getMemberId() {
@@ -62,12 +62,12 @@ public class Reservation {
         this.memberId = memberId;
     }
 
-    public String getStaff_id() {
-        return staff_id;
+    public String getStaffId() {
+        return staffId;
     }
 
-    public void setStaff_id(String staff_id) {
-        this.staff_id = staff_id;
+    public void setStaffId(String staffId) {
+        this.staffId = staffId;
     }
 
     public boolean getIsCancelled() {return isCancelled;}

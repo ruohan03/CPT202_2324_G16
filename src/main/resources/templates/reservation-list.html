@@ -28,9 +28,9 @@
         <!-- You may need to adjust the property names based on your actual Reservation class -->
         <th:block th:each="reservation : ${reservationList}">
             <tr>
-                <td th:text="${reservation.reservation_id}"></td>
+                <td th:text="${reservation.reservationId}"></td>
                 <td th:text="${reservation.memberId}"></td>
-                <td th:text="${reservation.staff_id}"></td>
+                <td th:text="${reservation.staffId}"></td>
                 <td th:text="${reservation.lessonStartDate}"></td>
                 <td th:text="${reservation.lessonStartTime}"></td>
                 <td th:text="${reservation.lessonEndTime}"></td>
