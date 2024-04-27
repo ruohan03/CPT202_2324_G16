@@ -26,7 +26,7 @@ import java.util.List;
 
         @Override
         public boolean isCoachAvailable(String staffId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-            return !reservationRepository.existsByStaffIdAndNotCancelledAndTimeOverlap(staffId, date, startTime, endTime);
+            return !reservationRepository.existsByStaffIdAndTimeOverlap(staffId, date, startTime, endTime);
         }
 
     }

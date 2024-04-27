@@ -81,20 +81,22 @@ public class MemberController {
     @GetMapping("/home_page")
     public String homePage(Model model, HttpSession session) {
         String memberId = (String) session.getAttribute("memberId");
-        if (validateMember(memberId, model)) {
-            Member member = memberService.findMemberById(memberId);
-            if (validateMember(memberId, model)) {
-                model.addAttribute("member", member);
-                model.addAttribute("isLoggedIn", true);
-                model.addAttribute("welcomeMessage", "Welcome back, " + member.getName() + "!");
-                model.addAttribute("currentPage", "home"); // 添加当前页面的标识
-            } else {
-                model.addAttribute(ERROR, MEMBER_NOT_FOUND);
-                return "redirect:/login";
-            }
+        Member member = null;
+        if (memberId != null) {
+            member = memberService.findMemberById(memberId);
+        }
+
+        if (member != null) {
+            model.addAttribute("member", member);
+            model.addAttribute("memberId", memberId);
+            model.addAttribute("isLoggedIn", true);
+            model.addAttribute("welcomeMessage", "Welcome back, " + member.getName() + "!");
         } else {
             model.addAttribute("isLoggedIn", false);
+            // For non-logged in users, you might want to set a generic welcome message if appropriate
+            model.addAttribute("welcomeMessage", "Welcome to the Fitness Center!");
         }
+        model.addAttribute("currentPage", "home"); // Adding identification of the current page
         return "home_page";
     }
 
@@ -122,6 +124,7 @@ public class MemberController {
         Member member = memberService.findMemberById(memberId);
         if (validateMember(memberId, model)) {
             model.addAttribute("member", member);
+            model.addAttribute("isLoggedIn", true);
             model.addAttribute("currentPage", "memberProfile"); // 添加当前页面的标识
             return "member-profile";
         } else {
@@ -154,6 +157,7 @@ public class MemberController {
         Member member = memberService.findMemberById(memberId);
         if (validateMember(memberId, model)) {
             model.addAttribute("member", member);
+            model.addAttribute("isLoggedIn", true);
             model.addAttribute("currentPage", "updatePassword");
             return "update-password";
         } else {

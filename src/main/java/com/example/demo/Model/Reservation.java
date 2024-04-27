@@ -2,6 +2,7 @@ package com.example.demo.Model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -31,6 +32,9 @@ public class Reservation {
 
     @Column(name = "lesson_end_time")
     private LocalTime lessonEndTime;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdDate;
 
     public Reservation() {
     }
@@ -95,5 +99,7 @@ public class Reservation {
     public LocalTime getLessonEndTime() {return lessonEndTime;}
 
     public void setLessonEndTime(LocalTime lessonEndTime) {this.lessonEndTime = lessonEndTime;}
+
+    public LocalDateTime getCreatedDate() {return createdDate;}
 
 }

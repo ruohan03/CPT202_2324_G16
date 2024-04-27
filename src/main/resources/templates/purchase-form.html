@@ -4,21 +4,11 @@
     <meta charset="UTF-8">
     <title>Purchase Form</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
 
-<!-- Navigation Bar -->
-<div class="top-nav">
-    <a href="/home_page" class="logo">H-XYZ | Fight Against Ghostwriting Starts Now</a>
-    <div class="nav-center">
-        <a href="/home_page" th:class="${currentPage == 'home' ? 'current-page':''}">Home</a>
-        <a href="/member/profile" th:class="${currentPage == 'memberProfile' ? 'current-page':''}">My Profile</a>
-    </div>
-    <div class="nav-right">
-        <span th:text="${member != null ? member.name : 'Guest'}"></span>
-        <a href="/logout" class="active">Logout</a>
-    </div>
-</div>
+<div th:replace="member-nav :: top-nav"></div>
 
 <!-- Purchase Form Container -->
 <div class="profile-container">
@@ -43,7 +33,7 @@
             </tr>
             <tr>
                 <th>Price</th>
-                <td id="planPrice">Please select a plan</td>
+                <td id="planPrice"></td>
             </tr>
             <tr>
                 <th>Purchase Date</th>
@@ -54,7 +44,7 @@
             <tr>
                 <th>Duration (Months)</th>
                 <td>
-                    <input type="text" th:field="*{duration}" class="text-input" id="durationField" readonly>
+                    <input type="text" th:field="*{duration}" class="text-input always-visible" id="durationField" readonly>
                 </td>
             </tr>
         </table>
@@ -80,7 +70,7 @@
 
     document.querySelector('select[name="plan"]').addEventListener('change', function() {
         updatePrice(this.value);
-        var durationField = document.getElementById('durationField');
+        const durationField = document.getElementById('durationField');
         if (this.value.includes('Super VIP')) {
             durationField.value = 12;  // 12 months for VIP plans
         } else if (this.value.includes('VIP')) {
@@ -96,6 +86,3 @@
 </script>
 </body>
 </html>
-
-
-

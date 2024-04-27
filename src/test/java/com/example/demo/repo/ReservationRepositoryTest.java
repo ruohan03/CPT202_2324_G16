@@ -29,16 +29,51 @@ public class ReservationRepositoryTest {
     public void testIsCoachAvailable() {
         // 测试教练T001在2023-02-24的9:00到11:00是否有预约
         LocalDate date = LocalDate.parse("2023-02-24");
+        LocalTime startTime = LocalTime.parse("13:00");
+        LocalTime endTime = LocalTime.parse("15:00");
+        boolean haveClass = reservationRepository.existsByStaffIdAndTimeOverlap("T001", date, startTime, endTime);
+        assertFalse(haveClass);  // 应该返回false，因为T001在这个时间有未取消的预约
+    }
+
+    @Test
+    public void testHasRecord(){
+        LocalDate date = LocalDate.parse("2023-02-24");
+        boolean hasRecord = reservationRepository.existsByStaffIdAndLessonStartDate("T001", date);
+        assertTrue(hasRecord);  // 应该返回false，因为T001在这个时间没有预约
+    }
+
+    @Test
+    public void testNoRecord(){
+        LocalDate date = LocalDate.parse("2023-02-25");
+        boolean hasRecord = reservationRepository.existsByStaffIdAndLessonStartDate("T001", date);
+        assertFalse(hasRecord);  // 应该返回false，因为T001在这个时间没有预约
+    }
+
+    @Test
+    public void testTimeOverlap(){
+        LocalDate date = LocalDate.parse("2023-02-24");
         LocalTime startTime = LocalTime.parse("09:00");
         LocalTime endTime = LocalTime.parse("11:00");
-        boolean haveClass = reservationRepository.existsByStaffIdAndNotCancelledAndTimeOverlap("T001", date, startTime, endTime);
-        assertFalse(haveClass);  // 应该返回false，因为T001在这个时间有未取消的预约
+        boolean timeOverlap = reservationRepository.existsByStaffIdAndTimeOverlap("T001", date, startTime, endTime);
+        assertTrue(timeOverlap);  // 应该返回true，因为T001在这个时间有未取消的预约
+    }
 
-        // 测试一个无冲突时间
-        startTime = LocalTime.parse("13:00");
-        endTime = LocalTime.parse("15:00");
-        haveClass = reservationRepository.existsByStaffIdAndNotCancelledAndTimeOverlap("T001", date, startTime, endTime);
-        assertFalse(haveClass);  // 应该返回true，因为T001在这个时间没有预约
+    @Test
+    public void testNoTimeOverlap(){
+        LocalDate date = LocalDate.parse("2023-02-24");
+        LocalTime startTime = LocalTime.parse("13:00");
+        LocalTime endTime = LocalTime.parse("15:00");
+        boolean timeOverlap = reservationRepository.existsByStaffIdAndTimeOverlap("T001", date, startTime, endTime);
+        assertFalse(timeOverlap);  // 应该返回false，因为T001在这个时间没有预约
+    }
+
+    @Test
+    public void testLatestReservationCancelled(){
+        LocalDate date = LocalDate.parse("2023-02-24");
+        LocalTime startTime = LocalTime.parse("09:00");
+        LocalTime endTime = LocalTime.parse("11:00");
+        boolean isCancelled = reservationRepository.isLatestReservationCancelled("T001", date, startTime, endTime);
+        assertFalse(isCancelled);  // 应该返回false，因为T001在这个时间有未取消的预约
     }
 }
 

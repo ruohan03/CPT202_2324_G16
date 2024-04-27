@@ -8,19 +8,7 @@
 </head>
 <body>
 
-<!-- Navigation Bar -->
-<div class="top-nav">
-    <a href="/home_page" class="logo">H-XYZ | 打击代写就现在</a>
-    <div class="nav-center">
-        <a href="/home_page" th:class="${currentPage == 'home' ? 'current-page':''}">Home</a>
-        <a href="/member/profile" th:class="${currentPage == 'memberProfile' ? 'current-page':''}">My Profile</a>
-        <a href="/member/update-password" th:class="${currentPage == 'changePassword' ? 'current-page':''}">Update Password</a>
-    </div>
-    <div class="nav-right">
-        <span th:text="${member.name}"></span>
-        <a href="/logout" class="active">Logout</a>
-    </div>
-</div>
+<div th:replace="member-nav :: top-nav"></div>
 
 <!-- Profile Container -->
 <div class="profile-container">
@@ -28,7 +16,7 @@
     <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
     <form th:action="@{/member/update/{memberId}(memberId=${member.memberId})}" th:object="${member}" method="post">
-    <table class="profile-table">
+        <table class="profile-table">
             <tr>
                 <th>ID</th>
                 <td th:text="${member.memberId}"></td>
@@ -37,57 +25,47 @@
                 <th>Name</th>
                 <td>
                     <span class="text-display" th:text="${member.name}"></span>
-                    <label>
-                        <input type="text" th:field="*{name}" class="text-input" disabled>
-                    </label>
+                    <input type="text" th:field="*{name}" class="text-input" disabled>
                 </td>
             </tr>
-        <tr>
-            <th>Phone</th>
-            <td>
-                <span class="text-display" th:text="${member.phone}"></span>
-                <label>
-                    <input type="text" th:field="*{phone}" class="text-input" disabled>
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th>Gender</th>
-            <td>
-                <span class="text-display" th:text="${member.gender}"></span>
-                <label>
-                    <input type="text" th:field="*{gender}" class="text-input" disabled>
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th>Address</th>
-            <td>
-                <span class="text-display" th:text="${member.address}"></span>
-                <label>
+            <tr>
+                <th>Phone</th>
+                <td th:text="${member.phone}"></td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>
+                    <!-- Add a class for easy selection and initially hide it with inline style -->
+                    <span class="text-display gender-display" th:text="${member.gender}"></span>
+                    <!-- Remove th:if and th:unless -->
+                    <select th:field="*{gender}" class="text-input gender-select" style="display: none;">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>
+                    <span class="text-display" th:text="${member.address}"></span>
                     <input type="text" th:field="*{address}" class="text-input" disabled>
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th>Weight</th>
-            <td>
-                <span class="text-display" th:text="${member.weight}"></span>
-                <label>
+                </td>
+            </tr>
+            <tr>
+                <th>Weight (kg)</th>
+                <td>
+                    <span class="text-display" th:text="${member.weight} + ' kg'"></span>
                     <input type="text" th:field="*{weight}" class="text-input" disabled>
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th>Height</th>
-            <td>
-                <span class="text-display" th:text="${member.height}"></span>
-                <label>
+                </td>
+            </tr>
+            <tr>
+                <th>Height (cm)</th>
+                <td>
+                    <span class="text-display" th:text="${member.height} + ' cm'"></span>
                     <input type="text" th:field="*{height}" class="text-input" disabled>
-                </label>
-            </td>
-        </tr>
-    </table>
+                </td>
+            </tr>
+        </table>
         <div class="button-container">
             <button type="button" onclick="enableEdit()" class="edit-button">Edit</button>
             <button type="submit" class="save-button" style="display: none;">Save</button>
@@ -97,28 +75,52 @@
 </div>
 
 <script>
-    // JavaScript to toggle edit mode
     function enableEdit() {
         const container = document.querySelector('.profile-container');
         container.classList.add('edit-mode');
         document.querySelectorAll('.profile-table .text-input').forEach(function(input) {
             input.disabled = false;
         });
+
+        // 显示性别的下拉菜单并隐藏文本显示
+        const genderSelect = document.querySelector('select[name="gender"]');
+        const genderTextDisplay = document.querySelector('.text-display.gender');
+
+        if (genderSelect) {
+            genderSelect.disabled = false;
+            genderSelect.style.display = 'block';
+        }
+        if (genderTextDisplay) {
+            genderTextDisplay.style.display = 'none';
+        }
+
         document.querySelector('.edit-button').style.display = 'none';
         document.querySelector('.save-button').style.display = 'inline';
         document.querySelector('.cancel-button').style.display = 'inline';
     }
 
     function cancelEdit() {
-        const container = document.querySelector('.member-profile-container');
+        const container = document.querySelector('.profile-container');
         container.classList.remove('edit-mode');
-        document.querySelectorAll('.member-profile-table .text-input').forEach(function(input) {
+        document.querySelectorAll('.profile-table .text-input').forEach(function(input) {
             input.disabled = true;
         });
+
+        // 隐藏性别的下拉菜单并显示文本
+        const genderSelect = document.querySelector('select[name="gender"]');
+        const genderTextDisplay = document.querySelector('.text-display.gender');
+
+        if (genderSelect) {
+            genderSelect.disabled = true;
+            genderSelect.style.display = 'none';
+        }
+        if (genderTextDisplay) {
+            genderTextDisplay.style.display = 'block';
+        }
+
         document.querySelector('.edit-button').style.display = 'inline';
         document.querySelector('.save-button').style.display = 'none';
         document.querySelector('.cancel-button').style.display = 'none';
-        // Optionally, reset input values to initial state if needed
     }
 </script>
 </body>
