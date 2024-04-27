@@ -41,12 +41,7 @@
         <h1>Staff Login</h1>
         <!-- 显示错误消息的区域 -->
         <div id="error-message" class="error-message" style="display: none;">Invalid credentials. Please try again.</div>
-        <!-- 在登录表单下方添加一个 div 来显示成功消息 -->
-        <div th:if="${param.password_updated}">
-            <div class="success-message-container">
-                <div class="success-message">Password updated successfully.</div>
-            </div>
-        </div>
+
         <form action="/staff/login" method="post">  <!-- 确保action的URL正确 -->
             <div class="form-group">
                 <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone number" required>
@@ -57,6 +52,12 @@
             <button type="submit" class="btn">Login</button>
             <div id="registerOption">
                 <a href="/forgetPassword_trainer" > Forget Password?</a>
+            </div>
+            <!-- 在登录表单下方添加一个 div 来显示成功消息 -->
+            <div th:if="${param.password_updated}">
+                <div class="success-message-container">
+                    <div class="success-message">Password updated successfully.</div>
+                </div>
             </div>
         </form>
     </div>

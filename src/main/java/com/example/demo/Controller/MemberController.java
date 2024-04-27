@@ -2,12 +2,15 @@ package com.example.demo.Controller;
 
 import com.example.demo.Model.Member;
 import com.example.demo.Service.MemberService;
+import com.example.demo.Service.PasswordService;
+import com.example.demo.Service.PurchaseService;
 import com.example.demo.exception.MembershipValidationException;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,9 @@ import static com.example.demo.util.Constants.*;
 @Controller
 public class MemberController {
     private final MemberService memberService;
+
+    @Autowired
+    private PasswordService passwordService;
 
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
@@ -202,31 +208,35 @@ public class MemberController {
 
     @PostMapping("/forgot-password")
     public String processForgotPassword(@RequestParam("phone") String phone, @RequestParam("username") String username,
-                                        @RequestParam("newPassword") String newPassword, Model model) {
+                                        @RequestParam("newPassword") String newPassword, RedirectAttributes redirectAttributes) {
         Member member = memberService.findByPhoneAndName(phone, username);
         if (member != null) {
             // Check if the new password contains both letters and digits
             if (!newPassword.matches("^(?=.*[a-zA-Z])(?=.*\\d).{5,}$")) {
-                model.addAttribute("errorMessage", "Password must contain both letters and digits and the minimum length is 5.");
-                return "forgot-password";
+                redirectAttributes.addFlashAttribute("errorMessage", "Password must contain both letters and digits and the minimum length is 5.");
+                return "redirect:/forgot-password";
             }
 
             boolean updateResult = memberService.updatePassword(phone, newPassword);
             if (updateResult) {
-                model.addAttribute("successMessage", "Password updated successfully.");
+                redirectAttributes.addFlashAttribute("successMessage", "Password updated successfully.");
+                String encodedPassword = passwordService.encodePassword(member.getPassword());
+                member.setEncodedPassword(encodedPassword);
+                // 保存会员信息到数据库
+                memberService.updateMember(member);
                 // Password updated successfully, redirect to login page or display success message
                 return "redirect:/login?password_updated=true";
             } else {
                 // Password update failed, display error message
-                model.addAttribute("errorMessage", "Failed to update password, please try again later.");
-                return "forgot-password";
+                redirectAttributes.addFlashAttribute("errorMessage", "Failed to update password, please try again later.");
+                return "redirect:/forgot-password";
             }
         } else {
             // User does not exist or phone and username do not match, display error message
-            model.addAttribute("errorMessage", "Incorrect username or phone number.");
-
+            redirectAttributes.addFlashAttribute("errorMessage", "Incorrect username or phone number.");
+            return "redirect:/forgot-password";
         }
-        return "forgot-password";
+
     }
 
 }

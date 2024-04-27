@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Staff;
 import com.example.demo.Service.CourseService;
+import com.example.demo.Service.PasswordService;
 import com.example.demo.Service.StaffService;
 import com.example.demo.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpSession;
@@ -22,6 +23,9 @@ public class StaffController {
     private StaffService staffService;
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private PasswordService passwordService;
 
     @GetMapping("/staff")
     public String getAllStaff(Model model){
@@ -137,6 +141,12 @@ public class StaffController {
                     staff.setPassword(newPassword);
                     staffService.updateStaff(staff);
                     redirectAttributes.addFlashAttribute("successMessage", "Password updated successfully.");
+
+                    String encodedPassword = passwordService.encodePassword(staff.getPassword());
+                    staff.setEncodedPassword(encodedPassword);
+                    // 保存会员信息到数据库
+                    staffService.updateStaff(staff);
+
                     return "redirect:/staff/login?password_updated=true";
                 }
             }
