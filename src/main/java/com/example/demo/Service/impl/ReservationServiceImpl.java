@@ -29,5 +29,10 @@ import java.util.List;
             return !reservationRepository.existsByStaffIdAndTimeOverlap(staffId, date, startTime, endTime);
         }
 
+        @Override
+        public List<Reservation> getAllReservationsByStaffId(String staffId) {
+            return reservationRepository.findByStaffId(staffId);
+        }
+
     }
 

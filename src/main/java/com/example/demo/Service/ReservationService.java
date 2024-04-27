@@ -13,5 +13,7 @@ import java.util.List;
         List<Reservation> getAllReservations();
 
         boolean isCoachAvailable(String staffId, LocalDate date, LocalTime startTime, LocalTime endTime);
+
+        List<Reservation> getAllReservationsByStaffId(String staffId);
     }
 
