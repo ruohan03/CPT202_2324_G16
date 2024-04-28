@@ -3,15 +3,17 @@ package com.example.demo.Service.impl;
 import com.example.demo.Model.Reservation;
 import com.example.demo.Service.ReservationService;
 import com.example.demo.repo.ReservationRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -58,6 +60,21 @@ public class ReservationServiceImpl implements ReservationService {
     public boolean hasExistingReservation(String memberId, LocalDate date, LocalTime startTime, LocalTime endTime) {
         return reservationRepository.existsByMemberIdAndLessonStartDateAndLessonStartTimeAndLessonEndTime(memberId,date, startTime, endTime);
     }
+
+    @Transactional
+    @Override
+    public boolean createReservation(Reservation reservation) {
+        try {
+            reservationRepository.save(reservation);
+            return true; // 表示保存成功
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // 表示保存失败
+        }
+    }
+
+
+
 
 }
 

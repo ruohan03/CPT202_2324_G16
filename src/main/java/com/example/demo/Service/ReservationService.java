@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 import com.example.demo.Model.Reservation;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,5 +18,7 @@ public interface ReservationService {
     List<Reservation> getAllReservationsByStaffId(String staffId);
 
     boolean hasExistingReservation(String memberId, LocalDate date, LocalTime startTime, LocalTime endTime);
+
+    boolean createReservation(Reservation reservation);
 }
 

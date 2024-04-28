@@ -8,22 +8,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div th:replace="member-nav :: top-nav"></div>
-<div class="container mt-5">
-    <h2>Select a Coach for Course: <span th:text="${selectedCourse.name}"></span></h2>
-    <div th:if="${Trainers.isEmpty()}">
-        <p>No coaches available for this course.</p>
-    </div>
-    <div class="list-group">
-        <!-- Loop through each coach and display them as options -->
-        <div th:each="trainers : ${Trainers}">
-            <a href="#" th:href="@{/member/select-time/{staffId}(staffId=${trainers.staffId})}"
-               class="list-group-item list-group-item-action"
-               th:text="${trainers.name + ' - Level: ' + trainers.level}">
-            </a>
+    <div th:replace="member-nav :: top-nav"></div>
+
+    <form th:action="@{/member/select-time}" method="post">
+        <input type="hidden" name="courseId" th:value="${selectedCourse.courseId}" />
+        <div class="list-group">
+            <div th:each="trainer : ${Trainers}" class="list-group-item">
+                <span th:text="${trainer.name + ' - Level: ' + trainer.level}"></span>
+                <button type="submit" name="staffId" th:value="${trainer.staffId}">Select</button>
+            </div>
         </div>
-    </div>
-</div>
+    </form>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

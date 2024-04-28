@@ -13,13 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.Service.StaffService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 
 @Controller
@@ -99,12 +104,12 @@ public class ReservationController {
         model.addAttribute("courses", courses);
         logger.debug("Courses listed for logged-in user.");
 
-        return "course-order"; // 返回课程列表页面
+        return "reserve-course"; // 返回课程列表页面
     }
 
 
-    @GetMapping("/select-coach/{courseId}")
-    public String selectCoach(@PathVariable String courseId, Model model, HttpSession session) {
+    @PostMapping("/member/select-coach")
+    public String selectCoach(@RequestParam("courseId") String courseId, Model model, HttpSession session) {
         logger.debug("Selecting coach for course ID: {}", courseId);
         String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
@@ -128,7 +133,7 @@ public class ReservationController {
             model.addAttribute("Trainers", trainer);
             model.addAttribute("selectedCourse", course);
             logger.debug("Trainers displayed for course ID: {}, member plan: {}", courseId, member.getPlan());
-            return "trainer-order"; // 返回选择教练的页面
+            return "reserve-trainer"; // 返回选择教练的页面
         }
         logger.debug("Course ID not found, redirecting to courses page.");
         return "redirect:/member/order/course"; // 如果课程ID无效，重定向回课程列表页面
@@ -144,8 +149,8 @@ public class ReservationController {
         };
     }
 
-    @GetMapping("/member/select-time/{staffId}")
-    public String chooseTime(@PathVariable String staffId, Model model, HttpSession session) {
+    @PostMapping("/member/select-time")
+    public String chooseTime(@RequestParam("staffId") String staffId, @RequestParam("courseId") String courseId, Model model, HttpSession session) {
         String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
             return "redirect:/login";
@@ -159,7 +164,8 @@ public class ReservationController {
         model.addAttribute("currentPage", "bookCourse");
         model.addAttribute("isLoggedIn", true); // 始终设为 true 因为已验证用户登录
         model.addAttribute("staffId", staffId);
-        return "time-selection";
+        model.addAttribute("selectedCourseId", courseId);
+        return "reserve-time";
     }
 
     @GetMapping("/api/check-time/{staffId}")
@@ -178,5 +184,82 @@ public class ReservationController {
 
         return reservationService.hasExistingReservation(memberId, date, startTime, endTime);
     }
+
+    @PostMapping("/member/confirm-reservation")
+    public String confirmReservation(@RequestParam("staffId") String staffId,
+                                     @RequestParam("courseId") String courseId,
+                                     @RequestParam("date") String date,
+                                     @RequestParam("time") String time, Model model, HttpSession session) {
+        if (session.getAttribute("memberId") == null) {
+            return "redirect:/login";
+        }
+
+        Member member = memberService.findMemberById((String) session.getAttribute("memberId"));
+        Course course = courseService.findCourseById(courseId);
+        Staff staff = staffService.findStaffById(staffId);
+
+        String[] timeParts = time.split("-");
+        String startTime = timeParts[0];
+        String endTime = timeParts[1];
+
+        model.addAttribute("member", member);
+        model.addAttribute("course", course);
+        model.addAttribute("staff", staff);
+        model.addAttribute("date", date);
+        model.addAttribute("startTime", startTime);
+        model.addAttribute("endTime", endTime);
+        model.addAttribute("currentPage", "bookCourse");
+        model.addAttribute("isLoggedIn", true);
+
+        return "reserve-confirm";
+    }
+
+    @PostMapping("/member/finalize-reservation")
+    @ResponseBody
+    public Map<String, Object> finalizeReservation(
+            @RequestParam("date") String date,
+            @RequestParam("time") String time,
+            @ModelAttribute Reservation reservation,
+            BindingResult bindingResult,
+            HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+        // 检查绑定错误和其他必要的验证
+        if (bindingResult.hasErrors()) {
+            // 处理错误
+            response.put("result", "error");
+            response.put("message", "表单填写有误，请重试。");
+            return response;
+        }
+
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId == null) {
+            response.put("result", "error");
+            response.put("message", "请先登录再进行预约。");
+            return response;
+        }
+
+        LocalDate lessonDate = LocalDate.parse(date);
+        String[] times = time.split("-");
+        LocalTime lessonStartTime = LocalTime.parse(times[0]);
+        LocalTime lessonEndTime = LocalTime.parse(times[1]);
+
+        reservation.setMemberId(memberId);
+        reservation.setLessonStartDate(lessonDate);
+        reservation.setLessonStartTime(lessonStartTime);
+        reservation.setLessonEndTime(lessonEndTime);
+        reservation.setCreatedDate(LocalDateTime.now());
+
+        boolean reservationSaved = reservationService.createReservation(reservation);
+        if (reservationSaved) {
+            response.put("result", "success");
+            response.put("message", "预约成功！");
+        } else {
+            response.put("result", "error");
+            response.put("message", "预约失败，请重试！");
+        }
+
+        return response;
+    }
+
 
 }

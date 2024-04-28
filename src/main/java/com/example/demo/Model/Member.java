@@ -1,6 +1,5 @@
 package com.example.demo.Model;
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 import java.util.Set;
@@ -51,7 +50,7 @@ public class Member {
     private String plan;
 
     @Column(name = "end_date")
-    private Date enddate;
+    private Date endDate;
 
     @Column(name = "remaining_sum", nullable = false)
     private double remaining_sum = 0.0;  // Default value is set to 0.0
@@ -61,7 +60,7 @@ public class Member {
     public Member() {
     }
 
-    public Member(String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed, String plan, Date enddate) {
+    public Member(String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed, String plan, Date endDate) {
         this.memberId = "M" + phone;
         this.name = name;
         this.phone = phone;
@@ -74,11 +73,11 @@ public class Member {
         this.is_active = is_active;
         this.locker_isAgreed = locker_isAgreed;
         this.plan = plan;
-        this.enddate = enddate;
+        this.endDate = endDate;
         this.remaining_sum = remaining_sum;
     }
 
-    public Member(String memberId, String name, String phone, String gender, String address, Integer weight, Integer height, String plan, Date enddate){
+    public Member(String memberId, String name, String phone, String gender, String address, Integer weight, Integer height, String plan, Date endDate){
         this.memberId = memberId;
         this.name = name;
         this.phone = phone;
@@ -86,7 +85,7 @@ public class Member {
         this.weight = weight;
         this.height = height;
         this.plan = plan;
-        this.enddate = enddate;
+        this.endDate = endDate;
     }
 
     // Getters and setters
@@ -100,11 +99,11 @@ public class Member {
     }
 
     public Date getEndDate() {
-        return enddate;
+        return endDate;
     }
 
     public void setEndDate(Date enddate) {
-        this.enddate = enddate;
+        this.endDate = enddate;
     }
 
     // Existing getters and setters

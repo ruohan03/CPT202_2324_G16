@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.UUID;
 
 @Entity
 public class Reservation {
@@ -17,6 +18,9 @@ public class Reservation {
 
     @Column(name = "staff_id")
     private String staffId;
+
+    @Column(name = "course_id")
+    private String courseId;
 
     @Column(name = "is_cancelled")
     private boolean isCancelled;
@@ -37,14 +41,16 @@ public class Reservation {
     private LocalDateTime createdDate;
 
     public Reservation() {
+        this.reservationId = generateReservationId();
+    }
+    private String generateReservationId() {
+        return "R" + UUID.randomUUID().toString().replace("-", "").substring(0, 8);
     }
 
-    public Reservation(String reservationId, String memberId, String staffId, boolean is_cancelled, boolean is_signIn,LocalDate lessonStartDate, LocalTime lessonStartTime, LocalTime lessonEndTime) {
+    public Reservation(String reservationId, String memberId, String staffId, LocalDate lessonStartDate, LocalTime lessonStartTime, LocalTime lessonEndTime) {
         this.reservationId = reservationId;
         this.memberId = memberId;
         this.staffId = staffId;
-        this.isCancelled = is_cancelled;
-        this.isSignIn = is_signIn;
         this.lessonStartDate = lessonStartDate;
         this.lessonStartTime = lessonStartTime;
         this.lessonEndTime = lessonEndTime;
@@ -74,6 +80,14 @@ public class Reservation {
         this.staffId = staffId;
     }
 
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
     public boolean getIsCancelled() {return isCancelled;}
 
     public void setIsCancelled(boolean isCancelled) {
@@ -101,5 +115,7 @@ public class Reservation {
     public void setLessonEndTime(LocalTime lessonEndTime) {this.lessonEndTime = lessonEndTime;}
 
     public LocalDateTime getCreatedDate() {return createdDate;}
+
+    public void setCreatedDate(LocalDateTime createdDate) {this.createdDate = createdDate;}
 
 }
