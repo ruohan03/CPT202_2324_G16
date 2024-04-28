@@ -1,6 +1,7 @@
 package com.example.demo.Service.impl;
 
 import com.example.demo.Model.Member;
+import com.example.demo.Model.PlanSalesData;
 import com.example.demo.Model.Purchase;
 import com.example.demo.Service.MemberService;
 import com.example.demo.repo.MemberRepository;
@@ -10,11 +11,14 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
@@ -176,6 +180,80 @@ public class PurchaseServiceImpl implements PurchaseService {
         }
         // Default to not the same
         return memberPlan.equals(purchasePlan);
+    }
+
+    public List<Purchase> findPurchasesBetweenDates(LocalDate startDate, LocalDate endDate) {
+        return purchaseRepository.findByPurchaseDateBetween(startDate, endDate);
+    }
+
+    public Map<String, PlanSalesData> calculateSalesData(List<Purchase> purchases) {
+        if (purchases == null) {
+            return new HashMap<>();
+        }
+
+        // 使用Collectors.groupingBy收集器分组，并使用Collectors.summingDouble计算每个组的总销售额
+        // 同时使用Collectors.counting计算销售次数
+        return purchases.stream()
+                .filter(purchase -> purchase.getCost() != null && purchase.getPlan() != null)
+                .collect(Collectors.groupingBy(Purchase::getPlan,
+                        Collectors.collectingAndThen(Collectors.toList(), list -> {
+                            double totalSales = list.stream().mapToDouble(Purchase::getCost).sum();
+                            int count = list.size();
+                            return new PlanSalesData(totalSales, count);
+                        })));
+    }
+
+    @Override
+    public Map<LocalDate, Map<String, PlanSalesData>> calculateDailySalesByPlan(LocalDate startDate, LocalDate endDate) {
+        List<Purchase> purchases = findPurchasesBetweenDates(startDate, endDate);
+        return purchases.stream()
+                .filter(purchase -> purchase.getCost() != null && purchase.getPlan() != null && purchase.getPurchaseDate() != null)
+                .collect(Collectors.groupingBy(
+                        purchase -> convertToLocalDateViaCalendar(purchase.getPurchaseDate()),  // 使用转换方法
+                        Collectors.groupingBy(
+                                Purchase::getPlan,
+                                Collectors.collectingAndThen(
+                                        Collectors.toList(),
+                                        list -> {
+                                            double totalSales = list.stream().mapToDouble(Purchase::getCost).sum();
+                                            int count = list.size();
+                                            return new PlanSalesData(totalSales, count);
+                                        }
+                                )
+                        )
+                ));
+    }
+
+    private LocalDate convertToLocalDateViaCalendar(Date dateToConvert) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateToConvert);
+        return LocalDate.of(cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH) + 1,
+                cal.get(Calendar.DAY_OF_MONTH));
+    }
+
+    public SalesSummary getSalesSummary(List<Purchase> purchases) {
+        if (purchases == null || purchases.isEmpty()) {
+            return new SalesSummary(0, 0.0, "None", 0);
+        }
+
+        int totalSalesCount = purchases.size();
+        double totalSalesAmount = purchases.stream()
+                .filter(p -> p.getCost() != null)
+                .mapToDouble(Purchase::getCost)
+                .sum();
+
+        Map<String, Long> planCounts = purchases.stream()
+                .filter(p -> p.getPlan() != null)
+                .collect(Collectors.groupingBy(Purchase::getPlan, Collectors.counting()));
+
+        String topSellingPlan = planCounts.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("None");
+        long topSellingPlanCount = planCounts.getOrDefault(topSellingPlan, 0L);
+
+        return new SalesSummary(totalSalesCount, totalSalesAmount, topSellingPlan, topSellingPlanCount);
     }
 
 

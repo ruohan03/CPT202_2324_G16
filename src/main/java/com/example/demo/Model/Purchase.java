@@ -30,6 +30,9 @@ public class Purchase {
     @Temporal(TemporalType.DATE)
     private Date endDate;
 
+    @Column(name = "cost")
+    private Double cost; // 新增的Cost字段
+
     // Getters and Setters
     public String getPurchaseId() {
         return purchaseId;
@@ -86,6 +89,14 @@ public class Purchase {
 
     public void assignUniqueId() {
         this.purchaseId = UUID.randomUUID().toString();
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 }
 

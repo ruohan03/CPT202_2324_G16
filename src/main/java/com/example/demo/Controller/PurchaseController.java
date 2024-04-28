@@ -4,9 +4,11 @@ import com.example.demo.Model.Member;
 import com.example.demo.Model.Purchase;
 import com.example.demo.Service.PurchaseService;
 import com.example.demo.Service.MemberService;
+import com.example.demo.Service.impl.PurchaseServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PurchaseController {
@@ -70,15 +74,17 @@ public class PurchaseController {
     // 处理购买提交
     @PostMapping("/purchase")
     public String addPurchase(@ModelAttribute Purchase purchase, HttpSession session, RedirectAttributes redirectAttributes) {
-        // Retrieve member ID from session
         String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
-            // If member ID is not available from the session, prompt the user to log in again
             redirectAttributes.addFlashAttribute("error", "Your session has expired, please log in again.");
             return "redirect:/login"; // Redirect to the login page
         }
 
         try {
+            // 根据计划获取价格，假设在PurchaseService中有静态方法getPriceByPlan可以调用
+            int cost = PurchaseService.getPriceByPlan(purchase.getPlan());
+            purchase.setCost((double) cost); // 转换int为Double，并设置购买的成本
+
             // Create or update purchase information, assuming your service layer has a method to handle create or update logic
             Purchase savedPurchase = purchaseService.createOrUpdatePurchase(purchase, memberId);
             if (savedPurchase != null) {
@@ -102,6 +108,51 @@ public class PurchaseController {
     }
 
 
+    // 用户查看自己的购买记录
+    @GetMapping("/user/purchases")
+    public String listUserPurchases(Model model, HttpSession session) {
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId == null) {
+            return "redirect:/login"; // 未登录则跳转到登录页
+        }
+        List<Purchase> purchases = purchaseService.findPurchasesByMemberId(memberId);
+        model.addAttribute("purchases", purchases);
+        return "user-purchases"; // 返回用户专用的购买记录模板
+    }
+
+
+    @GetMapping("/admin/purchases")
+    public String listAllPurchases(HttpSession session, Model model) {
+        // 检查会话中是否有manager的标识
+        Boolean isManager = (Boolean) session.getAttribute("isManager");
+        if (isManager == null || !isManager) {
+            model.addAttribute("error", "No access");
+            return "error"; // 可以是一个专门显示错误信息的页面
+        }
+
+        List<Purchase> purchases = purchaseService.findAllWithMembers();
+        model.addAttribute("purchases", purchases);
+        return "manager-purchases"; // 返回管理员专用的购买记录模板
+    }
+
+    @GetMapping("/admin/reports")
+    public String showReportForm() {
+        return "report_form"; // 返回用于输入日期范围的表单页面
+    }
+
+    @PostMapping("/admin/reports")
+    public String generateReport(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                 @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                                 Model model) {
+        List<Purchase> purchases = purchaseService.findPurchasesBetweenDates(startDate, endDate);
+        // 使用 PurchaseService.PlanSalesData 引用 PlanSalesData 类
+        Map<String, PurchaseService.PlanSalesData> salesData = purchaseService.calculateSalesData(purchases);
+        Map<LocalDate, Map<String, PurchaseService.PlanSalesData>> dailySalesData = purchaseService.calculateDailySalesByPlan(startDate, endDate);
+
+        model.addAttribute("salesData", salesData);
+        model.addAttribute("dailySalesData", dailySalesData);
+        return "sales_report";  // 确保这个视图模板正确处理新的数据结构
+    }
 }
 
 

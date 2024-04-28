@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Dashboard</title>
-    <!-- Uniform Bootstrap CSS links -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css"> <!-- 确保此路径与你的CSS文件匹配 -->
+    <link rel="stylesheet" href="/css/style.css"> <!-- 确保此路径与您的CSS文件匹配 -->
     <style>
         .dashboard-header h2 {
             margin-top: 20px;
             text-align: center;
         }
-        .list-group-item {
+        .list-group-item, .dashboard-header p, form {
             text-align: center;
+        }
+        form {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -24,16 +26,32 @@
         <p>This is your dashboard. Use the links below to manage the platform.</p>
     </div>
     <div class="list-group">
-        <a href="/manager/profile" class="list-group-item list-group-item-action">Personal Information</a>
+        <a href="/staff/profile" class="list-group-item list-group-item-action">Personal Information</a>
         <a href="/manage_staff" class="list-group-item list-group-item-action">Manage Staff</a>
         <a href="/manage_courses" class="list-group-item list-group-item-action">Manage Courses</a>
-        <a href="/reports" class="list-group-item list-group-item-action">View Reports</a>
+        <!-- Update the href to match the correct URL -->
+        <a href="/admin/reports" class="list-group-item list-group-item-action">Sales Report</a>
+        <a href="/admin/purchases" class="list-group-item list-group-item-action">Purchases View</a>
     </div>
+    <!-- Report Query Section -->
+    <form action="/generate_report" method="post">
+        <div class="form-group">
+            <label for="reportType">Select Report Type:</label>
+            <select class="form-control" id="reportType" name="reportType">
+                <option value="staff_performance">Staff Performance</option>
+                <option value="course_enrollment">Course Enrollment</option>
+                <option value="financial_summary">Financial Summary</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Generate Report</button>
+    </form>
 </div>
-<!-- Consistent Bootstrap and jQuery scripts -->
+<!-- Bootstrap and jQuery scripts for consistent UI functionality -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
 

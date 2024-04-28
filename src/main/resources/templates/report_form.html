@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Report Form</title>
+</head>
+<body>
+<div class="container">
+    <h1>Generate Sales Report</h1>
+    <form action="/admin/reports" method="post">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" required>
+
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" required>
+
+        <button type="submit">Generate Report</button>
+    </form>
+</div>
+</body>
+</html>

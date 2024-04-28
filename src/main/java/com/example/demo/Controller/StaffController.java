@@ -72,6 +72,7 @@ public class StaffController {
         Optional<Staff> staff = staffService.login(phone, password);
         if (staff.isPresent()) {
             session.setAttribute("staffId", staff.get().getStaffId());  // 设置会话属性
+            session.setAttribute("isManager", staff.get().isManager());  // 设置是否为管理员的标识
             model.addAttribute("staff", staff.get());
             return staff.get().isManager() ? "manager_homepage" : "trainer_homepage";
         } else {
@@ -79,6 +80,7 @@ public class StaffController {
             return "redirect:/staff/login?error=true";
         }
     }
+
 
 
     @GetMapping("/staff/profile")

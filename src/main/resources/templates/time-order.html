@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Time</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- 假设有样式文件 -->
+</head>
+<body>
+<div class="container">
+    <h1>Select a Time Slot</h1>
+    <!-- 遍历每一天及其可用的时间块 -->
+    <div th:each="entry : ${availableTimesPerDay}">
+        <h2 th:text="${entry.key}">Date</h2> <!-- 显示日期 -->
+        <div th:if="${not #lists.isEmpty(entry.value)}">
+            <ul>
+                <li th:each="time : ${entry.value}">
+                    <form th:action="@{/book-time(coachId=${coachId}, date=${entry.key}, time=${time})}" method="post">
+                        <button type="submit" class="time-slot-button" th:text="${time}">9:00-11:00</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <div th:if="${#lists.isEmpty(entry.value)}">
+            <p>No available time slots for this day.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

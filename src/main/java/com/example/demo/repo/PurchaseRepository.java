@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Date;
 import java.util.Optional;
@@ -24,4 +26,7 @@ public interface PurchaseRepository extends JpaRepository<Purchase, String> {
 
     @Query("SELECT p FROM Purchase p WHERE p.member.memberId = :memberId AND p.plan = :plan AND p.endDate >= :currentDate ORDER BY p.endDate DESC")
     Optional<Purchase> findLastActivePurchaseByMemberIdAndPlan(String memberId, String plan, Date currentDate);
+
+    List<Purchase> findByPurchaseDateBetween(LocalDate startDate, LocalDate endDate);
 }
+

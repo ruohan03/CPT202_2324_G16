@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            height: 40vh;
+            width: 80vw;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Sales Report</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Plan</th>
+                    <th>Total Sales</th>
+                    <th>Sales Count</th>
+                </tr>
+                </thead>
+                <tbody th:each="entry : ${salesData}">
+                <tr>
+                    <td th:text="${entry.key}"></td>
+                    <td th:text="${entry.value.totalSales}"></td>
+                    <td th:text="${entry.value.count}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center">Sales Distribution by Plan</h2>
+            <div class="chart-container">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <h2 class="text-center">Daily Sales Over Time</h2>
+            <div class="chart-container">
+                <canvas id="dailySalesChart"></canvas>
+            </div>
+
+    </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // Setup for the pie chart
+    var ctxPie = document.getElementById('salesChart').getContext('2d');
+    var salesData = /*[[${salesData}]]*/ {};
+    var labelsPie = Object.keys(salesData);
+    var dataPie = labelsPie.map(label => salesData[label].count);
+    var backgroundColorsPie = [
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)'
+    ];
+
+    new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: labelsPie,
+            datasets: [{
+                label: 'Sales Count',
+                data: dataPie,
+                backgroundColor: backgroundColorsPie,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    // Setup for the line chart
+    var ctxLine = document.getElementById('dailySalesChart').getContext('2d');
+    var dailySalesData = /*[[${dailySalesData}]]*/ {};
+    var labelsLine = Object.keys(dailySalesData).sort();
+    var datasetsLine = [];
+
+    // Collect all plan names
+    var allPlans = new Set();
+    labelsLine.forEach(date => {
+        Object.keys(dailySalesData[date]).forEach(plan => {
+            allPlans.add(plan);
+        });
+    });
+
+    // Generate one dataset per plan
+    allPlans.forEach(plan => {
+        var dataLine = labelsLine.map(date => dailySalesData[date][plan] ? dailySalesData[date][plan].totalSales : 0);
+        datasetsLine.push({
+            label: plan,
+            data: dataLine,
+            borderColor: getRandomColor(),
+            fill: false
+        });
+    });
+
+    new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: labelsLine,
+            datasets: datasetsLine
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day',
+                        tooltipFormat: 'll',
+                        displayFormats: {
+                            day: 'YYYY-MM-DD'
+                        }
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    }
+                },
+                y: {
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Sales ($)'
+                    }
+                }
+            }
+        }
+    });
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+    /*]]>*/
+</script>
+</body>
+</html>
+
+
+
+
