@@ -41,14 +41,15 @@
             </tr>
             <tr>
                 <th>Phone</th>
-                <td th:text="${staff.phone}"></td>
+                <td>
+                    <span class="text-display" th:text="${staff.phone}"></span>
+                    <input type="text" th:field="*{phone}" class="text-input" disabled>
+                </td>
             </tr>
             <tr>
                 <th>Gender</th>
                 <td>
-                    <!-- Add a class for easy selection and initially hide it with inline style -->
                     <span class="text-display gender-display" th:text="${staff.gender}"></span>
-                    <!-- Remove th:if and th:unless -->
                     <select th:field="*{gender}" class="text-input gender-select" style="display: none;">
                         <option value="male">Male</option>
                         <option value="female">Female</option>
@@ -86,10 +87,9 @@
 
         // 显示性别的下拉菜单并隐藏文本显示
         const genderSelect = document.querySelector('select[name="gender"]');
-        const genderTextDisplay = document.querySelector('.text-display.gender');
+        const genderTextDisplay = document.querySelector('.text-display.gender-display');
 
         if (genderSelect) {
-            genderSelect.disabled = false;
             genderSelect.style.display = 'block';
         }
         if (genderTextDisplay) {
@@ -110,10 +110,9 @@
 
         // 隐藏性别的下拉菜单并显示文本
         const genderSelect = document.querySelector('select[name="gender"]');
-        const genderTextDisplay = document.querySelector('.text-display.gender');
+        const genderTextDisplay = document.querySelector('.text-display.gender-display');
 
         if (genderSelect) {
-            genderSelect.disabled = true;
             genderSelect.style.display = 'none';
         }
         if (genderTextDisplay) {
