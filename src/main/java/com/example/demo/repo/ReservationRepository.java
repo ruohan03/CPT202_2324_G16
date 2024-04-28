@@ -21,5 +21,7 @@ import java.util.List;
     boolean isLatestReservationCancelled(@Param("staffId") String staffId, @Param("date") LocalDate date, @Param("startTime") LocalTime startTime, @Param("endTime") LocalTime endTime);
 
     List<Reservation> findByStaffId(String staffId);
+
+    boolean existsByMemberIdAndLessonStartDateAndLessonStartTimeAndLessonEndTime(String memberId, LocalDate date, LocalTime startTime, LocalTime endTime);
 }
 

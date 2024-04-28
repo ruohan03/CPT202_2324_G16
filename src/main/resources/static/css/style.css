@@ -385,3 +385,43 @@ a:hover {
 .title {
     margin-bottom: 20px; /* 调整标题与下面内容的间距 */
 }
+
+/* booking */
+
+.card {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.card-container {
+    padding: 2px 16px;
+}
+
+.card-title {
+    font-size: 18px;
+    color: #333;
+}
+
+.card-text {
+    color: #777;
+}
+
+.time-slot.available {
+    background-color: #c8e6c9;
+    border-color: #2e7d32;
+}
+
+.time-slot.unavailable {
+    background-color: #ffcdd2;
+    border-color: #c62828;
+}
+
+.time-slot {
+    margin: 5px;
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select a Coach</title>
+    <title>Select a Trainer</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
@@ -11,15 +11,15 @@
 <div th:replace="member-nav :: top-nav"></div>
 <div class="container mt-5">
     <h2>Select a Coach for Course: <span th:text="${selectedCourse.name}"></span></h2>
-    <div th:if="${coaches.isEmpty()}">
+    <div th:if="${Trainers.isEmpty()}">
         <p>No coaches available for this course.</p>
     </div>
     <div class="list-group">
         <!-- Loop through each coach and display them as options -->
-        <div th:each="coach : ${coaches}">
-            <a href="#" th:href="@{/select-time/{coachId}(coachId=${coach.staffId})}"
+        <div th:each="trainers : ${Trainers}">
+            <a href="#" th:href="@{/member/select-time/{staffId}(staffId=${trainers.staffId})}"
                class="list-group-item list-group-item-action"
-               th:text="${coach.name + ' - Level: ' + coach.level}">
+               th:text="${trainers.name + ' - Level: ' + trainers.level}">
             </a>
         </div>
     </div>

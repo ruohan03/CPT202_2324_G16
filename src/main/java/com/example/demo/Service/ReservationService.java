@@ -7,13 +7,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-    @Service
-    public interface ReservationService {
 
-        List<Reservation> getAllReservations();
+public interface ReservationService {
 
-        boolean isCoachAvailable(String staffId, LocalDate date, LocalTime startTime, LocalTime endTime);
+    List<Reservation> getAllReservations();
 
-        List<Reservation> getAllReservationsByStaffId(String staffId);
-    }
+    List<Boolean> checkAvailability(String staffId, LocalDate date);
+
+    List<Reservation> getAllReservationsByStaffId(String staffId);
+
+    boolean hasExistingReservation(String memberId, LocalDate date, LocalTime startTime, LocalTime endTime);
+}
 

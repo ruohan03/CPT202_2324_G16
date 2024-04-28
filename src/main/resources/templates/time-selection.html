@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>选择时间</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        .no-border {
+            border: none !important;
+        }
+    </style>
+</head>
+<body>
+<div class="top-nav" th:replace="member-nav :: top-nav"></div>
+<div class="container">
+    <h1>选择时间</h1>
+    <form id="timeForm">
+        <input type="hidden" id="staffId" th:value="${staffId}" />
+        <input type="hidden" id="memberId" th:value="${member.memberId}" />
+        <label for="date">请选择日期：</label>
+        <input type="date" id="date" name="date" required onchange="fetchAvailability()"/>
+    </form>
+    <div id="availabilityResults"></div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">预约时间冲突</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                您在选择的时间段内已有预约。<br>
+                请关闭此窗口并选择其他时间。
+            </div>
+            <div class="modal-footer no-border justify-content-center">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date();
+        const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+        const datePicker = document.getElementById('date');
+        datePicker.min = today.toISOString().split('T')[0];
+        datePicker.max = nextWeek.toISOString().split('T')[0];
+
+        function fetchAvailability() {
+            const staffId = document.getElementById('staffId').value;
+            const date = datePicker.value;
+            if (date) {
+                $.ajax({
+                    url: '/api/check-time/' + staffId + '?date=' + date,
+                    type: 'GET',
+                    success: function(data) {
+                        const results = document.getElementById('availabilityResults');
+                        results.innerHTML = '';
+                        const timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00', '17:00-19:00', '19:00-21:00'];
+                        timeSlots.forEach((slot, i) => {
+                            const button = document.createElement('button');
+                            button.className = `time-slot ${data[i] ? 'available' : 'unavailable'}`;
+                            button.textContent = slot;
+                            button.disabled = !data[i];
+                            button.onclick = () => selectTimeSlot(slot);
+                            results.appendChild(button);
+                        });
+                    }
+                });
+            }
+        }
+
+        datePicker.onchange = fetchAvailability;
+
+        function selectTimeSlot(time) {
+            const [startTime, endTime] = time.split('-');
+            const memberId = document.getElementById('memberId').value;
+            const selectedDate = datePicker.value;
+            $.ajax({
+                url: `/api/has-reservation/${memberId}`,
+                data: { date: selectedDate, startTime: startTime, endTime: endTime },
+                type: 'GET',
+                success: function(hasReservation) {
+                    if (hasReservation) {
+                        $('#reservationModal').modal('show');
+                    } else {
+                        // 逻辑处理，比如允许用户进行预约
+                        console.log('没有现有预约，可以进行预约。');
+                    }
+                },
+                error: function() {
+                    alert('检查现有预约时发生错误。');
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

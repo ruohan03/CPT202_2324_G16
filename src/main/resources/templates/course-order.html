@@ -20,7 +20,7 @@
         </thead>
         <tbody>
         <tr th:each="course : ${courses}"
-            th:attr="onclick=|console.log('Redirecting to /select-coach/' + '${course.courseId}'); window.location.href='/select-coach/' + '${course.courseId}';|" >
+            th:attr="onclick=|console.log('Redirecting to /member/select-coach/' + '${course.courseId}'); window.location.href='/select-coach/' + '${course.courseId}';|" >
             <td th:text="${course.name}"></td>
             <td th:text="${course.location}"></td>
         </tr>

@@ -7,10 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,9 +16,6 @@ import java.time.LocalTime;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class ReservationRepositoryTest {
-
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private ReservationRepository reservationRepository;
@@ -68,12 +63,31 @@ public class ReservationRepositoryTest {
     }
 
     @Test
-    public void testLatestReservationCancelled(){
-        LocalDate date = LocalDate.parse("2023-02-24");
+    public void testLatestReservationNotCancelled(){
+        LocalDate date = LocalDate.parse("2024-05-03");
         LocalTime startTime = LocalTime.parse("09:00");
         LocalTime endTime = LocalTime.parse("11:00");
         boolean isCancelled = reservationRepository.isLatestReservationCancelled("T001", date, startTime, endTime);
         assertFalse(isCancelled);  // 应该返回false，因为T001在这个时间有未取消的预约
+    }
+
+    @Test
+    public void testLatestReservationCancelled(){
+        LocalDate date = LocalDate.parse("2024-04-30");
+        LocalTime startTime = LocalTime.parse("19:00");
+        LocalTime endTime = LocalTime.parse("21:00");
+        boolean isCancelled = reservationRepository.isLatestReservationCancelled("T003", date, startTime, endTime);
+        assertTrue(isCancelled);  // 应该返回true，因为T001在这个时间有取消的预约
+    }
+
+    @Test
+    public void testReservationExist(){
+        LocalDate date = LocalDate.parse("2023-02-24");
+        LocalTime startTime = LocalTime.parse("09:00");
+        LocalTime endTime = LocalTime.parse("11:00");
+        boolean exist = reservationRepository.existsByMemberIdAndLessonStartDateAndLessonStartTimeAndLessonEndTime("M001", date, startTime, endTime);
+        assertTrue(exist);
+
     }
 }
 
