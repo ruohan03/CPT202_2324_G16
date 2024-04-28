@@ -74,17 +74,20 @@ public class MemberServiceImpl implements MemberService {
     public boolean updateMember(Member member) {
         return memberRepository.findById(member.getMemberId())
                 .map(existingMember -> {
-                    existingMember.setName(member.getName());
-                    existingMember.setPhone(member.getPhone());
-                    existingMember.setGender(member.getGender());
-                    existingMember.setAddress(member.getAddress());
-                    existingMember.setWeight(member.getWeight());
-                    existingMember.setHeight(member.getHeight());
+                    // 仅更新非null且表单中提供的字段
+                    if (member.getName() != null) existingMember.setName(member.getName());
+                    if (member.getPhone() != null) existingMember.setPhone(member.getPhone());
+                    if (member.getGender() != null) existingMember.setGender(member.getGender());
+                    if (member.getAddress() != null) existingMember.setAddress(member.getAddress());
+                    if (member.getWeight() != null) existingMember.setWeight(member.getWeight());
+                    if (member.getHeight() != null) existingMember.setHeight(member.getHeight());
+                    // 保存更新后的对象
                     memberRepository.save(existingMember);
                     return true;
                 })
-                .orElse(false); // 如果找不到指定的成员，使用map和orElse来简化逻辑
+                .orElse(false); // 如果找不到指定的成员，返回false
     }
+
 
     @Override
     public String changePassword(String memberId, String oldPassword, String newPassword, RedirectAttributes redirectAttributes) {

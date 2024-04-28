@@ -8,15 +8,15 @@
 </head>
 <body>
 
+<!-- Navigation Bar -->
 <div th:replace="member-nav :: top-nav"></div>
-
 <!-- Profile Container -->
-<div class="profile-container">
-    <h1 class="profile-header">Member Profile</h1>
+<div class="member-profile-container">
+    <h1 class="member-profile-header">Member Profile</h1>
     <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
     <form th:action="@{/member/update/{memberId}(memberId=${member.memberId})}" th:object="${member}" method="post">
-        <table class="profile-table">
+        <table class="member-profile-table">
             <tr>
                 <th>ID</th>
                 <td th:text="${member.memberId}"></td>
@@ -24,8 +24,7 @@
             <tr>
                 <th>Name</th>
                 <td>
-                    <span class="text-display" th:text="${member.name}"></span>
-                    <input type="text" th:field="*{name}" class="text-input" disabled>
+                    <input type="text" th:field="*{name}" class="text-input" disabled data-original-value="${member.name}">
                 </td>
             </tr>
             <tr>
@@ -34,35 +33,24 @@
             </tr>
             <tr>
                 <th>Gender</th>
-                <td>
-                    <!-- Add a class for easy selection and initially hide it with inline style -->
-                    <span class="text-display gender-display" th:text="${member.gender}"></span>
-                    <!-- Remove th:if and th:unless -->
-                    <select th:field="*{gender}" class="text-input gender-select" style="display: none;">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </td>
+                <td th:text="${member.gender}"></td>
             </tr>
             <tr>
                 <th>Address</th>
                 <td>
-                    <span class="text-display" th:text="${member.address}"></span>
-                    <input type="text" th:field="*{address}" class="text-input" disabled>
+                    <input type="text" th:field="*{address}" class="text-input" disabled data-original-value="${member.address}">
                 </td>
             </tr>
             <tr>
-                <th>Weight (kg)</th>
+                <th>Weight</th>
                 <td>
-                    <span class="text-display" th:text="${member.weight} + ' kg'"></span>
-                    <input type="text" th:field="*{weight}" class="text-input" disabled>
+                    <input type="text" th:field="*{weight}" class="text-input" disabled data-original-value="${member.weight}">
                 </td>
             </tr>
             <tr>
-                <th>Height (cm)</th>
+                <th>Height</th>
                 <td>
-                    <span class="text-display" th:text="${member.height} + ' cm'"></span>
-                    <input type="text" th:field="*{height}" class="text-input" disabled>
+                    <input type="text" th:field="*{height}" class="text-input" disabled data-original-value="${member.height}">
                 </td>
             </tr>
         </table>
@@ -76,52 +64,34 @@
 
 <script>
     function enableEdit() {
-        const container = document.querySelector('.profile-container');
+        // Enable edit mode and make editable fields active
+        const container = document.querySelector('.member-profile-container');
         container.classList.add('edit-mode');
-        document.querySelectorAll('.profile-table .text-input').forEach(function(input) {
-            input.disabled = false;
+        document.querySelectorAll('.member-profile-table .text-input').forEach(function(input) {
+            if (input.hasAttribute('data-original-value')) {
+                input.disabled = false; // Enable only those inputs which have original values set
+            }
         });
-
-        // 显示性别的下拉菜单并隐藏文本显示
-        const genderSelect = document.querySelector('select[name="gender"]');
-        const genderTextDisplay = document.querySelector('.text-display.gender');
-
-        if (genderSelect) {
-            genderSelect.disabled = false;
-            genderSelect.style.display = 'block';
-        }
-        if (genderTextDisplay) {
-            genderTextDisplay.style.display = 'none';
-        }
-
         document.querySelector('.edit-button').style.display = 'none';
         document.querySelector('.save-button').style.display = 'inline';
         document.querySelector('.cancel-button').style.display = 'inline';
     }
 
     function cancelEdit() {
-        const container = document.querySelector('.profile-container');
+        const container = document.querySelector('.member-profile-container');
         container.classList.remove('edit-mode');
-        document.querySelectorAll('.profile-table .text-input').forEach(function(input) {
+        document.querySelectorAll('.member-profile-table .text-input').forEach(function(input) {
             input.disabled = true;
+            // 这一行会将输入框的值重置为其在 data-original-value 属性中的原始值
+            input.value = input.getAttribute('data-original-value');
         });
-
-        // 隐藏性别的下拉菜单并显示文本
-        const genderSelect = document.querySelector('select[name="gender"]');
-        const genderTextDisplay = document.querySelector('.text-display.gender');
-
-        if (genderSelect) {
-            genderSelect.disabled = true;
-            genderSelect.style.display = 'none';
-        }
-        if (genderTextDisplay) {
-            genderTextDisplay.style.display = 'block';
-        }
-
         document.querySelector('.edit-button').style.display = 'inline';
         document.querySelector('.save-button').style.display = 'none';
         document.querySelector('.cancel-button').style.display = 'none';
+        location.reload();
     }
+
+
 </script>
 </body>
 </html>
