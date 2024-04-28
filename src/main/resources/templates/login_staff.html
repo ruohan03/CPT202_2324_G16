@@ -4,29 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Login</title>
-
-   <style>
-        .success-message {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: inline-block;
-            font-size: 18px; /* 设置字体大小为18px */
-        }
-
-        /* 定义动画 */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
     <link rel="stylesheet" href="/css/Login.css">
 
 </head>
@@ -68,6 +45,14 @@
     if (window.location.search.indexOf('error=true') !== -1) {
         document.getElementById('error-message').style.display = 'block';
     }
+    document.addEventListener("DOMContentLoaded", function() {
+        const successMessage = document.querySelector('.success-message');
+        if (successMessage) {
+            setTimeout(() => {
+                successMessage.style.display = 'none'; // 或者 successMessage.remove(); 若希望从 DOM 中完全移除元素
+            }, 5000); // 设置延时为 5000 毫秒（5 秒）
+        }
+    });
 </script>
 
 

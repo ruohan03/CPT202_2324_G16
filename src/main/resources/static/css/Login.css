@@ -132,6 +132,28 @@ body::before {
     color: #D51FBA; /* Pink text on hover */
 }
 
+.success-message {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    font-size: 18px; /* 设置字体大小为18px */
+    animation: fadeInOut 3s ease-in-out; /* 总时长设置为 6 秒，以包括淡入淡出的时间 */
+}
+
+/* 定义动画 */
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(-20px); /* 开始和结束时都向上移动，创建淡出效果 */
+    }
+    10%, 90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Styling for your register and forgot password options */
 #registerOption {
     text-align: center;
