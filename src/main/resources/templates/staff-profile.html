@@ -58,15 +58,24 @@
             </tr>
             <tr>
                 <th>Level</th>
-                <td th:text="${staff.level}"></td>
+                <td>
+                    <span class="text-display" th:text="${staff.level}"></span>
+                    <input type="hidden" th:field="*{level}">
+                </td>
             </tr>
             <tr>
                 <th>Salary</th>
-                <td th:text="${staff.salary}"></td>
+                <td>
+                    <span class="text-display" th:text="${staff.salary}"></span>
+                    <input type="hidden" th:field="*{salary}">
+                </td>
             </tr>
             <tr>
                 <th>Course ID</th>
-                <td th:text="${staff.courseId}"></td>
+                <td>
+                    <span class="text-display" th:text="${staff.courseId}"></span>
+                    <input type="hidden" th:field="*{courseId}">
+                </td>
             </tr>
         </table>
         <div class="button-container">
@@ -126,4 +135,3 @@
 </script>
 </body>
 </html>
-
