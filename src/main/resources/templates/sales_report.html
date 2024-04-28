@@ -36,6 +36,13 @@
                     <td th:text="${entry.value.count}"></td>
                 </tr>
                 </tbody>
+                <tfoot class="table-primary">
+                <tr>
+                    <th>All Plan Sales</th>
+                    <th th:text="${totalSales}">[Total Sales]</th>
+                    <th th:text="${totalCount}">[Total Count]</th>
+                </tr>
+                </tfoot>
             </table>
         </div>
     </div>

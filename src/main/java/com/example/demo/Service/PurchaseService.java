@@ -92,4 +92,6 @@ public interface PurchaseService {
 
     SalesSummary getSalesSummary(List<Purchase> purchases);
 
+
+    PlanSalesData calculateTotalSalesData(List<Purchase> purchases);
 }

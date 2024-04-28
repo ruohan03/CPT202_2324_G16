@@ -145,14 +145,17 @@ public class PurchaseController {
                                  @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                  Model model) {
         List<Purchase> purchases = purchaseService.findPurchasesBetweenDates(startDate, endDate);
-        // 使用 PurchaseService.PlanSalesData 引用 PlanSalesData 类
         Map<String, PurchaseService.PlanSalesData> salesData = purchaseService.calculateSalesData(purchases);
         Map<LocalDate, Map<String, PurchaseService.PlanSalesData>> dailySalesData = purchaseService.calculateDailySalesByPlan(startDate, endDate);
+        PurchaseService.PlanSalesData totalSalesData = purchaseService.calculateTotalSalesData(purchases);
 
         model.addAttribute("salesData", salesData);
         model.addAttribute("dailySalesData", dailySalesData);
+        model.addAttribute("totalSales", totalSalesData.getTotalSales());
+        model.addAttribute("totalCount", totalSalesData.getCount());
         return "sales_report";  // 确保这个视图模板正确处理新的数据结构
     }
+
 }
 
 

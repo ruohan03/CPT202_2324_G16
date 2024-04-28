@@ -3,6 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Sales Report Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            width: 300px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+        }
+        input[type="date"] {
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -15,7 +44,35 @@
         <input type="date" id="endDate" name="endDate" required>
 
         <button type="submit">Generate Report</button>
+        <button type="button" id="oneWeekBtn">Last Week</button>
+        <button type="button" id="oneMonthBtn">Last Month</button>
+        <button type="button" id="oneYearBtn">Last Year</button>
     </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const today = new Date();
+        const oneWeekAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        const oneMonthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+        const oneYearAgo = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+
+        document.getElementById("oneWeekBtn").addEventListener("click", function() {
+            document.getElementById("startDate").value = oneWeekAgo.toISOString().split('T')[0];
+            document.getElementById("endDate").value = today.toISOString().split('T')[0];
+        });
+
+        document.getElementById("oneMonthBtn").addEventListener("click", function() {
+            document.getElementById("startDate").value = oneMonthAgo.toISOString().split('T')[0];
+            document.getElementById("endDate").value = today.toISOString().split('T')[0];
+        });
+
+        document.getElementById("oneYearBtn").addEventListener("click", function() {
+            document.getElementById("startDate").value = oneYearAgo.toISOString().split('T')[0];
+            document.getElementById("endDate").value = today.toISOString().split('T')[0];
+        });
+    });
+</script>
 </body>
 </html>
+

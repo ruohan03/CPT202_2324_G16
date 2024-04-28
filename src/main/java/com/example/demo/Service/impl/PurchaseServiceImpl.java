@@ -232,6 +232,20 @@ public class PurchaseServiceImpl implements PurchaseService {
                 cal.get(Calendar.DAY_OF_MONTH));
     }
 
+    // 在 PurchaseService 类中添加以下方法
+    public PlanSalesData calculateTotalSalesData(List<Purchase> purchases) {
+        if (purchases.isEmpty()) {
+            return new PlanSalesData(0, 0);
+        }
+        double totalSales = purchases.stream()
+                .filter(purchase -> purchase.getCost() != null)
+                .mapToDouble(Purchase::getCost)
+                .sum();
+        int totalCount = purchases.size();
+        return new PlanSalesData(totalSales, totalCount);
+    }
+
+
     public SalesSummary getSalesSummary(List<Purchase> purchases) {
         if (purchases == null || purchases.isEmpty()) {
             return new SalesSummary(0, 0.0, "None", 0);
