@@ -37,7 +37,7 @@ public class Reservation {
     @Column(name = "lesson_end_time")
     private LocalTime lessonEndTime;
 
-    @Column(name = "created_at")
+    @Column(name = "created_datetime")
     private LocalDateTime createdDate;
 
     public Reservation() {

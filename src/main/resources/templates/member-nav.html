@@ -10,11 +10,10 @@
         <a href="/home_page" class="logo">H-XYZ | 打击代写就现在</a>
         <div class="nav-center">
             <a href="/home_page" th:class="${currentPage == 'home'} ? 'current-page' : ''">Home</a>
-            <a href="/member/order/course" th:class="${currentPage == 'bookCourse'} ? 'current-page' : ''">Book Course</a>
+            <a id="navBookCourseBtn" href="/member/order/course" th:class="${currentPage == 'bookCourse'} ? 'current-page':''">Book Course</a>
             <a href="/member/profile" th:class="${currentPage == 'memberProfile' ? 'current-page':''}" th:if="${isLoggedIn}">My Profile</a>
             <a href="/member/update-password" th:class="${currentPage == 'changePassword' ? 'current-page':''}" th:if="${isLoggedIn}">Update Password</a>
             <a href="/purchase/new" th:class="${currentPage == 'newPurchase' ? 'current-page':''}" th:if="${isLoggedIn}">Buy Plans</a>
-            <!-- ... other links ... -->
         </div>
         <div class="nav-right">
             <span th:text="${isLoggedIn ? member.name : 'Visitor'}"></span>

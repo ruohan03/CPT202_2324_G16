@@ -29,10 +29,10 @@ public class Member {
     private String encodedPassword;
 
     @Column
-    private Integer weight;
+    private Double weight;
 
     @Column
-    private Integer height;
+    private Double height;
 
     @Column
     private Boolean is_purchased;
@@ -60,7 +60,7 @@ public class Member {
     public Member() {
     }
 
-    public Member(String name, String phone, String gender, String address, String password, Integer weight, Integer height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed, String plan, Date endDate) {
+    public Member(String name, String phone, String gender, String address, String password, Double weight, Double height, Boolean is_purchased, Boolean is_active, Boolean locker_isAgreed, String plan, Date endDate) {
         this.memberId = "M" + phone;
         this.name = name;
         this.phone = phone;
@@ -77,7 +77,7 @@ public class Member {
         this.remaining_sum = remaining_sum;
     }
 
-    public Member(String memberId, String name, String phone, String gender, String address, Integer weight, Integer height, String plan, Date endDate){
+    public Member(String memberId, String name, String phone, String gender, String address, Double weight, Double height, String plan, Date endDate){
         this.memberId = memberId;
         this.name = name;
         this.phone = phone;
@@ -167,19 +167,19 @@ public class Member {
 
     public void setEncodedPassword(String encodedPassword) {this.encodedPassword = encodedPassword;}
 
-    public Integer getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
-    public Integer getHeight() {
+    public Double getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(Double height) {
         this.height = height;
     }
 
