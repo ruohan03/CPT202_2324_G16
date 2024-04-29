@@ -1,7 +1,9 @@
 package com.example.demo.Service;
 
+import com.example.demo.Model.Member;
 import com.example.demo.Model.Staff;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +21,10 @@ public interface StaffService {
     boolean updateStaff(Staff staff);
 
     Staff findByPhoneAndName(String phone, String name);
+
+    void sendRenewalNotifications();
+
+    List<Member> findMembersWithSentNotifications();
+    List<Member> findMembersForRenewalNotification(Date thresholdDate);
+
 }

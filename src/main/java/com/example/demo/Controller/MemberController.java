@@ -98,14 +98,20 @@ public class MemberController {
             model.addAttribute("memberId", memberId);
             model.addAttribute("isLoggedIn", true);
             model.addAttribute("welcomeMessage", "Welcome back, " + member.getName() + "!");
+
+            // 检查续费通知是否已发送，并传递续费通知
+            if (member.isRenewalNotificationSent()) {
+                model.addAttribute("renewalMessage", "Your membership is expiring soon. Please consider renewing to continue enjoying our services.");
+            }
         } else {
             model.addAttribute("isLoggedIn", false);
-            // For non-logged in users, you might want to set a generic welcome message if appropriate
             model.addAttribute("welcomeMessage", "Welcome to the Fitness Center!");
         }
-        model.addAttribute("currentPage", "home"); // Adding identification of the current page
+        model.addAttribute("currentPage", "home");
         return "home_page";
     }
+
+
 
     @PostMapping("/login")
     public String login(@RequestParam("phone") String phone, @RequestParam("password") String password, Model model, HttpSession session, HttpServletRequest request) {

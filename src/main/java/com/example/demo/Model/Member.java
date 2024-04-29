@@ -55,6 +55,16 @@ public class Member {
     @Column(name = "remaining_sum", nullable = false)
     private double remaining_sum = 0.0;  // Default value is set to 0.0
 
+    @Column(name = "renewal_notification_sent")
+    private boolean renewalNotificationSent = false;
+
+    public boolean isRenewalNotificationSent() {
+        return renewalNotificationSent;
+    }
+
+    public void setRenewalNotificationSent(boolean renewalNotificationSent) {
+        this.renewalNotificationSent = renewalNotificationSent;
+    }
 
     // Constructors
     public Member() {

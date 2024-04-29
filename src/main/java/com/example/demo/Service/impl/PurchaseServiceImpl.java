@@ -73,44 +73,57 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchase.setMember(member);
         purchase.setPurchaseDate(new Date()); // 设置购买日期为当前系统日期
 
-        // Get the price of the plan
+        // 获取计划价格
         int price = PurchaseService.getPriceByPlan(purchase.getPlan());
 
-        // Check if the plan is expired
+        // 检查计划是否过期
         if (member.getEndDate() != null && new Date().before(member.getEndDate())) {
-            // If the plan is not expired, check if the new purchase is in the same plan category
+            // 如果计划未过期，检查新购买的计划是否与现有计划同类
             if (!isSamePlanCategory(member.getPlan(), purchase.getPlan())) {
                 throw new IllegalStateException("Cannot purchase a different level plan during the active period.");
             }
         }
 
-        // Check if member has enough balance
+        // 检查余额是否足够
         if (member.getRemaining_sum() < price) {
             throw new IllegalStateException("Insufficient balance, please recharge offline.");
         }
 
-        // Deduct the price from member's balance
+        // 扣除购买价格
         member.setRemaining_sum(member.getRemaining_sum() - price);
 
         Date newEndDate;
         if (member.getPlan() != null && isSamePlanCategory(member.getPlan(), purchase.getPlan())) {
-            // If renewing the same plan, extend the validity period
+            // 如果续订同一计划，延长有效期
             newEndDate = calculateEndDate(member.getEndDate(), purchase.getPlan());
         } else {
-            // For new purchases or plan changes, calculate the new validity period from today
+            // 对于新购买或计划更改，从今天开始计算新的有效期
             newEndDate = calculateEndDate(new Date(), purchase.getPlan());
-            member.setPlan(normalizePlanName(purchase.getPlan())); // Standardize and update plan name
+            member.setPlan(normalizePlanName(purchase.getPlan())); // 标准化并更新计划名称
         }
 
-        member.setEndDate(newEndDate); // Update end date
-        memberRepository.save(member); // Save member information
+        // 更新结束日期
+        member.setEndDate(newEndDate);
+        memberRepository.save(member); // 保存会员信息
+
+        // 更新续费通知状态
+        if (newEndDate.after(addDays(new Date(), 15))) {
+            member.setRenewalNotificationSent(false);
+        }
 
         if (purchase.getPurchaseId() == null || purchase.getPurchaseId().isEmpty()) {
             purchase.setPurchaseId(generatePurchaseId());
         }
 
         purchase.setEndDate(newEndDate);
-        return purchaseRepository.save(purchase); // Save purchase record
+        return purchaseRepository.save(purchase); // 保存购买记录
+    }
+
+    private Date addDays(Date date, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, days);
+        return cal.getTime();
     }
 
 

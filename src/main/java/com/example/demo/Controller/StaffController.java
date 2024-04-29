@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Model.Course;
+import com.example.demo.Model.Member;
 import com.example.demo.Model.Staff;
 import com.example.demo.Service.CourseService;
 import com.example.demo.Service.PasswordService;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -156,6 +158,42 @@ public class StaffController {
             redirectAttributes.addFlashAttribute("errorMessage", "Invalid phone or name.");
         }
         return "redirect:/forgetPassword_trainer";
+    }
+
+
+    @GetMapping("/admin/renewal-notifications")
+    public String showRenewalNotificationPage(HttpSession session, Model model) {
+        Boolean isManager = (Boolean) session.getAttribute("isManager");
+        if (Boolean.TRUE.equals(isManager)) {
+            // 获取即将到期的会员列表
+            List<Member> expiringMembers = staffService.findMembersForRenewalNotification(Calendar.getInstance().getTime());
+            // 获取已发送通知的会员列表
+            List<Member> notifiedMembers = staffService.findMembersWithSentNotifications();
+
+            model.addAttribute("expiringMembers", expiringMembers);
+            model.addAttribute("notifiedMembers", notifiedMembers);
+            return "adminRenewalNotifications"; // Thymeleaf页面显示即将到期和已通知的会员列表
+        } else {
+            return "redirect:/staff/login";
+        }
+    }
+
+
+    /**
+     * 管理员发送续费通知
+     * 只有管理员可以执行此操作
+     */
+    @PostMapping("/admin/send-renewal-notifications")
+    public String sendRenewalNotifications(HttpSession session, RedirectAttributes redirectAttributes) {
+        Boolean isManager = (Boolean) session.getAttribute("isManager");
+        if (Boolean.TRUE.equals(isManager)) {
+            staffService.sendRenewalNotifications();
+            redirectAttributes.addFlashAttribute("success", "Renewal notifications sent successfully.");
+            return "redirect:/admin/renewal-notifications";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Unauthorized access.");
+            return "redirect:/staff/login";
+        }
     }
 
 }

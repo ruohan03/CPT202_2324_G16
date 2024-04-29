@@ -1,13 +1,17 @@
 package com.example.demo.Service.impl;
+import com.example.demo.Model.Member;
 import com.example.demo.Model.Staff;  // Ensure you import the Staff model
 import com.example.demo.Service.StaffService;
 import com.example.demo.Service.PasswordService;
+import com.example.demo.repo.MemberRepository;
 import com.example.demo.repo.StaffRepository;  // Import the StaffRepository
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.exception.ResourceNotFoundException;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +23,9 @@ public class StaffServiceImpl implements StaffService {
 
     @Autowired
     private PasswordService passwordService;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Override
     public List<Staff> findAllStaff() {
@@ -77,4 +84,29 @@ public class StaffServiceImpl implements StaffService {
                 })
                 .orElse(false);  // 如果找不到指定的员工，返回false
     }
+
+
+    @Override
+    public void sendRenewalNotifications() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 15);
+        Date thresholdDate = cal.getTime();
+        List<Member> members = memberRepository.findMembersForRenewalNotification(thresholdDate);
+        for (Member member : members) {
+            member.setRenewalNotificationSent(true);
+            memberRepository.save(member);
+        }
+    }
+
+    @Override
+    public List<Member> findMembersWithSentNotifications() {
+        return memberRepository.findByRenewalNotificationSent(true);
+    }
+
+
+    @Override
+    public List<Member> findMembersForRenewalNotification(Date thresholdDate) {
+        return memberRepository.findMembersExpiringBefore(thresholdDate);
+    }
+
 }

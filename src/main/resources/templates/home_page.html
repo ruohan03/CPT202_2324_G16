@@ -21,6 +21,7 @@
     <div th:replace="member-nav :: top-nav"></div>
 
     <div th:if="${welcomeMessage}" class="welcome-message" th:text="${welcomeMessage}"></div>
+    <div th:if="${renewalMessage}" class="alert alert-warning" th:text="${renewalMessage}"></div>
     <div th:if="${error}" class="error-message" th:text="${error}"></div>
 
     <div class="jumbotron">
