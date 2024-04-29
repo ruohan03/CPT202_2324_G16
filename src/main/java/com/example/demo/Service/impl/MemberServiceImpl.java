@@ -126,6 +126,8 @@ public class MemberServiceImpl implements MemberService {
         }
         if (member.getEndDate() != null && new Date().after(member.getEndDate())) {
             throw new MembershipValidationException("您的会员计划已过期。");
+        } if(member.getEndDate()==null){
+            throw new MembershipValidationException("Something wrong happens, please connect with the administrator.");
         }
         return true; // 所有检查都通过
     }

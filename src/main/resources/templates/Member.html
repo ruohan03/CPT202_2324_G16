@@ -17,30 +17,22 @@
         <th>Address</th>
         <th>Weight</th>
         <th>Height</th>
-        <th>Purchased</th>
-        <th>Active</th>
-        <th>Locker Agreement</th>
         <th>Plan</th>
-        <th>Purchase_date</th>
         <th>Ehd_date</th>
     </tr>
     </thead>
     <tbody>
-    <!-- Assuming members is the list of members passed from your Spring controller -->
-    <!--/*@thymesVar id="members" type="aj"*/-->
-    <tr th:each="member : ${members}">
-        <td th:text="${member.memberId}"></td>
-        <td th:text="${member.name}"></td>
-        <td th:text="${member.phone}"></td>
-        <td th:text="${member.gender}"></td>
-        <td th:text="${member.address}"></td>
-        <td th:text="${member.weight}"></td>
-        <td th:text="${member.height}"></td>
-        <td th:text="${member.is_purchased} ? 'Yes' : 'No'"></td>
-        <td th:text="${member.is_active} ? 'Yes' : 'No'"></td>
-        <td th:text="${member.locker_isAgreed} ? 'Yes' : 'No'"></td>
-
-    </tr>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.memberId}"></td>
+            <td th:text="${member.name}"></td>
+            <td th:text="${member.phone}"></td>
+            <td th:text="${member.gender}"></td>
+            <td th:text="${member.address}"></td>
+            <td th:text="${member.weight}"></td>
+            <td th:text="${member.height}"></td>
+            <td th:text="${member.plan}"></td>
+            <td th:text="${member.endDate}"></td>
+        </tr>
     </tbody>
 </table>
 
