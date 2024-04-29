@@ -52,14 +52,14 @@
             <tr>
                 <th>Weight (KG)</th>
                 <td>
-                    <input type="number" pattern="^\d*\.?\d*$" th:field="*{weight}" class="text-input" disabled data-original-value="${member.weight}" th:data-value="${member.weight}" title="numbers only!">
+                    <input type="text" pattern="^\d*\.?\d*$" th:field="*{weight}" class="text-input" disabled data-original-value="${member.weight}" th:data-value="${member.weight}" title="numbers only!">
                     <span class="text-display" th:data-value="${member.weight}"></span>
                 </td>
             </tr>
             <tr>
                 <th>Height (CM)</th>
                 <td>
-                    <input type="number" pattern="^\d*\.?\d*$" th:field="*{height}" class="text-input" disabled data-original-value="${member.height}" th:data-value="${member.height}" title="numbers only!">
+                    <input type="text" pattern="^\d*\.?\d*$" th:field="*{height}" class="text-input" disabled data-original-value="${member.height}" th:data-value="${member.height}" title="numbers only!">
                     <span class="text-display" th:data-value="${member.height}"></span>
                 </td>
             </tr>
