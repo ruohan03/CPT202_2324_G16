@@ -81,15 +81,15 @@ public class PurchaseController {
         }
 
         try {
-            // 根据计划获取价格，假设在PurchaseService中有静态方法getPriceByPlan可以调用
-            int cost = PurchaseService.getPriceByPlan(purchase.getPlan());
-            purchase.setCost((double) cost); // 转换int为Double，并设置购买的成本
+            purchase.setPurchaseDate(new Date()); // Set the purchase date to the current date here
 
-            // Create or update purchase information, assuming your service layer has a method to handle create or update logic
+            int cost = PurchaseService.getPriceByPlan(purchase.getPlan());
+            purchase.setCost((double) cost); // Convert int to Double and set the cost of the purchase
+
             Purchase savedPurchase = purchaseService.createOrUpdatePurchase(purchase, memberId);
             if (savedPurchase != null) {
                 redirectAttributes.addFlashAttribute("success", "Purchase successful");
-                return "redirect:/purchases"; // If save is successful, redirect to the purchase list page
+                return "redirect:/home_page"; // If save is successful, redirect to the purchase list page
             } else {
                 redirectAttributes.addFlashAttribute("error", "Failed to process purchase, please try again.");
                 return "redirect:/purchase/new"; // If processing fails, redirect back to the purchase form page
@@ -99,6 +99,7 @@ public class PurchaseController {
             return "redirect:/purchase/new"; // In case of an exception, redirect back to the purchase form page
         }
     }
+
 
     @InitBinder  // Used for customizing the binding of data from front end to back end
     public void initBinder(WebDataBinder binder) {

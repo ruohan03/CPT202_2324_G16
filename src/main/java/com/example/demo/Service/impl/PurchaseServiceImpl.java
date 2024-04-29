@@ -71,9 +71,18 @@ public class PurchaseServiceImpl implements PurchaseService {
     public Purchase createOrUpdatePurchase(Purchase purchase, String memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
         purchase.setMember(member);
+        purchase.setPurchaseDate(new Date()); // 设置购买日期为当前系统日期
 
         // Get the price of the plan
         int price = PurchaseService.getPriceByPlan(purchase.getPlan());
+
+        // Check if the plan is expired
+        if (member.getEndDate() != null && new Date().before(member.getEndDate())) {
+            // If the plan is not expired, check if the new purchase is in the same plan category
+            if (!isSamePlanCategory(member.getPlan(), purchase.getPlan())) {
+                throw new IllegalStateException("Cannot purchase a different level plan during the active period.");
+            }
+        }
 
         // Check if member has enough balance
         if (member.getRemaining_sum() < price) {
@@ -87,9 +96,6 @@ public class PurchaseServiceImpl implements PurchaseService {
         if (member.getPlan() != null && isSamePlanCategory(member.getPlan(), purchase.getPlan())) {
             // If renewing the same plan, extend the validity period
             newEndDate = calculateEndDate(member.getEndDate(), purchase.getPlan());
-        } else if (member.getPlan() != null && !isSamePlanCategory(member.getPlan(), purchase.getPlan())) {
-            // Throwing exception if trying to purchase a different plan during active plan period
-            throw new IllegalStateException("Cannot purchase a different level plan during the active period.");
         } else {
             // For new purchases or plan changes, calculate the new validity period from today
             newEndDate = calculateEndDate(new Date(), purchase.getPlan());
@@ -106,6 +112,8 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchase.setEndDate(newEndDate);
         return purchaseRepository.save(purchase); // Save purchase record
     }
+
+
 
     private Purchase getLastActivePurchase(String memberId, String plan) {
         Date currentDate = new Date();  // Get current date

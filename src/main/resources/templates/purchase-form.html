@@ -38,7 +38,8 @@
             <tr>
                 <th>Purchase Date</th>
                 <td>
-                    <input type="date" th:field="*{purchaseDate}" class="text-input">
+                    <span th:text="${#dates.format(new java.util.Date(), 'yyyy-MM-dd')}">[Today's Date]</span>
+                    <input type="hidden" th:field="*{purchaseDate}" th:value="${#dates.format(new java.util.Date(), 'yyyy-MM-dd')}">
                 </td>
             </tr>
             <tr>
