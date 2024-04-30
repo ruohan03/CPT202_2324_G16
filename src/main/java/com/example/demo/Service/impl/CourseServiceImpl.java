@@ -37,4 +37,39 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> findCoursesByCourseIdContaining(String courseId) {
         return courseRepository.findByCourseIdContaining(courseId);
     }
-}
+
+    @Override
+    public void updateCourse(String courseId, Course updatedCourse) {
+        Course existingCourse = courseRepository.findById(courseId).orElse(null);
+        if (existingCourse != null) {
+            existingCourse.setName(updatedCourse.getName());
+            existingCourse.setLocation(updatedCourse.getLocation());
+            courseRepository.save(existingCourse);
+        }
+    }
+
+    @Override
+        public void addCourse(Course course) {
+            courseRepository.save(course);
+        }
+    @Override
+    public boolean existsByCourseId(String courseId) {
+        // Check if a course with the given courseId exists in the database
+        return courseRepository.existsById(courseId);
+    }
+    @Override
+        public void deleteCourse(String courseId) {
+            courseRepository.deleteById(courseId);
+        }
+
+
+
+    @Override
+    public void editCourse(Course updatedCourse) {
+        // You can add validation logic here if needed
+        courseRepository.save(updatedCourse);
+    }
+
+    }
+
+

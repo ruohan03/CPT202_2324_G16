@@ -41,4 +41,17 @@ public class Course {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    // 新增字段表示是否有外键引用
+    @Transient
+    private boolean hasForeignKey;
+
+    // Getters and Setters
+    public boolean isHasForeignKey() {
+        return hasForeignKey;
+    }
+
+    public void setHasForeignKey(boolean hasForeignKey) {
+        this.hasForeignKey = hasForeignKey;
+    }
 }

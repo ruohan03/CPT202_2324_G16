@@ -15,4 +15,5 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
     List<Staff> findStaffByCourseIdAndLevelLessThanEqual(String courseId, int level);
 
     Staff findByPhoneAndName(String phone, String name);
+
 }

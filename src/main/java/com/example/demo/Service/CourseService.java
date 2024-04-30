@@ -12,11 +12,20 @@ public interface CourseService {
     List<Course> findAllCourses();
 
     Course findCourseById(String id);
+    void editCourse(Course updatedCourse);
 
     String findCourseNameById(String courseId);
 
     List<Course> findCoursesByNameContaining(String name);
 
     List<Course> findCoursesByCourseIdContaining(String courseId);
+
+    void updateCourse(String courseId, Course updatedCourse);
+
+    void addCourse(Course course);
+    boolean existsByCourseId(String courseId);
+
+    void deleteCourse(String courseId);
+
 }
 

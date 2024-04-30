@@ -108,5 +108,9 @@ public class StaffServiceImpl implements StaffService {
     public List<Member> findMembersForRenewalNotification(Date thresholdDate) {
         return memberRepository.findMembersExpiringBefore(thresholdDate);
     }
+    @Override
+    public void saveOrUpdate(Staff staff) {
+        staffRepository.save(staff);
+    }
 
 }

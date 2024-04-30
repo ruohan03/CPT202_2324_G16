@@ -26,5 +26,5 @@ public interface StaffService {
 
     List<Member> findMembersWithSentNotifications();
     List<Member> findMembersForRenewalNotification(Date thresholdDate);
-
+    void saveOrUpdate(Staff staff);
 }
