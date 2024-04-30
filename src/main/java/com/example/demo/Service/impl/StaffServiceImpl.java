@@ -27,6 +27,9 @@ public class StaffServiceImpl implements StaffService {
     @Autowired
     private MemberRepository memberRepository;
 
+
+
+
     @Override
     public List<Staff> findAllStaff() {
         return this.staffRepository.findAll();
@@ -112,5 +115,6 @@ public class StaffServiceImpl implements StaffService {
     public void saveOrUpdate(Staff staff) {
         staffRepository.save(staff);
     }
+
 
 }

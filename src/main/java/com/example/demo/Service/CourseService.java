@@ -26,6 +26,6 @@ public interface CourseService {
     boolean existsByCourseId(String courseId);
 
     void deleteCourse(String courseId);
-
+    boolean hasForeignKey(String courseId);
 }
 

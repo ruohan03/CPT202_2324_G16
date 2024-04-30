@@ -95,18 +95,25 @@ public class CourseController {
     }
     @GetMapping("/delete_course_confirmed/{id}")
     public ResponseEntity<String> deleteCourseConfirmed(@PathVariable(value="id") String courseId) {
-        // 首先检查是否存在外键引用，如果存在，则将相关外键设置为NULL
+        // 首先检查是否存在外键引用// 首先检查是否存在外键引用
+        boolean hasForeignKey = courseService.hasForeignKey(courseId);
+        // 如果存在，则将相关外键设置为NULL
+        if (hasForeignKey) {
         List<Staff> staffList = staffService.findStaffByCourseId(courseId);
-        if (!staffList.isEmpty()) {
-            for (Staff staff : staffList) {
-                if (courseId.equals(staff.getCourseId())) {
+        for (Staff staff : staffList) {
+            if (courseId.equals(staff.getCourseId())) {
                     staff.setCourseId(null);
                     staffService.saveOrUpdate(staff);
                 }
             }
         }
         courseService.deleteCourse(courseId);
-        return ResponseEntity.ok("<script>alert('Course with ID " + courseId + " deleted successfully'); window.location.href='/manage_courses';</script>");
+        // 根据是否存在外键引用返回不同的响应消息
+        if (hasForeignKey) {
+            return ResponseEntity.ok("<script>alert('Course with ID " + courseId + " and the course of the trainers who originally took the course has been cleared'); window.location.href='/manage_courses';</script>");
+        } else {
+            return ResponseEntity.ok("<script>alert('Course with ID " + courseId + " deleted successfully'); window.location.href='/manage_courses';</script>");
+        }
     }
 
     @GetMapping("/add_course")
@@ -117,6 +124,10 @@ public class CourseController {
     public ResponseEntity<String> addCourse(@ModelAttribute Course course) {
         if (course == null || course.getCourseId() == null || course.getName() == null) {
             return ResponseEntity.badRequest().body("<script>alert('Course ID and name are required'); window.location.href='/manage_courses';</script>");
+        }
+
+        if (!course.getCourseId().matches("^C\\d{3}$")) {
+            return ResponseEntity.badRequest().body("<script>alert('Course ID must be Cxxx (x is number)'); window.location.href='/manage_courses';</script>");
         }
 
         if (courseService.existsByCourseId(course.getCourseId())) {

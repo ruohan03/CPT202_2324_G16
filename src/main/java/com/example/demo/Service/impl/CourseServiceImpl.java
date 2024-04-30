@@ -3,6 +3,7 @@ package com.example.demo.Service.impl;
 import com.example.demo.Model.Course;
 import com.example.demo.Service.CourseService;
 import com.example.demo.repo.CourseRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
     public List<Course> findAllCourses() {
@@ -61,7 +64,17 @@ public class CourseServiceImpl implements CourseService {
         public void deleteCourse(String courseId) {
             courseRepository.deleteById(courseId);
         }
+    @Override
+    // 检查特定课程是否存在外键引用
+    public boolean hasForeignKey(String courseId) {
+        // 编写 SQL 查询语句，检查与特定课程相关的外键引用是否存在
+        String sql = "SELECT COUNT(*) FROM staff WHERE course_id = :courseId";
+        Long count = (Long) entityManager.createNativeQuery(sql)
+                .setParameter("courseId", courseId)
+                .getSingleResult();
 
+        return count > 0;
+    }
 
 
     @Override
@@ -69,6 +82,7 @@ public class CourseServiceImpl implements CourseService {
         // You can add validation logic here if needed
         courseRepository.save(updatedCourse);
     }
+
 
     }
 
