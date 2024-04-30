@@ -73,8 +73,12 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
-
-
+    @Override
+    public boolean checkAvailabilityForNewReservation(String staffId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+        // Find overlapping reservations that are not cancelled.
+        List<Reservation> overlappingReservations = reservationRepository.findOverlappingReservations(staffId, date, startTime, endTime);
+        return overlappingReservations.isEmpty();
+    }
 
 }
 

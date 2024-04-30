@@ -23,5 +23,9 @@ import java.util.List;
     List<Reservation> findByStaffId(String staffId);
 
     boolean existsByMemberIdAndLessonStartDateAndLessonStartTimeAndLessonEndTime(String memberId, LocalDate date, LocalTime startTime, LocalTime endTime);
+
+    @Query("SELECT r FROM Reservation r WHERE r.staffId = :staffId AND r.lessonStartDate = :date AND " +
+            "r.lessonStartTime < :endTime AND r.lessonEndTime > :startTime AND r.isCancelled = false")
+    List<Reservation> findOverlappingReservations(String staffId, LocalDate date, LocalTime startTime, LocalTime endTime);
 }
 

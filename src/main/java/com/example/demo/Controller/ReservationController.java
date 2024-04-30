@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.Service.StaffService;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,6 +28,7 @@ import java.util.Map;
 
 
 @Controller
+@SessionAttributes({"courseId", "staffId"})
 public class ReservationController {
 
     private final ReservationService reservationService;
@@ -37,6 +38,21 @@ public class ReservationController {
     private final StaffService staffService;
 
     private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
+
+    private Member validateMember(HttpSession session, Model model) {
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId == null) {
+            logger.debug("No memberId in session, redirecting to login.");
+            model.addAttribute("redirectReason", "Not logged in");
+            return null;
+        }
+        Member member = memberService.findMemberById(memberId);
+        if (member == null) {
+            logger.debug("No member found with the provided memberId, redirecting to login.");
+            model.addAttribute("redirectReason", "Member not found");
+        }
+        return member;
+    }
 
     @Autowired
     public ReservationController(ReservationService reservationService,
@@ -68,7 +84,6 @@ public class ReservationController {
         }
     }
 
-    // 确保在你的控制器中导入相关类，比如 List, CourseService, Course等
     @GetMapping("/api/courses")
     @ResponseBody
     public List<Course> getCourses() {
@@ -107,37 +122,40 @@ public class ReservationController {
         return "reserve-course"; // 返回课程列表页面
     }
 
-
-    @PostMapping("/member/select-coach")
+    @GetMapping("/member/select-trainer")
     public String selectCoach(@RequestParam("courseId") String courseId, Model model, HttpSession session) {
         logger.debug("Selecting coach for course ID: {}", courseId);
+        session.setAttribute("courseId", courseId);
         String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
             logger.debug("No memberId in session, redirecting to login.");
-            return "redirect:/login"; // 如果未登录，重定向到登录页面
+            return "redirect:/login"; // Redirect to login if not logged in
         }
 
-        Member member = memberService.findMemberById(memberId); // 获取当前登录会员信息
+        Member member = memberService.findMemberById(memberId);
         if (member == null) {
-            logger.debug("Member data not found, redirecting to courses page.");
-            return "redirect:/member/order/course"; // 如果会员信息不存在，重定向回课程列表
+            logger.debug("Member data not found, redirecting to login.");
+            return "redirect:/login"; // Redirect if member is not found
         }
 
         Course course = courseService.findCourseById(courseId);
-        if (course != null) {
-            int maxLevel = getMaxLevelForMemberPlan(member.getPlan()); // 获取会员计划允许的最高教练级别
-            List<Staff> trainer = trainerService.findCoachesByCourseAndLevel(courseId, maxLevel); // 根据课程和级别过滤教练
-            model.addAttribute("currentPage", "bookCourse");
-            model.addAttribute("isLoggedIn", true); // 始终设为 true 因为已验证用户登录
-            model.addAttribute("member", member); // 添加 member 对象
-            model.addAttribute("Trainers", trainer);
-            model.addAttribute("selectedCourse", course);
-            logger.debug("Trainers displayed for course ID: {}, member plan: {}", courseId, member.getPlan());
-            return "reserve-trainer"; // 返回选择教练的页面
+        if (course == null) {
+            logger.debug("Course ID not found, redirecting to courses page.");
+            return "redirect:/member/order/course"; // Redirect if course is not found
         }
-        logger.debug("Course ID not found, redirecting to courses page.");
-        return "redirect:/member/order/course"; // 如果课程ID无效，重定向回课程列表页面
+
+        int maxLevel = getMaxLevelForMemberPlan(member.getPlan());
+        List<Staff> trainers = trainerService.findCoachesByCourseAndLevel(courseId, maxLevel);
+        model.addAttribute("currentPage", "bookCourse");
+        model.addAttribute("isLoggedIn", true);
+        model.addAttribute("member", member);
+        model.addAttribute("Trainers", trainers);
+        model.addAttribute("selectedCourse", course);
+
+        logger.debug("Trainers displayed for course ID: {}, member plan: {}", courseId, member.getPlan());
+        return "reserve-trainer"; // Render the trainer selection page
     }
+
 
     // 根据会员的计划返回可预约的教练的最高等级
     private int getMaxLevelForMemberPlan(String plan) {
@@ -149,8 +167,11 @@ public class ReservationController {
         };
     }
 
-    @PostMapping("/member/select-time")
-    public String chooseTime(@RequestParam("staffId") String staffId, @RequestParam("courseId") String courseId, Model model, HttpSession session) {
+    @GetMapping("/member/select-time")
+    public String chooseTime(@RequestParam("staffId") String staffId,
+                             @RequestParam("courseId") String courseId,
+                             Model model,
+                             HttpSession session) {
         String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
             return "redirect:/login";
@@ -160,6 +181,7 @@ public class ReservationController {
         if (member == null) {
             return "redirect:/login";
         }
+        session.setAttribute("staffId", staffId);
         model.addAttribute("member", memberService.findMemberById(memberId));
         model.addAttribute("currentPage", "bookCourse");
         model.addAttribute("isLoggedIn", true); // 始终设为 true 因为已验证用户登录
@@ -185,7 +207,7 @@ public class ReservationController {
         return reservationService.hasExistingReservation(memberId, date, startTime, endTime);
     }
 
-    @PostMapping("/member/confirm-reservation")
+    @GetMapping("/member/confirm-reservation")
     public String confirmReservation(@RequestParam("staffId") String staffId,
                                      @RequestParam("courseId") String courseId,
                                      @RequestParam("date") String date,
@@ -260,6 +282,4 @@ public class ReservationController {
 
         return response;
     }
-
-
 }

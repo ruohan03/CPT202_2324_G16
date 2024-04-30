@@ -1,0 +1,57 @@
+.reservation-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto; /* 水平居中显示，并设置垂直边距 */
+    background: linear-gradient(to right, #CE56C1, #010544); /* 从浅色到深色的渐变 */
+    padding: 8px 0; /* 减少内边距 */
+    border-radius: 8px; /* 圆角 */
+    width: 80%; /* 减少宽度，让导航栏看起来更短 */
+}
+
+.step {
+    padding: 10px 20px;
+    margin: 0 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    background-color: transparent; /* 保持背景透明以展示渐变 */
+    border: none; /* 无边框 */
+}
+
+.step:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* 鼠标悬停时添加浅色背景 */
+}
+
+.completed {
+    font-weight: bold; /* 突出已完成步骤 */
+}
+
+.step.active {
+    font-weight: bold; /* 突出当前活跃步骤 */
+}
+
+.step::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -15px;
+    transform: translateY(-50%);
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 15px solid white;
+}
+
+.step:last-child::after {
+    content: none; /* 最后一步没有箭头 */
+}
+
+.step.disabled {
+    color: #aaa; /* 灰色表示不可用 */
+    cursor: not-allowed;
+}
+
+.step.disabled::after {
+    border-left-color: #aaa; /* 灰色箭头 */
+}

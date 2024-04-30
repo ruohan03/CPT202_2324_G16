@@ -1,26 +1,35 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>预约确认</title>
     <link rel="stylesheet" href="/css/style.css">
+    <!-- 引入jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- 引入Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入Popper.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- 引入Bootstrap JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <style>
-        .no-border {
-            border: none !important;
-        }
-    </style>
+
+    <link rel="stylesheet" href="/css/reserve-step-arrow.css">
 </head>
 <body>
-    <div th:replace="member-nav :: top-nav"></div>
+<div th:replace="member-nav :: top-nav"></div>
+
+    <div class="reservation-steps">
+        <div class="step completed" data-href="/member/order/course">Select Course</div>
+        <div class="step completed" data-href="/member/select-trainer">Select Trainer</div>
+        <div class="step completed" data-href="/member/select-time">Select Time</div>
+        <div class="step active">Confirm</div>
+    </div>
+
     <div class="container">
-        <h1>预约确认</h1>
+        <h1>Confirm Reservation</h1>
         <div class="row">
             <div class="col">
-                <table class="table">
+                <table class="profile-table">
                     <tr>
                         <th>Course</th>
                         <td th:text="${course.name}"></td>
@@ -45,15 +54,15 @@
             <input type="hidden" name="staffId" th:value="${staff.staffId}" />
             <input type="hidden" name="date" th:value="${date}" />
             <input type="hidden" name="time" th:value="${startTime + '-' + endTime}" />
-            <button type="submit" class="btn btn-primary">确认预约</button>
+            <button type="submit" class="btn btn-primary">Confirming an Reservation</button>
         </form>
     </div>
 
     <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">消息</h5>
+                    <h5 class="modal-title" id="modalTitle">error prompt</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -62,43 +71,85 @@
                     <p id="modalMessage"></p>
                 </div>
                 <div class="modal-footer no-border justify-content-center">
-                    <button type="button" class="btn btn-primary" id="confirmButton">确认</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            // 提交预约表单
-            $("form").submit(function(e) {
-                e.preventDefault();
+<script>
+    $(document).ready(function() {
+        // 提交预约表单
+        $("form").submit(function(e) {
+            e.preventDefault();
 
-                $.post("/member/finalize-reservation", $(this).serialize(), function(response) {
-                    $('#modalMessage').text(response.message);
-                    if (response.result === "success") {
-                        // 显示预约成功的模态窗口
-                        $('#modalTitle').text("预约成功");
-                        $('#messageModal').modal('show');
-                    } else {
-                        // 显示预约失败的模态窗口
-                        $('#modalTitle').text("预约失败");
-                        $('#messageModal').modal('show');
-                    }
-                });
-            });
-
-            // 预约成功，点击确认后回到主页
-            $('#confirmButton').click(function() {
-                $('#messageModal').modal('hide');
-                if ($('#modalTitle').text() === "预约成功") {
-                    window.location.href = '/home_page';
+            $.post("/member/finalize-reservation", $(this).serialize(), function(response) {
+                $('#modalMessage').text(response.message);
+                if (response.result === "success") {
+                    // 显示预约成功的模态窗口
+                    $('#modalTitle').text("The appointment was successful");
+                    $('#messageModal').modal('show');
+                    console.log(response);
                 } else {
-                    window.location.href = '/member/order/course';
+                    // 显示预约失败的模态窗口
+                    $('#modalTitle').text("The appointment failed");
+                    $('#messageModal').modal('show');
+                    console.log(response);
                 }
             });
         });
-    </script>
 
+        // 预约成功，点击确认后回到主页
+        $('#confirmButton').click(function() {
+            $('#messageModal').modal('hide');
+            if ($('#modalTitle').text() === "The appointment was successful") {
+                window.location.href = '/home_page';
+            } else {
+                window.location.href = '/member/order/course';
+            }
+        });
+
+        document.querySelectorAll('.reservation-steps .step.completed').forEach(step => {
+            step.addEventListener('click', function() {
+                // 从隐藏字段获取参数
+                const courseId = $('input[name="courseId"]').val();
+                const staffId = $('input[name="staffId"]').val();
+
+                // 构建URL并跳转
+                let url = this.getAttribute('data-href');
+                url += `?courseId=${courseId}`;
+                if (url.includes('select-time')) {
+                    url += `&staffId=${staffId}`;
+                }
+                window.location.href = url;
+            });
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        // 检查每一步是否应该激活
+        const steps = document.querySelectorAll('.reservation-steps .step');
+        let isPreviousCompleted = true; // 前一步是否完成
+
+        steps.forEach((step, index) => {
+            // 如果步骤已完成，激活点击事件，否则禁用
+            if (step.classList.contains('completed') || isPreviousCompleted) {
+                step.addEventListener('click', function() {
+                    const url = this.getAttribute('data-href');
+                    if (url) {
+                        window.location.href = url;
+                    }
+                });
+            } else {
+                // 禁用未完成的步骤的点击事件
+                step.style.pointerEvents = 'none';
+                step.style.opacity = '0.5'; // 给未激活的步骤一个明显的视觉差异
+            }
+
+            // 更新是否所有前步都已完成的状态
+            isPreviousCompleted = step.classList.contains('completed');
+        });
+    });
+
+</script>
 </body>
 </html>
