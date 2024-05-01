@@ -14,16 +14,26 @@
 
 <div class="edit-staff-container">
     <form th:action="@{'/edit_staff/' + ${staff.staffId}}" method="post" class="edit-staff-form">
-        <input type="hidden" name="staffId" th:value="${staff.staffId}">
-        <input type="text" name="name" placeholder="name" th:value="${staff.name}" class="edit-staff-input">
-        <input type="text" name="password" placeholder="password" th:value="${staff.password}" class="edit-staff-input">
-        <input type="text" name="phone" placeholder="phone" th:value="${staff.phone}" class="edit-staff-input">
-        <input type="text" name="gender" placeholder="gender" th:value="${staff.gender}" class="edit-staff-input">
-        <input type="text" name="level" placeholder="level" th:value="${staff.level}" class="edit-staff-input">
-        <input type="text" name="salary" placeholder="salary" th:value="${staff.salary}" class="edit-staff-input">
-        <input type="text" name="courseId" placeholder="courseId" th:value="${staff.courseId}" class="edit-staff-input">
-        <button type="submit" class="edit-syaff-button">Update Staff</button>
+        <input type="text" name="name" placeholder="name" th:value="${staff.name}" class="edit-staff-input" required>
+        <input type="text" name="phone" placeholder="phone" th:value="${staff.phone}" class="edit-staff-input" required>
+        <select name="gender" class="edit-staff-input" required>
+            <option value="">Select Gender</option>
+            <option value="Male" th:selected="${staff.gender == 'Male'}">Male</option>
+            <option value="Female" th:selected="${staff.gender == 'Female'}">Female</option>
+        </select>
+
+        <select name="level" class="edit-staff-input" required>
+            <option value="">Select Level</option>
+            <option value="3" th:selected="${staff.level == 3}">3</option>
+            <option value="4" th:selected="${staff.level == 4}">4</option>
+            <option value="5" th:selected="${staff.level == 5}">5</option>
+        </select>
+
+        <input type="text" name="salary" placeholder="salary" th:value="${staff.salary}" class="edit-staff-input" required>
+        <input type="text" name="courseId" placeholder="courseId" th:value="${staff.courseId}" class="edit-staff-input" required>
+        <button type="submit" class="edit-staff-button">Update Staff</button>
     </form>
+
 </div>
 
 </body>

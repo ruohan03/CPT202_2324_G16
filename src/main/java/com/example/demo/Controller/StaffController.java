@@ -283,15 +283,17 @@ public class StaffController {
 
     @PostMapping("/edit_staff/{staffId}")
     public ResponseEntity<String> editStaff(@PathVariable("staffId") String staffId, @ModelAttribute Staff updatedStaff) {
-        if (staffService.existsByStaffId(staffId)) {
-            // Set the staffId of the updated staff to match the original staffId
-            updatedStaff.setStaffId(staffId);
-            staffService.editStaff(updatedStaff);
-            return ResponseEntity.ok("<script>alert('Staff updated successfully'); window.location.href='/manage_staff';</script>");
-        } else {
-            return ResponseEntity.badRequest().body("<script>alert('Staff with ID " + staffId + " does not exist'); window.location.href='/manage_staff';</script>");
+        // 验证courseId是否有效
+        if (!courseService.existsByCourseId(updatedStaff.getCourseId())) {
+            return ResponseEntity.badRequest().body("<script>alert('Invalid Course ID " + updatedStaff.getCourseId() + "'); window.location.href='/manage_staff';</script>");
         }
+
+        // 更新员工信息
+        updatedStaff.setStaffId(staffId); // 确保使用正确的staffId
+        staffService.editStaff(updatedStaff);
+        return ResponseEntity.ok("<script>alert('Staff updated successfully'); window.location.href='/manage_staff';</script>");
     }
+
 
     @GetMapping("/add_staff")
     public String addNewStaffPage() {
@@ -299,16 +301,6 @@ public class StaffController {
     }
     @PostMapping("/add_staff")
     public ResponseEntity<String> addStaff(@ModelAttribute Staff staff) {
-        if (staff.getStaffId() == null || staff.getStaffId().trim().isEmpty() ||
-                staff.getName() == null || staff.getName().trim().isEmpty() ||
-                staff.getPhone() == null || staff.getPhone().trim().isEmpty() ||
-                staff.getCourseId() == null || staff.getCourseId().trim().isEmpty() ||
-                staff.getPassword() == null || staff.getPassword().trim().isEmpty() ||
-                staff.getGender() == null || staff.getGender().trim().isEmpty() ||
-                staff.getLevel() == null || staff.getLevel() <= 0 ||
-                staff.getSalary() == null || staff.getSalary() <= 0) {  // 假设salary是Integer并检查是否为正数
-            return ResponseEntity.badRequest().body("<script>alert('All staff information fields are required and must be valid'); window.location.href='/manage_staff';</script>");
-        }
 
         if (!staff.getStaffId().matches("^T\\d{3}$")) {
             return ResponseEntity.badRequest().body("<script>alert('Staff ID must be Txxx (x is number)'); window.location.href='/manage_staff';</script>");
@@ -316,6 +308,10 @@ public class StaffController {
 
         if (staffService.existsByStaffId(staff.getStaffId())) {
             return ResponseEntity.badRequest().body("<script>alert('Staff with ID " + staff.getStaffId() + " already exists'); window.location.href='/manage_staff';</script>");
+        }
+
+        if (!courseService.existsByCourseId(staff.getCourseId())) {
+            return ResponseEntity.badRequest().body("<script>alert('Invalid Course ID " + staff.getCourseId() + "'); window.location.href='/manage_staff';</script>");
         }
 
         staffService.addStaff(staff);
