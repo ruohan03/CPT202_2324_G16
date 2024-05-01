@@ -388,21 +388,6 @@ a:hover {
 
 /* booking */
 
-.card {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: 0.3s;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-
-.card:hover {
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-.card-container {
-    padding: 2px 16px;
-}
-
 .card-title {
     font-size: 18px;
     color: #333;
@@ -412,16 +397,111 @@ a:hover {
     color: #777;
 }
 
-.time-slot.available {
-    background-color: #c8e6c9;
-    border-color: #2e7d32;
+/* 教练选择样式 */
+.trainer-selection-form {
+    width: 80%;
+    margin: 20px auto;
+    background: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.time-slot.unavailable {
-    background-color: #ffcdd2;
-    border-color: #c62828;
+.list-group {
+    margin: 0;
+    padding: 20px;
+    border-radius: inherit;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.list-group-item:last-child {
+    margin-bottom: 0;
+}
+
+.list-group-item:hover {
+    background-color: rgba(206, 86, 193, 0.3);
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);*/
+}
+
+.select-button {
+    padding: 6px 12px;
+    background-color: #FFFFFF;
+    color: #010544; /* 主题颜色 */
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 4px;
+}
+
+.select-button:hover {
+    background-color:#E6E6E6 ; /* 悬停背景颜色 */
+    color: #CE56C1; /* 悬停文本颜色 */
+}
+
+
+.trainer-info {
+    font-size: 1em;
+    color: #333;
+}
+
+/* 时间选择样式 */
+#availabilityResults {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 20px;
 }
 
 .time-slot {
-    margin: 5px;
+    padding: 10px;
+    background-color: #28a745; /* Bootstrap success green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.time-slot:hover {
+    background-color: #218838;
+}
+
+.time-slot.unavailable {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+input[type="date"] {
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ced4da;
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 20px;
+}
+
+/* 全局表单样式 */
+form {
+    width: 80%;
+    margin: 20px auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.no-border {
+    border: none !important;
 }

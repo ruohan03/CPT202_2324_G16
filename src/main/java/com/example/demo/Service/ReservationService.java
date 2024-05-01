@@ -20,5 +20,7 @@ public interface ReservationService {
     boolean hasExistingReservation(String memberId, LocalDate date, LocalTime startTime, LocalTime endTime);
 
     boolean createReservation(Reservation reservation);
+
+    boolean checkAvailabilityForNewReservation(String memberId, LocalDate date, LocalTime startTime, LocalTime endTime);
 }
 

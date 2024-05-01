@@ -8,17 +8,20 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <style>
-        .no-border {
-            border: none !important;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/reserve-step-arrow.css">
 </head>
 <body>
 
     <div class="top-nav" th:replace="member-nav :: top-nav"></div>
 
-    <form th:action="@{/member/confirm-reservation}" method="post">
+    <div class="reservation-steps">
+        <div class="step completed" data-href="/member/order/course">Select Course</div>
+        <div class="step completed" data-href="/member/select-trainer">Select Trainer</div>
+        <div class="step active" data-href="/member/select-time">Select Time</div>
+        <div class="step" data-href="/member/confirm-reservation">Confirm</div>
+    </div>
+
+    <form th:action="@{/member/confirm-reservation}" method="get">
         <input type="hidden" id="memberId" name="memberId" th:value="${member.memberId}" />
         <input type="hidden" id="staffId" name="staffId" th:value="${staffId}" />
         <input type="hidden" id="courseId" name="courseId" th:value="${selectedCourseId}" />
@@ -34,22 +37,22 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">预约时间冲突</h5>
+                    <h5 class="modal-title" id="modalLabel">Appointment time conflicts</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body text-center">
-                    您在选择的时间段内已有预约。<br>
-                    请关闭此窗口并选择其他时间。
+                    You have an appointment for the time slot you have chosen.<br>
+                    Please close this window and select a different time.
                 </div>
                 <div class="modal-footer no-border justify-content-center">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date();
@@ -58,6 +61,10 @@
             const datePicker = document.getElementById('date');
             datePicker.min = today.toISOString().split('T')[0];
             datePicker.max = nextWeek.toISOString().split('T')[0];
+
+            datePicker.onchange = function() {
+                fetchAvailability();
+            };
 
             function fetchAvailability() {
                 const staffId = document.querySelector('input[name="staffId"]').value;
@@ -72,11 +79,13 @@
                             const timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00', '17:00-19:00', '19:00-21:00'];
                             timeSlots.forEach((slot, i) => {
                                 const button = document.createElement('button');
-                                button.type = 'button'; // Keep it as 'button' to prevent form submission
+                                button.type = 'button';
                                 button.className = `time-slot ${data[i] ? 'available' : 'unavailable'}`;
                                 button.textContent = slot;
                                 button.disabled = !data[i];
-                                button.onclick = () => checkForExistingReservation(slot);
+                                button.onclick = function() {
+                                    checkForExistingReservation(slot);
+                                };
                                 results.appendChild(button);
                             });
                         }
@@ -94,22 +103,36 @@
                     type: 'GET',
                     success: function(hasReservation) {
                         if (hasReservation) {
-                            // If there is a reservation, show the modal
                             $('#reservationModal').modal('show');
                         } else {
-                            // If there is no existing reservation, submit the form with the selected time
                             document.querySelector('input[name="time"]').value = time;
                             document.querySelector('form').submit();
                         }
                     },
                     error: function() {
-                        alert('检查现有预约时发生错误。');
+                        alert('An error occurred while checking an existing appointment.');
                     }
                 });
             }
+            document.querySelectorAll('.reservation-steps .step.completed').forEach(step => {
+                step.addEventListener('click', function() {
+                    // Retrieve parameters from hidden fields
+                    const courseId = document.querySelector('input[name="courseId"]').value;
+                    const staffId = document.querySelector('input[name="staffId"]').value;
 
-            datePicker.onchange = fetchAvailability;
+                    // Build URL and redirect
+                    let url = this.getAttribute('data-href');
+                    url += `?courseId=${courseId}`;
+                    if (url.includes('select-time')) {
+                        url += `&staffId=${staffId}`;
+                    } else if (url.includes('confirm-reservation')) {
+                        url += `&staffId=${staffId}`;
+                    }
+                    window.location.href = url;
+                });
+            });
         });
+
     </script>
 
 </body>

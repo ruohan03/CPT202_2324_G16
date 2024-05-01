@@ -171,6 +171,7 @@ body::before {
 
 #registerOption p {
     color: #999999; /* Grey text for less emphasis */
+    margin-top: 10px;
 }
 /* 响应式设计 */
 @media (max-width: 768px) {

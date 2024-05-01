@@ -6,20 +6,78 @@
     <title>Select a Trainer</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/reserve-step-arrow.css">
 </head>
 <body>
     <div th:replace="member-nav :: top-nav"></div>
 
-    <form th:action="@{/member/select-time}" method="post">
+    <div class="reservation-steps">
+        <div class="step completed" data-href="/member/order/course">Select Course</div>
+        <div class="step active" data-href="/member/select-trainer">Select Trainer</div>
+        <div class="step" data-href="/member/select-time">Select Time</div>
+        <div class="step" data-href="/member/confirm-reservation">Confirm</div>
+    </div>
+
+    <form th:action="@{/member/select-time}" method="get" class="trainer-selection-form">
+        <input type="hidden" id="memberId" name="memberId" th:value="${member.memberId}" />
         <input type="hidden" name="courseId" th:value="${selectedCourse.courseId}" />
         <div class="list-group">
-            <div th:each="trainer : ${Trainers}" class="list-group-item">
-                <span th:text="${trainer.name + ' - Level: ' + trainer.level}"></span>
-                <button type="submit" name="staffId" th:value="${trainer.staffId}">Select</button>
+            <div th:each="trainer : ${Trainers}" class="list-group-item d-flex justify-content-between align-items-center">
+                <span th:text="${trainer.name + ' - Level: ' + trainer.level}" class="trainer-info"></span>
+                <button type="submit" name="staffId" th:value="${trainer.staffId}" class="select-button">Select</button>
             </div>
         </div>
     </form>
 
+
+    <script>
+        document.querySelectorAll('.reservation-steps .step').forEach(step => {
+            step.addEventListener('click', function() {
+                const href = this.getAttribute('data-href');
+                if (!this.classList.contains('active') && href) { // 防止活跃标签的点击行为
+                    // 从页面中获取必要的元素
+                    const courseIdElement = document.getElementById('courseId');
+                    const staffIdElement = document.getElementById('staffId');
+
+                    // 构建URL并携带必要的参数
+                    let url = href;
+                    if (courseIdElement && courseIdElement.value) {
+                        url += '?courseId=' + courseIdElement.value;
+                        if (staffIdElement && staffIdElement.value) {
+                            url += '&staffId=' + staffIdElement.value;
+                        }
+                    }
+                    window.location.href = url;
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查每一步是否应该激活
+            const steps = document.querySelectorAll('.reservation-steps .step');
+            let isPreviousCompleted = true; // 前一步是否完成
+
+            steps.forEach((step, index) => {
+                // 如果步骤已完成，激活点击事件，否则禁用
+                if (step.classList.contains('completed') || isPreviousCompleted) {
+                    step.addEventListener('click', function() {
+                        const url = this.getAttribute('data-href');
+                        if (url) {
+                            window.location.href = url;
+                        }
+                    });
+                } else {
+                    // 禁用未完成的步骤的点击事件
+                    step.style.pointerEvents = 'none';
+                    step.style.opacity = '0.5'; // 给未激活的步骤一个明显的视觉差异
+                }
+
+                // 更新是否所有前步都已完成的状态
+                isPreviousCompleted = step.classList.contains('completed');
+            });
+        });
+
+    </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

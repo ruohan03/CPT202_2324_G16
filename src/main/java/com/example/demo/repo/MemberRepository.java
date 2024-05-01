@@ -18,4 +18,5 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     @Query("SELECT m FROM Member m WHERE m.endDate <= :thresholdDate")
     List<Member> findMembersExpiringBefore(Date thresholdDate);
+
 }
