@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Staff</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入 jQuery 库 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px; /* 为搜索容器添加内边距 */
+        }
+        input[type="text"], button {
+            padding: 10px;
+            margin-right: 5px; /* 为输入框和按钮添加右边距 */
+            border: 1px solid #ccc;
+            border-radius: 5px; /* 输入框和按钮的圆角 */
+        }
+        button {
+            background-color: #007bff; /* 按钮背景色 */
+            color: white; /* 按钮文字颜色 */
+            cursor: pointer; /* 鼠标悬停时显示指针形状 */
+            transition: background-color 0.3s; /* 按钮背景颜色的过渡效果 */
+        }
+        button:hover {
+            background-color: #0056b3; /* 鼠标悬停时按钮的背景色 */
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            transition: all 0.3s ease-in-out;
+        }
+        .alert-danger {
+            max-width: 300px;
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+<h1>Staff Management</h1>
+
+<div class="search-container">
+    <!-- 搜索表单 -->
+    <form th:action="@{/manage_staff}" method="get" class="search-form">
+        <input type="text" name="search" placeholder="Search by name, ID, gender, or course ID" class="search-input">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+    <!-- 显示搜索无结果的消息 -->
+    <div th:if="${not #lists.isEmpty(noSearchMessage)}" class="alert alert-danger" th:text="${noSearchMessage}"></div>
+</div>
+
+<!-- Add Staff button -->
+<style>
+    .add-staff-button {
+        margin-left: 200px;
+    }
+</style>
+<div class="add-staff-container">
+    <button type="button" class="add-staff-button" onclick="showAddStaffForm()">Add Staff</button>
+</div>
+
+<!-- Add Staff form (hidden by default) -->
+<div id="add-staff-form" style="display: none;">
+    <form th:action="@{/add_staff}" method="post" class="add-staff-form">
+        <input type="text" name="staffId" placeholder="Staff ID" class="add-staff-input">
+        <input type="text" name="name" placeholder="name" class="add-staff-input">
+        <input type="text" name="password" placeholder="password" class="add-staff-input">
+        <input type="text" name="phone" placeholder="phone" class="add-staff-input">
+        <input type="text" name="gender" placeholder="gender" class="add-staff-input">
+        <input type="text" name="level" placeholder="level" class="add-staff-input">
+        <input type="text" name="salary" placeholder="salary" class="add-staff-input">
+        <input type="text" name="courseId" placeholder="courseId" class="add-staff-input">
+        <button type="submit" class="add-staff-button">Submit</button>
+    </form>
+</div>
+
+<!-- JavaScript to toggle visibility of Add Course form -->
+<script th:inline="javascript">
+    function showAddStaffForm() {
+        var addStaffForm = document.getElementById('add-staff-form');
+        if (addStaffForm.style.display === 'none') {
+            addStaffForm.style.display = 'block';
+        } else {
+            addStaffForm.style.display = 'none';
+        }
+    }
+</script>
+
+<!-- 员工信息表格 -->
+<table border="1">
+    <thead>
+    <tr>
+        <th>Staff ID</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Gender</th>
+        <th>Level</th>
+        <th>Salary</th>
+        <th>Course_id</th>
+        <th>Password</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="staff : ${staff}">
+        <td th:text="${staff.staffId}">T003</td>
+        <td th:text="${staff.name}">Mary</td>
+        <td th:text="${staff.phone}">278227</td>
+        <td th:text="${staff.gender}">Female</td>
+        <td th:text="${staff.level}">5</td>
+        <td th:text="${staff.salary}">100000</td>
+        <td th:text="${staff.courseId}">C001</td>
+        <td><span class="password" th:text="${staff.password}">Password</span></td>
+
+        <!-- Delete  -->
+        <td>
+            <a th:href="@{/delete_staff/{id}(id=${staff.staffId})}">Delete</a>
+        </td>
+
+        <!-- Edit  -->
+        <td>
+            <a th:href="@{/edit_staff/{staffId}(staffId=${staff.staffId})}">Edit</a>
+        </td>
+
+    </tr>
+    <tr th:if="${staff.isEmpty()}">
+        <td colspan="5">No trainers found.</td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    var passwordSpans = document.querySelectorAll('.password');
+
+    passwordSpans.forEach(function(span) {
+        var originalPassword = span.textContent;
+        span.textContent = '*'.repeat(originalPassword.length);
+
+        span.addEventListener('click', function() {
+            if (span.textContent === '*'.repeat(originalPassword.length)) {
+                span.textContent = originalPassword;
+            } else {
+                span.textContent = '*'.repeat(originalPassword.length);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -7,6 +7,7 @@ import com.example.demo.Service.CourseService;
 import com.example.demo.Service.PasswordService;
 import com.example.demo.Service.StaffService;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repo.StaffRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class StaffController {
@@ -29,18 +29,16 @@ public class StaffController {
     @Autowired
     private PasswordService passwordService;
 
+    @Autowired
+    private StaffRepository staffRepository;
+
+
     @GetMapping("/staff")
     public String getAllStaff(Model model){
         List<Staff> staff = staffService.findAllStaff();
         System.out.println(staff); // 用于调试，查看获取的员工信息
         model.addAttribute("staff", staff);
         return "staffView";  // 指向你的员工视图的Thymeleaf模板
-    }
-
-    @PostMapping("/addStaff")
-    public String addStaff(@ModelAttribute("staff") Staff staff){
-        staffService.addStaff(staff);
-        return "redirect:/staff"; // 重定向到显示所有员工的页面
     }
 
     @GetMapping("/staff/course/{courseId}")
@@ -196,6 +194,136 @@ public class StaffController {
         }
     }
 
+    @GetMapping("/manage_staff")
+    public String manageStaffList(@RequestParam(name = "search", required = false) String search, Model model, RedirectAttributes redirectAttributes) {
+        List<Staff> staff;
+        Set<Staff> results = new HashSet<>();
+
+        if (search != null && !search.isEmpty()) {
+            // 根据name、staff_id、gender、course_id进行搜索
+            results.addAll(staffService.findStaffByNameContaining(search).stream()
+                    .filter(s -> !s.isManager())
+                    .collect(Collectors.toSet()));
+            results.addAll(staffService.findStaffByStaffIdContaining(search).stream()
+                    .filter(s -> !s.isManager())
+                    .collect(Collectors.toSet()));
+            results.addAll(staffRepository.findByGender(search).stream()
+                    .filter(s -> !s.isManager())
+                    .collect(Collectors.toSet()));
+            results.addAll(staffService.findStaffByCourseIdContaining(search).stream()
+                    .filter(s -> !s.isManager())
+                    .collect(Collectors.toSet()));
+
+            // 尝试将search转换为整数，以便根据level进行搜索
+            try {
+                int level = Integer.parseInt(search);
+                results.addAll(staffRepository.findByLevel(level).stream()
+                        .filter(s -> !s.isManager())
+                        .collect(Collectors.toSet()));
+            } catch (NumberFormatException e) {
+                // 如果search不能转换为整数，这里可以不处理，继续其他搜索
+            }
+
+            // 如果results为空，重定向并显示消息
+            if (results.isEmpty()) {
+                redirectAttributes.addFlashAttribute("noSearchMessage", "No Trainer found for your search");
+                return "redirect:/manage_staff";
+            }
+        } else {
+            // 如果没有搜索条件，显示所有员工
+            results.addAll(staffService.findAllStaff().stream()
+                    .filter(s -> !s.isManager())
+                    .collect(Collectors.toSet()));
+        }
+
+        staff = new ArrayList<>(results);
+        model.addAttribute("staff", staff);
+        return "manage_staff";
+    }
+
+    @GetMapping ("/delete_staff/{id}")
+    public ResponseEntity<String> deleteStaff(@PathVariable(value="id") String staffId) {
+        if (!staffService.existsByStaffId(staffId)) {
+            return ResponseEntity.badRequest().body("<script>alert('Staff with ID " + staffId + " not found'); window.location.href='/manage_staff';</script>");
+        }
+        String confirmationMessage = "Are you sure you want to delete the staff whose staff ID is "+ staffId +" ? Once deleted, it cannot be withdrawn.";
+        // 生成包含确认消息的JavaScript代码
+        String confirmScript = "if(confirm('" + confirmationMessage + "')) { "
+                + "window.location.href='/delete_staff_confirmed/" + staffId + "';"
+                + "} else {"
+                + "window.location.href='/manage_staff';"
+                + "}";
+        // 返回包含确认消息的 JavaScript 响应
+        return ResponseEntity.ok("<script>" + confirmScript + "</script>");
+    }
+
+    @GetMapping("/delete_staff_confirmed/{id}")
+    public ResponseEntity<String> deleteStaffConfirmed(@PathVariable(value="id") String staffId) {
+        if (!staffService.existsByStaffId(staffId)) {
+            return ResponseEntity.badRequest().body("<script>alert('Staff with ID " + staffId + " not found'); window.location.href='/manage_staff';</script>");
+        }
+        // 执行删除操作
+        staffService.deleteByStaffId(staffId);
+        // 删除成功后的消息
+        String successMessage = "Staff with ID " + staffId + " has been successfully deleted.";
+        return ResponseEntity.ok("<script>alert('" + successMessage + "'); window.location.href='/manage_staff';</script>");
+    }
+
+    @GetMapping("/edit_staff/{staffId}")
+    public String showEditCourseForm(@PathVariable("staffId") String staffId, Model model) {
+        Staff staff = staffService.findStaffById(staffId);
+        if (staff != null) {
+            model.addAttribute("staff", staff);
+            return "edit_staff";
+        } else {
+            // Staff not found, redirect or show error message
+            return "redirect:/manage_staff";
+        }
+    }
+
+    @PostMapping("/edit_staff/{staffId}")
+    public ResponseEntity<String> editStaff(@PathVariable("staffId") String staffId, @ModelAttribute Staff updatedStaff) {
+        if (staffService.existsByStaffId(staffId)) {
+            // Set the staffId of the updated staff to match the original staffId
+            updatedStaff.setStaffId(staffId);
+            staffService.editStaff(updatedStaff);
+            return ResponseEntity.ok("<script>alert('Staff updated successfully'); window.location.href='/manage_staff';</script>");
+        } else {
+            return ResponseEntity.badRequest().body("<script>alert('Staff with ID " + staffId + " does not exist'); window.location.href='/manage_staff';</script>");
+        }
+    }
+
+    @GetMapping("/add_staff")
+    public String addNewStaffPage() {
+        return "add_staff";
+    }
+    @PostMapping("/add_staff")
+    public ResponseEntity<String> addStaff(@ModelAttribute Staff staff) {
+        if (staff.getStaffId() == null || staff.getStaffId().trim().isEmpty() ||
+                staff.getName() == null || staff.getName().trim().isEmpty() ||
+                staff.getPhone() == null || staff.getPhone().trim().isEmpty() ||
+                staff.getCourseId() == null || staff.getCourseId().trim().isEmpty() ||
+                staff.getPassword() == null || staff.getPassword().trim().isEmpty() ||
+                staff.getGender() == null || staff.getGender().trim().isEmpty() ||
+                staff.getLevel() == null || staff.getLevel() <= 0 ||
+                staff.getSalary() == null || staff.getSalary() <= 0) {  // 假设salary是Integer并检查是否为正数
+            return ResponseEntity.badRequest().body("<script>alert('All staff information fields are required and must be valid'); window.location.href='/manage_staff';</script>");
+        }
+
+        if (!staff.getStaffId().matches("^T\\d{3}$")) {
+            return ResponseEntity.badRequest().body("<script>alert('Staff ID must be Txxx (x is number)'); window.location.href='/manage_staff';</script>");
+        }
+
+        if (staffService.existsByStaffId(staff.getStaffId())) {
+            return ResponseEntity.badRequest().body("<script>alert('Staff with ID " + staff.getStaffId() + " already exists'); window.location.href='/manage_staff';</script>");
+        }
+
+        staffService.addStaff(staff);
+        return ResponseEntity.ok("<script>alert('Staff added successfully'); window.location.href='/manage_staff';</script>");
+    }
 }
+
+
+
 
 

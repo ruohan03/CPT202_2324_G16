@@ -116,5 +116,37 @@ public class StaffServiceImpl implements StaffService {
         staffRepository.save(staff);
     }
 
+    @Override
+    public List<Staff> findStaffByNameContaining(String name) {
+        return staffRepository.findByNameContaining(name);
+    }
+    @Override
+    public List<Staff> findStaffByStaffIdContaining(String staffId) {
+        return staffRepository.findByStaffIdContaining(staffId);
+    }
 
+    @Override
+    public List<Staff> findStaffByCourseIdContaining(String courseId) {
+        return staffRepository.findByCourseIdContaining(courseId);
+    }
+
+    @Override
+    public boolean existsByStaffId(String staffId) {
+        return staffRepository.existsById(staffId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByStaffId(String staffId) {
+        if (existsByStaffId(staffId)) {
+            staffRepository.deleteById(staffId);
+        } else {
+            throw new RuntimeException("Staff not found with id: " + staffId);
+        }
+    }
+
+    @Override
+    public void editStaff(Staff updatedStaff) {
+        staffRepository.save(updatedStaff);
+    }
 }
