@@ -8,6 +8,8 @@ import java.util.Optional;
 
 @Repository("fc_appointment_system/staff")
 public interface StaffRepository extends JpaRepository<Staff, String> {
+    List<Staff> findByNameContaining(String name);
+
     List<Staff> findStaffByCourseId(String courseId);
 
     Staff findByPhone(String phone);
@@ -16,4 +18,11 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
 
     Staff findByPhoneAndName(String phone, String name);
 
+    List<Staff> findByStaffIdContaining(String staffId);
+
+    List<Staff> findByGender(String gender);
+
+    List<Staff> findByLevel(int level);
+
+    List<Staff> findByCourseIdContaining(String courseId);
 }

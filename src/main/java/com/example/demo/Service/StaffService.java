@@ -27,4 +27,16 @@ public interface StaffService {
     List<Member> findMembersWithSentNotifications();
     List<Member> findMembersForRenewalNotification(Date thresholdDate);
     void saveOrUpdate(Staff staff);
+
+    List<Staff> findStaffByNameContaining(String name);
+
+    List<Staff> findStaffByStaffIdContaining(String staffId);
+
+    List<Staff> findStaffByCourseIdContaining(String courseId);
+
+    boolean existsByStaffId(String staffId);
+
+    void deleteByStaffId(String staffId);
+
+    void editStaff(Staff updatedStaff);
 }

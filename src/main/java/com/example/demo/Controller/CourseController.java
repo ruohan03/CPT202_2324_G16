@@ -122,7 +122,7 @@ public class CourseController {
     }
     @PostMapping("/add_course")
     public ResponseEntity<String> addCourse(@ModelAttribute Course course) {
-        if (course == null || course.getCourseId() == null || course.getName() == null) {
+        if (course == null || course.getCourseId() == null || course.getName() == "") {
             return ResponseEntity.badRequest().body("<script>alert('Course ID and name are required'); window.location.href='/manage_courses';</script>");
         }
 
@@ -153,6 +153,9 @@ public class CourseController {
 
     @PostMapping("/edit_course/{courseId}")
     public ResponseEntity<String> editCourse(@PathVariable("courseId") String courseId, @ModelAttribute Course updatedCourse) {
+        if (updatedCourse.getName() == null || updatedCourse.getName().isEmpty()) {
+            return ResponseEntity.badRequest().body("<script>alert('Name is required'); window.location.href='/manage_courses';</script>");
+        }
         if (courseService.existsByCourseId(courseId)) {
             // Set the courseId of the updated course to match the original courseId
             updatedCourse.setCourseId(courseId);
