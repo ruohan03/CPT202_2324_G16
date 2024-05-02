@@ -1,8 +1,10 @@
 package com.example.demo.repo;
 
 import com.example.demo.Model.Member;
+import com.example.demo.Model.Staff;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -19,4 +21,5 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @Query("SELECT m FROM Member m WHERE m.endDate <= :thresholdDate")
     List<Member> findMembersExpiringBefore(Date thresholdDate);
 
+    List<Member> findByPhoneContaining(String phone);
 }

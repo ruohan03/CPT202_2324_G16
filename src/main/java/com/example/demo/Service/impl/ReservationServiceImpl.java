@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -78,6 +77,66 @@ public class ReservationServiceImpl implements ReservationService {
         // Find overlapping reservations that are not cancelled.
         List<Reservation> overlappingReservations = reservationRepository.findOverlappingReservations(staffId, date, startTime, endTime);
         return overlappingReservations.isEmpty();
+    }
+
+    @Override
+    public List<Reservation> getCompletedReservationsForMember(String memberId) {
+        return reservationRepository.findByMemberIdAndIsCancelledFalseAndIsSignInTrue(memberId);
+    }
+
+    @Override
+    public List<Reservation> getIncompleteReservationsForMember(String memberId) {
+        LocalDate today = LocalDate.now();
+        LocalTime now = LocalTime.now();
+
+        List<Reservation> allReservations = reservationRepository.findReservationByMemberId(memberId);
+
+        List<Reservation> futureReservations = allReservations.stream()
+                .filter(r -> r.getLessonStartDate().isAfter(today) ||
+                        (r.getLessonStartDate().equals(today) && r.getLessonStartTime().isAfter(now)))
+                .collect(Collectors.toList());
+
+        List<Reservation> missedReservations = allReservations.stream()
+                .filter(r -> !r.getIsSignIn() &&
+                        (r.getLessonStartDate().isBefore(today) ||
+                                (r.getLessonStartDate().equals(today) && r.getLessonStartTime().isBefore(now))))
+                .collect(Collectors.toList());
+
+        futureReservations.addAll(missedReservations);
+
+        return futureReservations;
+    }
+
+
+
+    public String cancelReservation(String reservationId, String memberId) {
+        Optional<Reservation> reservationOpt = reservationRepository.findById(reservationId);
+        if (reservationOpt.isPresent()) {
+            Reservation reservation = reservationOpt.get();
+            if (reservation.getMemberId().equals(memberId) && !reservation.getIsCancelled() && LocalDate.now().isBefore(reservation.getLessonStartDate())) {
+                reservation.setIsCancelled(true);
+                reservationRepository.save(reservation);
+                return "预约已取消";
+            }
+        }
+        return "无法取消预约";
+    }
+
+    public String signIn(String reservationId, String memberId) {
+        Optional<Reservation> reservationOpt = reservationRepository.findById(reservationId);
+        if (reservationOpt.isPresent()) {
+            Reservation reservation = reservationOpt.get();
+            if (reservation.getMemberId().equals(memberId) && !reservation.getIsSignIn() && LocalDate.now().equals(reservation.getLessonStartDate()) && LocalTime.now().isAfter(reservation.getLessonStartTime())&&LocalTime.now().isBefore(reservation.getLessonEndTime())) {
+                reservation.setIsSignIn(true);
+                reservationRepository.save(reservation);
+                return "签到成功";
+            }
+        }
+        return "无法签到";
+    }
+
+    public List<Reservation> findReservationsByDate(String memberId, LocalDate date) {
+        return reservationRepository.findByMemberIdAndLessonStartDate(memberId, date);
     }
 
 }

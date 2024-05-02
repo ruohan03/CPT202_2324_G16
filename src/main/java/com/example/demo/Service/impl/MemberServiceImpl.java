@@ -1,6 +1,7 @@
 package com.example.demo.Service.impl;
 
 import com.example.demo.Model.Member;
+import com.example.demo.Model.Staff;
 import com.example.demo.Service.MemberService;
 import com.example.demo.Service.PasswordService;
 import com.example.demo.exception.MembershipValidationException;
@@ -149,5 +150,25 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+    @Override
+    public Member findMemberByPhone(String phone) {
+        return memberRepository.findByPhone(phone);
+    }
+
+    @Override
+    public void rechargeMember(String memberId, double amount) {
+        // 先根据ID查找用户
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("No member found with ID: " + memberId));
+        // 更新余额
+        double newBalance = member.getRemaining_sum() + amount;
+        member.setRemaining_sum(newBalance);
+        memberRepository.save(member);
+    }
+
+    @Override
+    public List<Member> findMemberByPhoneContaining(String phone) {
+        return memberRepository.findByPhoneContaining(phone);
+    }
 
 }

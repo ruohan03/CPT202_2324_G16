@@ -1,4 +1,5 @@
 package com.example.demo.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -44,12 +45,13 @@ public class Member {
     private Boolean locker_isAgreed;
 
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
     private Set<Purchase> purchases;
 
     @Column(name = "plan")
     private String plan;
 
-//    @Column(name = "endDate")
+    @Column(name = "end_date")
     private Date endDate;
 
     @Column(name = "remaining_sum", nullable = false)
