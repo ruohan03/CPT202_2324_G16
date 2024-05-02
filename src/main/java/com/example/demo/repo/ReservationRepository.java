@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -27,5 +28,21 @@ import java.util.List;
     @Query("SELECT r FROM Reservation r WHERE r.staffId = :staffId AND r.lessonStartDate = :date AND " +
             "r.lessonStartTime < :endTime AND r.lessonEndTime > :startTime AND r.isCancelled = false")
     List<Reservation> findOverlappingReservations(String staffId, LocalDate date, LocalTime startTime, LocalTime endTime);
+
+    List<Reservation> findByMemberIdAndIsCancelledFalseAndIsSignInTrue(String memberId);
+
+    // 查询未来的预约
+    List<Reservation> findByMemberIdAndIsCancelledFalseAndLessonStartDateGreaterThanEqualAndLessonStartTimeGreaterThanEqual(String memberId, LocalDate date, LocalTime time);
+
+    // 查询过去但未签到的预约
+    List<Reservation> findByMemberIdAndIsCancelledFalseAndIsSignInFalseAndLessonStartDateLessThanEqualAndLessonStartTimeLessThanEqual(String memberId, LocalDate date, LocalTime time);
+    List<Reservation> findByMemberIdAndLessonStartDate(String memberId, LocalDate lessonStartDate);
+    // 查询未取消的预约
+    List<Reservation> findByMemberIdAndIsCancelledFalse(String memberId);
+
+    // 根据日期查询未取消的预约
+    List<Reservation> findByMemberIdAndIsCancelledFalseAndLessonStartDate(String memberId, LocalDate date);
+
+    List<Reservation> findReservationByMemberId(String memberId);
 }
 

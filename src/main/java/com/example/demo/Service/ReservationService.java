@@ -22,5 +22,15 @@ public interface ReservationService {
     boolean createReservation(Reservation reservation);
 
     boolean checkAvailabilityForNewReservation(String memberId, LocalDate date, LocalTime startTime, LocalTime endTime);
+
+    List<Reservation> getCompletedReservationsForMember(String memberId);
+    List<Reservation> getIncompleteReservationsForMember(String memberId);
+
+    String cancelReservation(String reservationId, String memberId);
+    String signIn(String reservationId, String memberId);
+    List<Reservation> findReservationsByDate(String memberId, LocalDate date);
+
+
+
 }
 

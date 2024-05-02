@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Completed Reservations</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1>Completed Reservations</h1>
+</header>
+<section>
+    <ul th:if="${!completedReservations.isEmpty()}">
+        <li th:each="reservation : ${completedReservations}">
+            <div>
+                <h3 th:text="${reservation.courseId}">Course Name</h3>
+                <p th:text="'Date: ' + ${reservation.lessonStartDate} + ', Time: ' + ${reservation.lessonStartTime} + ' - ' + ${reservation.lessonEndTime}">Course Time</p>
+                <p th:text="'Instructor: ' + ${reservation.staffId}">Instructor Name</p>
+                <p th:text="'Reservation ID: ' + ${reservation.reservationId}">Reservation ID</p>
+            </div>
+        </li>
+    </ul>
+    <div th:if="${completedReservations.isEmpty()}">
+        <p>No completed reservations.</p>
+    </div>
+</section>
+<footer>
+    <p>© 2024 Your Gym Name</p>
+</footer>
+</body>
+</html>

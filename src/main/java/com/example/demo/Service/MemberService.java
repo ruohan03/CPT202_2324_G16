@@ -36,4 +36,10 @@ public interface MemberService {
     Member findByPhoneAndName(String phone, String name);
 
     boolean updatePassword(String phone, String newPassword);
+
+
+    Member findMemberByPhone(String phone);
+    void rechargeMember(String memberId, double amount);
+
+    List<Member> findMemberByPhoneContaining(String phone);
 }
