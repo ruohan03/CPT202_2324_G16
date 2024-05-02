@@ -17,6 +17,10 @@ public interface ReservationService {
 
     List<Reservation> getAllReservationsByStaffId(String staffId);
 
+    List<Reservation> getIncompleteReservationsByStaffId(String staffId);
+
+    List<Reservation> getCompleteReservationsByStaffId(String staffId);
+
     boolean hasExistingReservation(String memberId, LocalDate date, LocalTime startTime, LocalTime endTime);
 
     boolean createReservation(Reservation reservation);

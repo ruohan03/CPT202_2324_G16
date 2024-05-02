@@ -44,5 +44,9 @@ import java.util.List;
     List<Reservation> findByMemberIdAndIsCancelledFalseAndLessonStartDate(String memberId, LocalDate date);
 
     List<Reservation> findReservationByMemberId(String memberId);
+
+    List<Reservation> findByStaffIdAndIsCancelledFalseAndIsSignInFalse(String staffId);
+
+    List<Reservation> findByStaffIdAndIsCancelledFalseAndIsSignInTrue(String staffId);
 }
 

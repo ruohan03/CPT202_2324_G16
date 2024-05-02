@@ -6,10 +6,8 @@ import com.example.demo.repo.ReservationRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,6 +51,16 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<Reservation> getAllReservationsByStaffId(String staffId) {
         return reservationRepository.findByStaffId(staffId);
+    }
+
+    @Override
+    public List<Reservation> getIncompleteReservationsByStaffId(String staffId) {
+        return reservationRepository.findByStaffIdAndIsCancelledFalseAndIsSignInFalse(staffId);
+    }
+
+    @Override
+    public List<Reservation> getCompleteReservationsByStaffId(String staffId) {
+        return reservationRepository.findByStaffIdAndIsCancelledFalseAndIsSignInTrue(staffId);
     }
 
     @Override

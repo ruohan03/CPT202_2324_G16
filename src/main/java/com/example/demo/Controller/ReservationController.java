@@ -77,13 +77,38 @@ public class ReservationController {
     public String getStaffReservations(HttpSession session, Model model){
         String staffId = (String) session.getAttribute("staffId");
         if (staffId != null) {
-            model.addAttribute("staffReservationList", reservationService.getAllReservationsByStaffId(staffId));
+            model.addAttribute("staffReservationList", reservationService.getIncompleteReservationsByStaffId(staffId));
             return"view_schedule";
         }
         else {
             return "redirect:/staff/login";
         }
     }
+
+    @GetMapping("/view_all_schedule")
+    public String getAllStaffReservations(HttpSession session, Model model){
+        String staffId = (String) session.getAttribute("staffId");
+        if (staffId != null) {
+            model.addAttribute("staffAllReservationList", reservationService.getAllReservationsByStaffId(staffId));
+            return"view_all_schedule";
+        }
+        else {
+            return "redirect:view_schedule";
+        }
+    }
+
+    @GetMapping("/view_complete_schedule")
+    public String getCompleteStaffReservations(HttpSession session, Model model){
+        String staffId = (String) session.getAttribute("staffId");
+        if (staffId != null) {
+            model.addAttribute("staffCompleteReservationList", reservationService.getCompleteReservationsByStaffId(staffId));
+            return"view_complete_schedule";
+        }
+        else {
+            return "redirect:view_schedule";
+        }
+    }
+
 
     @GetMapping("/api/courses")
     @ResponseBody
