@@ -137,13 +137,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Consistent shadow with the container */
 }
 
-.alert-success {
-    background-color: #57965D; /* Success color */
-}
-
-.alert-danger {
-    background-color: #C94F4F; /* Error color */
-}
 
 /* Responsive Layout Styles */
 @media (max-width: 768px) {
@@ -178,4 +171,16 @@
 .profile-table input[type="text"].always-visible,
 .profile-table select.text-input.always-visible {
     display: block;
+}
+
+/* 定义动画 */
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(-20px); /* 开始和结束时都向上移动，创建淡出效果 */
+    }
+    10%, 90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

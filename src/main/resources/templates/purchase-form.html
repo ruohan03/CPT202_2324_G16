@@ -13,8 +13,8 @@
 <!-- Purchase Form Container -->
 <div class="profile-container">
     <h1 class="profile-header">Purchase Plan</h1>
-    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div th:if="${success}" class="alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert-danger" th:text="${error}"></div>
     <form th:action="@{/purchase}" th:object="${purchase}" method="post">
         <table class="profile-table">
             <tr>
@@ -84,6 +84,23 @@
     function cancelEdit() {
         window.location.href = '/home_page'; // Redirect to home page on cancel
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const success = document.querySelector('.alert-success');
+        if (success) {
+            setTimeout(() => {
+                success.style.display = 'none'; // 或者 successMessage.remove(); 若希望从 DOM 中完全移除元素
+            }, 3000); // 设置延时为 5000 毫秒（5 秒）
+        }
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const error = document.querySelector('.alert-danger');
+        if (error) {
+            setTimeout(() => {
+                error.style.display = 'none'; // 或者 successMessage.remove(); 若希望从 DOM 中完全移除元素
+            }, 3000); // 设置延时为 5000 毫秒（5 秒）
+        }
+    });
 </script>
 </body>
 </html>

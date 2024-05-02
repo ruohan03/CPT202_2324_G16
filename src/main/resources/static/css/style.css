@@ -177,13 +177,27 @@ a:hover {
     border:2px solid #57965D;
     background-color: #FFFFFF; /* 绿色背景表示成功 */
     color: #57965D;
+    padding: 10px; /* 内边距 */
+    width: 90%; /* 比输入框稍窄 */
+    max-width: 400px; /* 错误消息的最大宽度 */
+    margin: 10px auto 20px; /* 上下外边距为10px和20px, 水平居中 */
+    text-align: center; /* 文本居中 */
+    border-radius: 4px; /* 轻微圆角 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 轻微的阴影 */
 }
 
 .alert-danger {
     font-weight: bold;
-    background-color: #FFFFFF;
-    border: 2px solid #C94F4F;
-    color: #C94F4F
+    border:2px solid #C94F4F;
+    background-color: #FFFFFF; /* 绿色背景表示成功 */
+    color: #C94F4F;
+    padding: 10px; /* 内边距 */
+    width: 90%; /* 比输入框稍窄 */
+    max-width: 400px; /* 错误消息的最大宽度 */
+    margin: 10px auto 20px; /* 上下外边距为10px和20px, 水平居中 */
+    text-align: center; /* 文本居中 */
+    border-radius: 4px; /* 轻微圆角 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 轻微的阴影 */
 }
 
 /* 模态框覆盖层样式 */
@@ -504,4 +518,15 @@ label {
 
 .no-border {
     border: none !important;
+}
+/* 定义动画 */
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(-20px); /* 开始和结束时都向上移动，创建淡出效果 */
+    }
+    10%, 90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
