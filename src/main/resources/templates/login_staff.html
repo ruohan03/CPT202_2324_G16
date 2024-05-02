@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Login</title>
     <link rel="stylesheet" href="/css/Login.css">
-
 </head>
 <body>
 <nav class="navbar">
     <div class="navbar-brand">H-XYZ Fitness Appointment System</div>
-    </div>
     <a href="/navigation" class="nav-button">Return</a>
 </nav>
 <div class="login-centered-container">
@@ -18,8 +16,9 @@
         <h1>Staff Login</h1>
         <!-- 显示错误消息的区域 -->
         <div id="error-message" class="error-message" style="display: none;">Invalid credentials. Please try again.</div>
+        <div id="inactive-account-message" class="error-message" style="display: none;">Account not active. Please contact administrator.</div>
 
-        <form action="/staff/login" method="post">  <!-- 确保action的URL正确 -->
+        <form action="/staff/login" method="post">
             <div class="form-group">
                 <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone number" required>
             </div>
@@ -28,34 +27,31 @@
             </div>
             <button type="submit" class="btn">Login</button>
             <div id="registerOption">
-                <a href="/forgetPassword_trainer" > Forget Password?</a>
-            </div>
-            <!-- 在登录表单下方添加一个 div 来显示成功消息 -->
-            <div th:if="${param.password_updated}">
-                <div class="success-message-container">
-                    <div class="success-message">Password updated successfully.</div>
-                </div>
+                <a href="/forgetPassword_trainer">Forget Password?</a>
             </div>
         </form>
     </div>
 </div>
 
 <script>
-    // 检查URL中是否有错误参数，如果有，显示错误消息
-    if (window.location.search.indexOf('error=true') !== -1) {
+    // Check the URL for error parameters and display the corresponding error message
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorType = urlParams.get('error');
+    if (errorType === 'true') {
         document.getElementById('error-message').style.display = 'block';
+    } else if (errorType === 'inactive') {
+        document.getElementById('inactive-account-message').style.display = 'block';
     }
+
     document.addEventListener("DOMContentLoaded", function() {
         const successMessage = document.querySelector('.success-message');
         if (successMessage) {
             setTimeout(() => {
-                successMessage.style.display = 'none'; // 或者 successMessage.remove(); 若希望从 DOM 中完全移除元素
-            }, 5000); // 设置延时为 5000 毫秒（5 秒）
+                successMessage.style.display = 'none';
+            }, 5000); // Hide the success message after 5 seconds
         }
     });
 </script>
-
-
 
 </body>
 </html>

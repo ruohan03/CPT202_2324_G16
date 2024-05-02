@@ -20,11 +20,14 @@ public class Staff {
     private String courseId;
     private boolean isManager;  // 管理员状态字段在Trainer模型中没有，但在Staff中需要
 
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive;  // 新增字段表示员工是否激活
+
     // Constructors
     public Staff() {
     }
 
-    public Staff(String staffId, String name, String password, String phone, String gender, int level, int salary, String courseId, boolean isManager) {
+    public Staff(String staffId, String name, String password, String phone, String gender, int level, int salary, String courseId, boolean isManager, boolean isActive) {
         this.staffId = staffId;
         this.name = name;
         this.password = password;
@@ -34,6 +37,7 @@ public class Staff {
         this.salary = salary;
         this.courseId = courseId;
         this.isManager = isManager;
+        this.isActive = isActive;
     }
 
     public Staff(String name) {
@@ -116,5 +120,13 @@ public class Staff {
 
     public void setManager(boolean isManager) {
         this.isManager = isManager;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }

@@ -80,10 +80,18 @@ public class StaffController {
             model.addAttribute("staff", staff.get());
             return staff.get().isManager() ? "manager_homepage" : "trainer_homepage";
         } else {
-            model.addAttribute("error", "Invalid credentials");
-            return "redirect:/staff/login?error=true";
+            // We need to check if the staff exists but is not active to provide a specific error message
+            Staff inactiveStaff = staffRepository.findByPhone(phone);
+            if (inactiveStaff != null && !inactiveStaff.isActive()) {
+                model.addAttribute("error", "Account not active. Please contact administrator.");
+                return "redirect:/staff/login?error=inactive";
+            } else {
+                model.addAttribute("error", "Invalid credentials");
+                return "redirect:/staff/login?error=true";
+            }
         }
     }
+
 
 
 

@@ -53,11 +53,14 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public Optional<Staff> login(String phone, String password) {
         Staff staff = staffRepository.findByPhone(phone);
-        if(staff != null && passwordService.matchPassword(password, staff.getEncodedPassword())) {
-            return Optional.of(staff);
+        if (staff != null && passwordService.matchPassword(password, staff.getEncodedPassword())) {
+            if (staff.isActive()) {
+                return Optional.of(staff);
+            }
         }
         return Optional.empty();
     }
+
 
     @Override
     public Staff findStaffById(String staffId) {
