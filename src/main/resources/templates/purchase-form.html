@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/profile.css">
 </head>
-<body>
+<body th:data-member-id="${session.memberId}">
 
 <div th:replace="member-nav :: top-nav"></div>
 
@@ -56,34 +56,11 @@
     </form>
 </div>
 
-<script>
-    function updatePrice(plan) {
-        const prices = {
-            "Diamond Super VIP": 8888,
-            "Gold Super VIP": 6888,
-            "Silver Super VIP": 3888,
-            "Diamond VIP": 5666,
-            "Gold VIP": 3666,
-            "Silver VIP": 1666
-        };
-        document.getElementById('planPrice').textContent = prices[plan] || "Please select a plan";
-    }
-
-    document.querySelector('select[name="plan"]').addEventListener('change', function() {
-        updatePrice(this.value);
-        const durationField = document.getElementById('durationField');
-        if (this.value.includes('Super VIP')) {
-            durationField.value = 12;  // 12 months for VIP plans
-        } else if (this.value.includes('VIP')) {
-            durationField.value = 6;   // 6 months for Member plans
-        } else {
-            durationField.value = '';  // clear if nothing selected or recognized
-        }
-    });
-
-    function cancelEdit() {
-        window.location.href = '/home_page'; // Redirect to home page on cancel
-    }
-</script>
+<script src="/js/member-purchase.js"></script>
+<script src="/js/nav-book-course.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </body>
 </html>

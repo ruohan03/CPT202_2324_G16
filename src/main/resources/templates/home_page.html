@@ -16,7 +16,7 @@
         }
     </style>
 </head>
-<body>
+<body th:data-member-id="${session.memberId}">
 
     <div th:replace="member-nav :: top-nav"></div>
 
@@ -54,96 +54,12 @@
             </div>
         </div>
     </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var memberId = sessionStorage.getItem('memberId'); // 假设在登录时已存储
-            var profileLink = document.getElementById('profile-link');
-            if (profileLink && memberId) {
-                profileLink.href = `/profile/${memberId}`;
-            }
-        });
-    </script>
 
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        const memberId = [[${session.memberId}]];
-        /*]]>*/
-    </script>
-
-    <script>
-            document.getElementById('bookCourseBtn').addEventListener('click', function() {
-            if (memberId) {
-                fetch(`/members/check-validity/${memberId}`)
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.href = '/member/order/course';
-                        } else {
-                            return response.text();
-                        }
-                    })
-                    .then(message => {
-                        if (message) {
-                            let title = 'Member Status';
-                            if (message === 'Something wrong happens, please connect with the administrator.') {
-                                title = 'Error';
-                            }
-                            Swal.fire({
-                                title: title,
-                                text: message,
-                                icon: 'error',
-                                confirmButtonText: 'Close'
-                            });
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            } else {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Member ID is not available.',
-                    icon: 'error',
-                    confirmButtonText: 'Close'
-                });
-            }
-        });
-
-        document.getElementById('navBookCourseBtn').addEventListener('click', function(event) {
-            event.preventDefault(); // 阻止默认的链接跳转行为
-            if (memberId) {
-                fetch(`/members/check-validity/${memberId}`)
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.href = '/member/order/course';
-                        } else {
-                            return response.text();
-                        }
-                    })
-                    .then(message => {
-                        if (message) {
-                            let title = 'Member Status';
-                            if (message === 'Something wrong happens, please connect with the administrator.') {
-                                title = 'Error';
-                            }
-                            Swal.fire({
-                                title: title,
-                                text: message,
-                                icon: 'error',
-                                confirmButtonText: 'Close'
-                            });
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            } else {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Member ID is not available.',
-                    icon: 'error',
-                    confirmButtonText: 'Close'
-                });
-            }
-        });
-    </script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/js/homepage.js"></script>
+    <script src="/js/nav-book-course.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </body>
 </html>

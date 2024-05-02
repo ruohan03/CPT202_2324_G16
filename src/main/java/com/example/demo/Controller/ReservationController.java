@@ -105,7 +105,6 @@ public class ReservationController {
         // 从数据库获取 member 对象
         Member member = memberService.findMemberById(memberId);
         if (member == null) {
-            logger.debug("No member found with the provided memberId, redirecting to login.");
             return "redirect:/login"; // 如果找不到成员信息，也重定向到登录页面
         }
 
@@ -249,14 +248,14 @@ public class ReservationController {
         if (bindingResult.hasErrors()) {
             // 处理错误
             response.put("result", "error");
-            response.put("message", "表单填写有误，请重试。");
+            response.put("message", "The form was filled in incorrectly. Please try again.");
             return response;
         }
 
         String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
             response.put("result", "error");
-            response.put("message", "请先登录再进行预约。");
+            response.put("message", "Please log in before making an appointment.");
             return response;
         }
 
@@ -274,10 +273,10 @@ public class ReservationController {
         boolean reservationSaved = reservationService.createReservation(reservation);
         if (reservationSaved) {
             response.put("result", "success");
-            response.put("message", "预约成功！");
+            response.put("message", "The appointment was successful!");
         } else {
             response.put("result", "error");
-            response.put("message", "预约失败，请重试！");
+            response.put("message", "Reservation failed. Please try again!");
         }
 
         return response;

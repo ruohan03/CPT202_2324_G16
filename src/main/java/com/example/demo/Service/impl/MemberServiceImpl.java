@@ -108,7 +108,7 @@ public class MemberServiceImpl implements MemberService {
         existingMember.setEncodedPassword(passwordService.encodePassword(newPassword));// 确保此处使用加密
         memberRepository.save(existingMember);
 
-        redirectAttributes.addFlashAttribute(SUCCESS, "密码已成功更新。");
+        redirectAttributes.addFlashAttribute(SUCCESS, "The password has been successfully updated.");
         return "redirect:/home_page";
     }
 
@@ -120,12 +120,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public boolean checkMembershipStatus(String memberId) throws MembershipValidationException {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MembershipValidationException("未找到会员信息。"));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MembershipValidationException("No member information found."));
         if (member.getPlan() == null) {
-            throw new MembershipValidationException("您还没有购买任何计划。");
+            throw new MembershipValidationException("You have not purchased any plans yet.");
         }
         if (member.getEndDate() != null && new Date().after(member.getEndDate())) {
-            throw new MembershipValidationException("您的会员计划已过期。");
+            throw new MembershipValidationException("Your membership plan has expired.");
         } if(member.getEndDate()==null){
             throw new MembershipValidationException("Something wrong happens, please connect with the administrator.");
         }
