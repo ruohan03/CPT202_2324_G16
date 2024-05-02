@@ -24,7 +24,15 @@ document.getElementById('navBookCourseBtn').addEventListener('click', function(e
                     });
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Something went wrong. Please try again later.',
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                });
+            });
     } else {
         Swal.fire({
             title: 'Error',

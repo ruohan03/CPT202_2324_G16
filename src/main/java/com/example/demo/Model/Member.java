@@ -49,7 +49,7 @@ public class Member {
     @Column(name = "plan")
     private String plan;
 
-    @Column(name = "enddate")
+//    @Column(name = "endDate")
     private Date endDate;
 
     @Column(name = "remaining_sum", nullable = false)

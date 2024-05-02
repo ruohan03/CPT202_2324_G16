@@ -58,21 +58,39 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    document.querySelectorAll('.reservation-steps .step.completed').forEach(step => {
-        step.addEventListener('click', function() {
-            // Retrieve parameters from hidden fields
-            const courseId = document.querySelector('input[name="courseId"]').value;
-            const staffId = document.querySelector('input[name="staffId"]').value;
+    window.onload = function() {
+        const steps = document.querySelectorAll('.reservation-steps .step');
+        let isPreviousCompleted = true; // 前一步是否完成
 
-            // Build URL and redirect
-            let url = this.getAttribute('data-href');
-            url += `?courseId=${courseId}`;
-            if (url.includes('select-time')) {
-                url += `&staffId=${staffId}`;
-            } else if (url.includes('confirm-reservation')) {
-                url += `&staffId=${staffId}`;
+        steps.forEach((step, index) => {
+            // 更新是否所有前步都已完成的状态
+            isPreviousCompleted = step.classList.contains('completed');
+
+            // 如果步骤已完成，激活点击事件，否则禁用
+            if (isPreviousCompleted || step.classList.contains('active')) {
+                step.addEventListener('click', function() {
+                    if (step.classList.contains('active')) {
+                        // 如果这个步骤是当前步骤，那么什么也不做
+                        return;
+                    }
+                    const courseId = document.querySelector('input[name="courseId"]').value;
+                    const staffId = document.querySelector('input[name="staffId"]').value;
+
+                    // Build URL and redirect
+                    let url = this.getAttribute('data-href');
+                    url += `?courseId=${courseId}`;
+                    if (url.includes('select-time')) {
+                        url += `&staffId=${staffId}`;
+                    } else if (url.includes('confirm-reservation')) {
+                        url += `&staffId=${staffId}`;
+                    }
+                    window.location.href = url;
+                });
+            } else {
+                // 禁用未完成的步骤的点击事件
+                step.style.pointerEvents = 'none';
+                step.style.opacity = '0.5'; // 给未激活的步骤一个明显的视觉差异
             }
-            window.location.href = url;
         });
-    });
+    };
 });

@@ -121,12 +121,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean checkMembershipStatus(String memberId) throws MembershipValidationException {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MembershipValidationException("No member information found."));
+        if (member.getEndDate() != null && new Date().after(member.getEndDate())) {
+            throw new MembershipValidationException("Your membership plan has expired.");
+        }
         if (member.getPlan() == null) {
             throw new MembershipValidationException("You have not purchased any plans yet.");
         }
-        if (member.getEndDate() != null && new Date().after(member.getEndDate())) {
-            throw new MembershipValidationException("Your membership plan has expired.");
-        } if(member.getEndDate()==null){
+         if(member.getEndDate()==null){
             throw new MembershipValidationException("Something wrong happens, please connect with the administrator.");
         }
         return true; // 所有检查都通过
