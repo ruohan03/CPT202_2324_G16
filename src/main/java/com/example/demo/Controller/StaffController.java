@@ -4,12 +4,14 @@ import com.example.demo.Model.Course;
 import com.example.demo.Model.Member;
 import com.example.demo.Model.Staff;
 import com.example.demo.Service.CourseService;
+import com.example.demo.Service.MemberService;
 import com.example.demo.Service.PasswordService;
 import com.example.demo.Service.StaffService;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repo.StaffRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,8 @@ public class StaffController {
 
     @Autowired
     private StaffRepository staffRepository;
+    @Autowired
+    private MemberService memberService;
 
 
     @GetMapping("/staff")
@@ -76,10 +80,18 @@ public class StaffController {
             model.addAttribute("staff", staff.get());
             return staff.get().isManager() ? "manager_homepage" : "trainer_homepage";
         } else {
-            model.addAttribute("error", "Invalid credentials");
-            return "redirect:/staff/login?error=true";
+            // We need to check if the staff exists but is not active to provide a specific error message
+            Staff inactiveStaff = staffRepository.findByPhone(phone);
+            if (inactiveStaff != null && !inactiveStaff.isActive()) {
+                model.addAttribute("error", "Account not active. Please contact administrator.");
+                return "redirect:/staff/login?error=inactive";
+            } else {
+                model.addAttribute("error", "Invalid credentials");
+                return "redirect:/staff/login?error=true";
+            }
         }
     }
+
 
 
 
@@ -317,6 +329,51 @@ public class StaffController {
         staffService.addStaff(staff);
         return ResponseEntity.ok("<script>alert('Staff added successfully'); window.location.href='/manage_staff';</script>");
     }
+
+    @GetMapping("/manage-members")
+    public String manageMembersList(@RequestParam(name = "search", required = false) String search, Model model, RedirectAttributes redirectAttributes) {
+        List<Member> members;
+        Set<Member> results = new HashSet<>();
+
+        if (search != null && !search.isEmpty()) {
+            // 根据name、memberId、phone和gender进行搜索
+            results.addAll(memberService.findMemberByPhoneContaining(search).stream()
+                    .collect(Collectors.toSet()));
+            // 如果results为空，重定向并显示消息
+            if (results.isEmpty()) {
+                redirectAttributes.addFlashAttribute("noSearchMessage", "No member phone,please check and try again!");
+                return "redirect:/manage-members";
+            }
+        } else {
+            // 如果没有搜索条件，显示所有会员
+            results.addAll(memberService.findAllMembers().stream()
+                    .collect(Collectors.toSet()));
+        }
+
+        members = new ArrayList<>(results);
+        model.addAttribute("members", members);
+        return "adminManageMembers"; // Thymeleaf页面，用于显示所有会员列表和搜索功能
+    }
+
+
+
+    @PostMapping("/recharge-member")
+    public String rechargeMember(HttpSession session, @RequestParam String memberId, @RequestParam double amount, RedirectAttributes redirectAttributes) {
+        Boolean isManager = (Boolean) session.getAttribute("isManager");
+        if (Boolean.TRUE.equals(isManager)) {
+            try {
+                memberService.rechargeMember(memberId, amount);
+                redirectAttributes.addFlashAttribute("success", "Recharge successful for member ID: " + memberId);
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("error", "Recharge failed: " + e.getMessage());
+            }
+            return "redirect:/manage-members";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Unauthorized access.");
+            return "redirect:/staff/login";
+        }
+    }
+
 }
 
 

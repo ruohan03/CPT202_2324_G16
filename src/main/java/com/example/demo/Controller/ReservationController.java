@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.Service.StaffService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
@@ -76,13 +77,38 @@ public class ReservationController {
     public String getStaffReservations(HttpSession session, Model model){
         String staffId = (String) session.getAttribute("staffId");
         if (staffId != null) {
-            model.addAttribute("staffReservationList", reservationService.getAllReservationsByStaffId(staffId));
+            model.addAttribute("staffReservationList", reservationService.getIncompleteReservationsByStaffId(staffId));
             return"view_schedule";
         }
         else {
             return "redirect:/staff/login";
         }
     }
+
+    @GetMapping("/view_all_schedule")
+    public String getAllStaffReservations(HttpSession session, Model model){
+        String staffId = (String) session.getAttribute("staffId");
+        if (staffId != null) {
+            model.addAttribute("staffAllReservationList", reservationService.getAllReservationsByStaffId(staffId));
+            return"view_all_schedule";
+        }
+        else {
+            return "redirect:view_schedule";
+        }
+    }
+
+    @GetMapping("/view_complete_schedule")
+    public String getCompleteStaffReservations(HttpSession session, Model model){
+        String staffId = (String) session.getAttribute("staffId");
+        if (staffId != null) {
+            model.addAttribute("staffCompleteReservationList", reservationService.getCompleteReservationsByStaffId(staffId));
+            return"view_complete_schedule";
+        }
+        else {
+            return "redirect:view_schedule";
+        }
+    }
+
 
     @GetMapping("/api/courses")
     @ResponseBody
@@ -105,7 +131,6 @@ public class ReservationController {
         // 从数据库获取 member 对象
         Member member = memberService.findMemberById(memberId);
         if (member == null) {
-            logger.debug("No member found with the provided memberId, redirecting to login.");
             return "redirect:/login"; // 如果找不到成员信息，也重定向到登录页面
         }
 
@@ -249,14 +274,14 @@ public class ReservationController {
         if (bindingResult.hasErrors()) {
             // 处理错误
             response.put("result", "error");
-            response.put("message", "表单填写有误，请重试。");
+            response.put("message", "The form was filled in incorrectly. Please try again.");
             return response;
         }
 
         String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
             response.put("result", "error");
-            response.put("message", "请先登录再进行预约。");
+            response.put("message", "Please log in before making an appointment.");
             return response;
         }
 
@@ -274,12 +299,94 @@ public class ReservationController {
         boolean reservationSaved = reservationService.createReservation(reservation);
         if (reservationSaved) {
             response.put("result", "success");
-            response.put("message", "预约成功！");
+            response.put("message", "The appointment was successful!");
         } else {
             response.put("result", "error");
-            response.put("message", "预约失败，请重试！");
+            response.put("message", "Reservation failed. Please try again!");
         }
 
         return response;
     }
+
+    @GetMapping("/completed")
+    public String getCompletedReservations(HttpSession session, Model model) {
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId == null) {
+            return "redirect:/login";  // 如果会员未登录，重定向到登录页面
+        }
+        List<Reservation> completedReservations = reservationService.getCompletedReservationsForMember(memberId);
+        model.addAttribute("completedReservations", completedReservations);
+        return "completed-reservations";  // 返回已完成预约的视图
+    }
+
+    // 获取未完成预约
+    // 获取未完成的预约列表
+    @GetMapping("/incomplete")
+    public String getIncompleteReservations(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId == null) {
+            // 如果会员未登录，存储一条错误消息并重定向到登录页面
+            redirectAttributes.addFlashAttribute("error", "您必须先登录才能访问预约信息。");
+            return "redirect:/login";
+        }
+        try {
+            List<Reservation> incompleteReservations = reservationService.getIncompleteReservationsForMember(memberId);
+            model.addAttribute("incompleteReservations", incompleteReservations);
+            return "incomplete-reservations";  // 返回未完成预约的视图
+        } catch (Exception e) {
+            // 处理任何潜在的异常，并给出一个用户友好的错误消息
+            redirectAttributes.addFlashAttribute("error", "获取预约信息时发生错误，请稍后再试。");
+            return "redirect:/";  // 可以重定向到一个通用的错误页面或者首页
+        }
+    }
+
+    // 取消预约
+    @PostMapping("/cancel")
+    public String cancelReservation(@RequestParam("reservationId") String reservationId, HttpSession session, RedirectAttributes redirectAttributes) {
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId == null) {
+            return "redirect:/login";
+        }
+        String result = reservationService.cancelReservation(reservationId, memberId);
+        redirectAttributes.addFlashAttribute("message", result);
+        return "redirect:/incomplete";
+    }
+
+    // 签到
+    @PostMapping("/signin")
+    public String signIn(@RequestParam("reservationId") String reservationId, HttpSession session, RedirectAttributes redirectAttributes) {
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId == null) {
+            return "redirect:/login";
+        }
+        String result = reservationService.signIn(reservationId, memberId);
+        redirectAttributes.addFlashAttribute("message", result);
+        return "redirect:/completed";
+    }
+
+    // 根据日期搜索未完成预约
+    // 搜索预约，可选日期参数
+    @GetMapping("/search")
+    public String searchReservations(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, HttpSession session, Model model) {
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId == null) {
+            return "redirect:/login";
+        }
+
+        List<Reservation> reservations;
+        if (date != null) {
+            reservations = reservationService.findReservationsByDate(memberId, date);
+        } else {
+            reservations = reservationService.getIncompleteReservationsForMember(memberId);
+        }
+
+        model.addAttribute("incompleteReservations", reservations);
+        return "incomplete-reservations";
+    }
+
+
+
+
+
+
 }

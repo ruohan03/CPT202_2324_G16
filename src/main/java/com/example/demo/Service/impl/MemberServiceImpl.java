@@ -1,6 +1,7 @@
 package com.example.demo.Service.impl;
 
 import com.example.demo.Model.Member;
+import com.example.demo.Model.Staff;
 import com.example.demo.Service.MemberService;
 import com.example.demo.Service.PasswordService;
 import com.example.demo.exception.MembershipValidationException;
@@ -108,7 +109,7 @@ public class MemberServiceImpl implements MemberService {
         existingMember.setEncodedPassword(passwordService.encodePassword(newPassword));// 确保此处使用加密
         memberRepository.save(existingMember);
 
-        redirectAttributes.addFlashAttribute(SUCCESS, "密码已成功更新。");
+        redirectAttributes.addFlashAttribute(SUCCESS, "The password has been successfully updated.");
         return "redirect:/home_page";
     }
 
@@ -120,13 +121,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public boolean checkMembershipStatus(String memberId) throws MembershipValidationException {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MembershipValidationException("未找到会员信息。"));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MembershipValidationException("No member information found."));
         if (member.getPlan() == null) {
-            throw new MembershipValidationException("您还没有购买任何计划。");
+            throw new MembershipValidationException("You have not purchased any plans yet.");
         }
         if (member.getEndDate() != null && new Date().after(member.getEndDate())) {
-            throw new MembershipValidationException("您的会员计划已过期。");
-        } if(member.getEndDate()==null){
+            throw new MembershipValidationException("Your membership plan has expired.");
+        }
+        if(member.getEndDate()==null){
             throw new MembershipValidationException("Something wrong happens, please connect with the administrator.");
         }
         return true; // 所有检查都通过
@@ -148,5 +150,25 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+    @Override
+    public Member findMemberByPhone(String phone) {
+        return memberRepository.findByPhone(phone);
+    }
+
+    @Override
+    public void rechargeMember(String memberId, double amount) {
+        // 先根据ID查找用户
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("No member found with ID: " + memberId));
+        // 更新余额
+        double newBalance = member.getRemaining_sum() + amount;
+        member.setRemaining_sum(newBalance);
+        memberRepository.save(member);
+    }
+
+    @Override
+    public List<Member> findMemberByPhoneContaining(String phone) {
+        return memberRepository.findByPhoneContaining(phone);
+    }
 
 }

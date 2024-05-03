@@ -26,7 +26,7 @@ public class Purchase {
     @Temporal(TemporalType.DATE)
     private Date purchaseDate;
 
-    @Column(name = "end_date")
+    @Column(name = "endDate")
     @Temporal(TemporalType.DATE)
     private Date endDate;
 

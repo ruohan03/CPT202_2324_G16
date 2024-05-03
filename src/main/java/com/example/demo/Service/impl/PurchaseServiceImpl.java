@@ -40,7 +40,7 @@ public class PurchaseServiceImpl implements PurchaseService {
             purchaseRepository.save(purchase);
             return true;
         } catch (Exception e) {
-            System.err.println("保存购买记录失败: " + e.getMessage());
+            System.err.println("Failed to save purchase history: " + e.getMessage());
             return false;
         }
     }

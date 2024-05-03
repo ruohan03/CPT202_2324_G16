@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Member Management</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>Member Management</h1>
+<!-- 显示错误消息 -->
+<div th:if="${noSearchMessage}" th:text="${noSearchMessage}" style="color: red;"></div>
+
+<!-- 搜索表单 -->
+<form th:action="@{/manage-members}" method="get">
+    <input type="text" name="search" placeholder="Search by Phone" required>
+    <button type="submit">Search</button>
+</form>
+
+<!-- 显示所有用户的表格 -->
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Gender</th>
+        <th>Plan</th>
+        <th>Remaining Sum</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="member : ${members}"> <!-- 注意这里改为绑定 `members` 变量 -->
+        <td th:text="${member.memberId}"></td>
+        <td th:text="${member.name}"></td>
+        <td th:text="${member.phone}"></td>
+        <td th:text="${member.gender}"></td>
+        <td th:text="${member.plan}"></td>
+        <td th:text="${member.remaining_sum}"></td> <!-- 确保使用正确的属性名 -->
+        <td>
+            <!-- 充值按钮触发模态框或新页面 -->
+            <form th:action="@{/recharge-member}" method="post"> <!-- 确保这个路径与控制器中定义的路径相匹配 -->
+                <input type="hidden" th:value="${member.memberId}" name="memberId">
+                <input type="number" name="amount" placeholder="Enter amount" required>
+                <button type="submit">Recharge</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Footer -->
+<footer>
+    <p>© 2024 Gym Management System</p>
+</footer>
+</body>
+</html>
+
+
+
+
+
+

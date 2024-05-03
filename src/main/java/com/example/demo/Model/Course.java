@@ -16,6 +16,9 @@ public class Course {
     @Column(name = "location", nullable = true)
     private String location;
 
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive;  // 新增字段表示课程是否激活
+
     public Course() {}
 
     public String getCourseId() {
@@ -53,5 +56,13 @@ public class Course {
 
     public void setHasForeignKey(boolean hasForeignKey) {
         this.hasForeignKey = hasForeignKey;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }
