@@ -1,0 +1,173 @@
+<html>
+<head>
+<title>home_page.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #e8bf6a;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #bababa;}
+.s3 { color: #a5c261;}
+.s4 { color: #cc7832;}
+.s5 { color: #6897bb;}
+.s6 { color: #808080;}
+.s7 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+home_page.html</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;!DOCTYPE </span><span class="s2">html</span><span class="s0">&gt;</span>
+<span class="s0">&lt;html </span><span class="s2">lang</span><span class="s3">=&quot;en&quot;</span><span class="s0">&gt;</span>
+<span class="s0">&lt;head&gt;</span>
+    <span class="s0">&lt;meta </span><span class="s2">charset</span><span class="s3">=&quot;UTF-8&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;meta </span><span class="s2">name</span><span class="s3">=&quot;viewport&quot; </span><span class="s2">content</span><span class="s3">=&quot;width=device-width, initial-scale=1.0&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;title </span><span class="s2">th:text</span><span class="s3">=&quot;${member != null ? member.name + ' : Profile' : 'Fitness Center'}&quot;</span><span class="s0">&gt;</span><span class="s1">Fitness Center</span><span class="s0">&lt;/title&gt;</span>
+    <span class="s0">&lt;link </span><span class="s2">rel</span><span class="s3">=&quot;stylesheet&quot; </span><span class="s2">href</span><span class="s3">=&quot;/css/style.css&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;link </span><span class="s2">rel</span><span class="s3">=&quot;stylesheet&quot; </span><span class="s2">href</span><span class="s3">=&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;script </span><span class="s2">src</span><span class="s3">=&quot;https://cdn.jsdelivr.net/npm/sweetalert2@9&quot;</span><span class="s0">&gt;&lt;/script&gt;</span>
+    <span class="s0">&lt;style&gt;</span>
+        <span class="s1">.</span><span class="s0">welcome-message </span><span class="s1">{</span>
+            <span class="s2">text-align</span><span class="s1">: </span><span class="s3">center</span><span class="s4">;</span>
+            <span class="s2">font-size</span><span class="s1">: </span><span class="s5">2.5</span><span class="s3">rem</span><span class="s4">; </span><span class="s6">/* 大号字体 */</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s5">#333</span><span class="s4">;</span>
+            <span class="s2">margin-top</span><span class="s1">: </span><span class="s5">20</span><span class="s3">px</span><span class="s4">; </span><span class="s6">/* 顶部边距 */</span>
+        <span class="s1">}</span>
+    <span class="s0">&lt;/style&gt;</span>
+<span class="s0">&lt;/head&gt;</span>
+<span class="s0">&lt;body&gt;</span>
+
+    <span class="s0">&lt;div </span><span class="s2">th:replace</span><span class="s3">=&quot;member-nav :: top-nav&quot;</span><span class="s0">&gt;&lt;/div&gt;</span>
+
+    <span class="s0">&lt;div </span><span class="s2">th:if</span><span class="s3">=&quot;${welcomeMessage}&quot; </span><span class="s2">class</span><span class="s3">=&quot;welcome-message&quot; </span><span class="s2">th:text</span><span class="s3">=&quot;${welcomeMessage}&quot;</span><span class="s0">&gt;&lt;/div&gt;</span>
+    <span class="s0">&lt;div </span><span class="s2">th:if</span><span class="s3">=&quot;${renewalMessage}&quot; </span><span class="s2">class</span><span class="s3">=&quot;alert alert-warning&quot; </span><span class="s2">th:text</span><span class="s3">=&quot;${renewalMessage}&quot;</span><span class="s0">&gt;&lt;/div&gt;</span>
+    <span class="s0">&lt;div </span><span class="s2">th:if</span><span class="s3">=&quot;${error}&quot; </span><span class="s2">class</span><span class="s3">=&quot;error-message&quot; </span><span class="s2">th:text</span><span class="s3">=&quot;${error}&quot;</span><span class="s0">&gt;&lt;/div&gt;</span>
+
+    <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;jumbotron&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;container text-center&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;p </span><span class="s2">class</span><span class="s3">=&quot;lead&quot;</span><span class="s0">&gt;</span><span class="s1">Let's stay healthy and vibrant together!</span><span class="s0">&lt;/p&gt;</span>
+            <span class="s0">&lt;a </span><span class="s2">class</span><span class="s3">=&quot;btn btn-primary btn-lg&quot; </span><span class="s2">role</span><span class="s3">=&quot;button&quot; </span><span class="s2">id</span><span class="s3">=&quot;bookCourseBtn&quot;</span><span class="s0">&gt;</span><span class="s1">Book a Course</span><span class="s0">&lt;/a&gt;</span>
+        <span class="s0">&lt;/div&gt;</span>
+    <span class="s0">&lt;/div&gt;</span>
+
+    <span class="s0">&lt;footer </span><span class="s2">class</span><span class="s3">=&quot;bg-dark text-white mt-4&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;container py-3&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;row&quot;</span><span class="s0">&gt;</span>
+                <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;col-md-6&quot;</span><span class="s0">&gt;</span>
+                    <span class="s0">&lt;h5&gt;</span><span class="s1">Contact Us</span><span class="s0">&lt;/h5&gt;</span>
+                    <span class="s0">&lt;address&gt;</span>
+                        <span class="s0">&lt;strong&gt;</span><span class="s1">Fitness Center Inc.</span><span class="s0">&lt;/strong&gt;&lt;br&gt;</span>
+                        <span class="s1">123 Fitness Blvd.</span><span class="s0">&lt;br&gt;</span>
+                        <span class="s1">Wellness City, 98765</span><span class="s0">&lt;br&gt;</span>
+                        <span class="s0">&lt;abbr </span><span class="s2">title</span><span class="s3">=&quot;Phone&quot;</span><span class="s0">&gt;</span><span class="s1">P:</span><span class="s0">&lt;/abbr&gt; </span><span class="s1">(123) 456-7890</span>
+                    <span class="s0">&lt;/address&gt;</span>
+                <span class="s0">&lt;/div&gt;</span>
+                <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;col-md-6&quot;</span><span class="s0">&gt;</span>
+                    <span class="s0">&lt;h5&gt;</span><span class="s1">Follow Us</span><span class="s0">&lt;/h5&gt;</span>
+                    <span class="s0">&lt;ul </span><span class="s2">class</span><span class="s3">=&quot;list-unstyled&quot;</span><span class="s0">&gt;</span>
+                        <span class="s0">&lt;li&gt;&lt;a </span><span class="s2">href</span><span class="s3">=&quot;#&quot; </span><span class="s2">class</span><span class="s3">=&quot;text-white&quot;</span><span class="s0">&gt;</span><span class="s1">Twitter</span><span class="s0">&lt;/a&gt;&lt;/li&gt;</span>
+                        <span class="s0">&lt;li&gt;&lt;a </span><span class="s2">href</span><span class="s3">=&quot;#&quot; </span><span class="s2">class</span><span class="s3">=&quot;text-white&quot;</span><span class="s0">&gt;</span><span class="s1">Facebook</span><span class="s0">&lt;/a&gt;&lt;/li&gt;</span>
+                        <span class="s0">&lt;li&gt;&lt;a </span><span class="s2">href</span><span class="s3">=&quot;#&quot; </span><span class="s2">class</span><span class="s3">=&quot;text-white&quot;</span><span class="s0">&gt;</span><span class="s1">Instagram</span><span class="s0">&lt;/a&gt;&lt;/li&gt;</span>
+                    <span class="s0">&lt;/ul&gt;</span>
+                <span class="s0">&lt;/div&gt;</span>
+            <span class="s0">&lt;/div&gt;</span>
+        <span class="s0">&lt;/div&gt;</span>
+    <span class="s0">&lt;/footer&gt;</span>
+    <span class="s0">&lt;script&gt;</span>
+        <span class="s1">document.addEventListener(</span><span class="s7">'DOMContentLoaded'</span><span class="s4">, function</span><span class="s1">() {</span>
+            <span class="s4">var </span><span class="s1">memberId = sessionStorage.getItem(</span><span class="s7">'memberId'</span><span class="s1">)</span><span class="s4">; </span><span class="s6">// 假设在登录时已存储</span>
+            <span class="s4">var </span><span class="s1">profileLink = document.getElementById(</span><span class="s7">'profile-link'</span><span class="s1">)</span><span class="s4">;</span>
+            <span class="s4">if </span><span class="s1">(profileLink &amp;&amp; memberId) {</span>
+                <span class="s1">profileLink.href = </span><span class="s7">`/profile/</span><span class="s1">${memberId}</span><span class="s7">`</span><span class="s4">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s4">;</span>
+    <span class="s0">&lt;/script&gt;</span>
+
+    <span class="s0">&lt;script </span><span class="s2">th:inline</span><span class="s3">=&quot;javascript&quot;</span><span class="s0">&gt;</span>
+        <span class="s6">/*&lt;![CDATA[*/</span>
+        <span class="s4">const </span><span class="s1">memberId = [[${session.memberId}]]</span><span class="s4">;</span>
+        <span class="s6">/*]]&gt;*/</span>
+    <span class="s0">&lt;/script&gt;</span>
+
+    <span class="s0">&lt;script&gt;</span>
+            <span class="s1">document.getElementById(</span><span class="s7">'bookCourseBtn'</span><span class="s1">).addEventListener(</span><span class="s7">'click'</span><span class="s4">, function</span><span class="s1">() {</span>
+            <span class="s4">if </span><span class="s1">(memberId) {</span>
+                <span class="s1">fetch(</span><span class="s7">`/members/check-validity/</span><span class="s1">${memberId}</span><span class="s7">`</span><span class="s1">)</span>
+                    <span class="s1">.then(response =&gt; {</span>
+                        <span class="s4">if </span><span class="s1">(response.ok) {</span>
+                            <span class="s1">window.location.href = </span><span class="s7">'/member/order/course'</span><span class="s4">;</span>
+                        <span class="s1">} </span><span class="s4">else </span><span class="s1">{</span>
+                            <span class="s4">return </span><span class="s1">response.text()</span><span class="s4">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">})</span>
+                    <span class="s1">.then(message =&gt; {</span>
+                        <span class="s4">if </span><span class="s1">(message) {</span>
+                            <span class="s4">let </span><span class="s1">title = </span><span class="s7">'Member Status'</span><span class="s4">;</span>
+                            <span class="s4">if </span><span class="s1">(message === </span><span class="s7">'Something wrong happens, please connect with the administrator.'</span><span class="s1">) {</span>
+                                <span class="s1">title = </span><span class="s7">'Error'</span><span class="s4">;</span>
+                            <span class="s1">}</span>
+                            <span class="s1">Swal.fire({</span>
+                                <span class="s1">title: title</span><span class="s4">,</span>
+                                <span class="s1">text: message</span><span class="s4">,</span>
+                                <span class="s1">icon: </span><span class="s7">'error'</span><span class="s4">,</span>
+                                <span class="s1">confirmButtonText: </span><span class="s7">'Close'</span>
+                            <span class="s1">})</span><span class="s4">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">})</span>
+                    <span class="s1">.catch(error =&gt; console.error(</span><span class="s7">'Error:'</span><span class="s4">, </span><span class="s1">error))</span><span class="s4">;</span>
+            <span class="s1">} </span><span class="s4">else </span><span class="s1">{</span>
+                <span class="s1">Swal.fire({</span>
+                    <span class="s1">title: </span><span class="s7">'Error'</span><span class="s4">,</span>
+                    <span class="s1">text: </span><span class="s7">'Member ID is not available.'</span><span class="s4">,</span>
+                    <span class="s1">icon: </span><span class="s7">'error'</span><span class="s4">,</span>
+                    <span class="s1">confirmButtonText: </span><span class="s7">'Close'</span>
+                <span class="s1">})</span><span class="s4">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s4">;</span>
+
+        <span class="s1">document.getElementById(</span><span class="s7">'navBookCourseBtn'</span><span class="s1">).addEventListener(</span><span class="s7">'click'</span><span class="s4">, function</span><span class="s1">(event) {</span>
+            <span class="s1">event.preventDefault()</span><span class="s4">; </span><span class="s6">// 阻止默认的链接跳转行为</span>
+            <span class="s4">if </span><span class="s1">(memberId) {</span>
+                <span class="s1">fetch(</span><span class="s7">`/members/check-validity/</span><span class="s1">${memberId}</span><span class="s7">`</span><span class="s1">)</span>
+                    <span class="s1">.then(response =&gt; {</span>
+                        <span class="s4">if </span><span class="s1">(response.ok) {</span>
+                            <span class="s1">window.location.href = </span><span class="s7">'/member/order/course'</span><span class="s4">;</span>
+                        <span class="s1">} </span><span class="s4">else </span><span class="s1">{</span>
+                            <span class="s4">return </span><span class="s1">response.text()</span><span class="s4">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">})</span>
+                    <span class="s1">.then(message =&gt; {</span>
+                        <span class="s4">if </span><span class="s1">(message) {</span>
+                            <span class="s4">let </span><span class="s1">title = </span><span class="s7">'Member Status'</span><span class="s4">;</span>
+                            <span class="s4">if </span><span class="s1">(message === </span><span class="s7">'Something wrong happens, please connect with the administrator.'</span><span class="s1">) {</span>
+                                <span class="s1">title = </span><span class="s7">'Error'</span><span class="s4">;</span>
+                            <span class="s1">}</span>
+                            <span class="s1">Swal.fire({</span>
+                                <span class="s1">title: title</span><span class="s4">,</span>
+                                <span class="s1">text: message</span><span class="s4">,</span>
+                                <span class="s1">icon: </span><span class="s7">'error'</span><span class="s4">,</span>
+                                <span class="s1">confirmButtonText: </span><span class="s7">'Close'</span>
+                            <span class="s1">})</span><span class="s4">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">})</span>
+                    <span class="s1">.catch(error =&gt; console.error(</span><span class="s7">'Error:'</span><span class="s4">, </span><span class="s1">error))</span><span class="s4">;</span>
+            <span class="s1">} </span><span class="s4">else </span><span class="s1">{</span>
+                <span class="s1">Swal.fire({</span>
+                    <span class="s1">title: </span><span class="s7">'Error'</span><span class="s4">,</span>
+                    <span class="s1">text: </span><span class="s7">'Member ID is not available.'</span><span class="s4">,</span>
+                    <span class="s1">icon: </span><span class="s7">'error'</span><span class="s4">,</span>
+                    <span class="s1">confirmButtonText: </span><span class="s7">'Close'</span>
+                <span class="s1">})</span><span class="s4">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s4">;</span>
+    <span class="s0">&lt;/script&gt;</span>
+<span class="s0">&lt;script </span><span class="s2">src</span><span class="s3">=&quot;https://code.jquery.com/jquery-3.5.1.slim.min.js&quot;</span><span class="s0">&gt;&lt;/script&gt;</span>
+<span class="s0">&lt;script </span><span class="s2">src</span><span class="s3">=&quot;https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js&quot;</span><span class="s0">&gt;&lt;/script&gt;</span>
+<span class="s0">&lt;script </span><span class="s2">src</span><span class="s3">=&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js&quot;</span><span class="s0">&gt;&lt;/script&gt;</span>
+<span class="s0">&lt;/body&gt;</span>
+<span class="s0">&lt;/html&gt;</span>
+</pre>
+</body>
+</html>

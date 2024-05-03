@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H-XYZ</title>
+    <link rel="stylesheet" href="/css/H-XYZ.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+<body>
+ <header>
+
+    <nav>
+        <div th:fragment="top-nav">
+            <div class="top-nav">
+                <div class="nav-center">
+                    <div class="logo">H-XYZ | 打击代写就现在</div>
+                    <a href="#environment"class="about">About us</a>
+                    <a href="#course-introduction"class="course">Course</a>
+                    <a href="#team-area"class="team">Team</a>
+                    <a href="/navigation"><button class="login-btn">Join us</button></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+ <section class="hero">
+     <div class="container">
+         <div class="text-content text-center">
+             <h1>Perfect Workout Coach For Body Shape</h1>
+             <p class="lead">Let's stay healthy and vibrant together!</p>
+             <a href="/navigation"><button class="learn-more-btn">Learn More</button></a>
+         </div>
+         <div class="image-content">
+             <img src="../images/about-img.png" alt="Fitness Image">
+         </div>
+     </div>
+ </section>
+
+
+
+
+ <div id="about-us">
+     <section id="environment">
+         <div class="environment-header">
+             <h2 class="environment-title">Our Environment</h2>
+         </div>
+         <div class="environment-content">
+             <!-- 环境内容 -->
+             <img src="../images/5dcbe4702ecac7c1027bc5ed4760b8e.jpg" alt="graph1">
+             <img src="../images/f10360fffd0e0590f46a3388acc0066.jpg" alt="graph2">
+             <img src="../images/ea01fbe71e51e4c1d979abda75df949.jpg" alt="graph3">
+             <img src="../images/blog_img03.jpg" alt="graph4">
+             <img src="../images/blog_img02.jpg" alt="graph5">
+             <img src="../images/blog_img01.jpg" alt="graph6">
+         </div>
+     </section>
+
+
+
+     <section id="member-say">
+         <h2 class="member-say-title">What Our Members Say's</h2> <!-- 标题 -->
+         <div class="member-container">
+             <div class="member">
+                <p class="comment">"The environment of the gym is amazing! The floor and windows are all clean. All sports equipment is the latest purchase, with comprehensive function and high sensitivity. In addition, the staff can provide guidance on the use of equipment timely, and provide correct first aid to injured customers. I really like this gym!" </p>
+                 <div class="profile">
+                  <img src="../images/c_01.png" alt="Member 1" class="avatar">
+                  <h4 class="name">Jane Smith</h4>
+                 </div>
+             </div>
+             <div class="member">
+                <p class="comment">"I like running on the treadmill in this gym. The treadmill is facing the french window, where scenery outside is very beautiful. Coach Soonfei is a very excellent coach who teaches very seriously and has very high professional qulities. Thank Mr. Soonfei  for providing me with the exercise skills that can help me keep my fit and become healthier."</p>
+                <div class="profile">
+                 <img src="../images/c_03.png" alt="Member 2" class="avatar">
+                 <h4 class="name">Michael Brown</h4>
+                </div>
+             </div>
+         </div>
+     </section>
+ </div>
+
+
+
+ <div id="course-introduction">
+     <h2 class="section-title">Our Course</h2>
+     <div class="course-container page1">
+         <div class="course-card">
+             <img src="../images/yoga.webp" alt="C1">
+             <div class="course-info">
+                 <h3>Yoga</h3>
+                 <p>Suitable for beginners to help learn basic yoga movements and breathing techniques.</p>
+                 <p>Coach Momo</p>
+             </div>
+         </div>
+         <div class="course-card">
+             <img src="../images/blog_img02.jpg" alt="C2">
+             <div class="course-info">
+                 <h3>Strength Training</h3>
+                 <p>Designed to improve muscle strength and endurance, it is suitable for all levels of sports enthusiasts to help you build a stronger, more energetic body.</p>
+                 <p>Coach Chen</p>
+             </div>
+         </div>
+         <div class="course-card">
+             <img src="../images/lovepik-exercise-female-upper-limb-training-picture_501100683.jpg" alt="C3">
+             <div class="course-info">
+               <h3>Upper Limb Training</h3>
+               <p>Focusing on strengthening and improving upper limb strength and flexibility, it is suitable for sports enthusiasts who want to strengthen their arms, shoulders and back muscles.</p>
+               <p>Coach Soonfei</p>
+             </div>
+         </div>
+     </div>
+ </div>
+
+
+ <div id="team-area">
+     <h2 class="section-title">Out Team</h2>
+     <div class="team-container">
+         <div class="team-member">
+             <img src="../images/team01.png" alt="t1" class="coach-photo">
+             <div class="member-info">
+                 <h3>Soonfei</h3>
+                 <p>⭐️⭐️⭐️</p>
+                 <p>Upper Limb Training</p>
+             </div>
+         </div>
+         <div class="team-member">
+             <img src="../images/team02.png" alt="t2" class="coach-photo">
+             <div class="member-info">
+                 <h3>Mary</h3>
+                 <p>⭐️⭐️⭐️⭐️⭐️</p>
+                 <p>Fat-burning Class</p>
+             </div>
+         </div>
+         <div class="team-member">
+             <img src="../images/team03.png" alt="t3" class="coach-photo">
+             <div class="member-info">
+                 <h3>Chen</h3>
+                 <p>⭐️⭐️⭐️</p>
+                 <p>Strength Training</p>
+             </div>
+         </div>
+     </div>
+ </div>
+
+
+ <footer class="bg-dark text-white mt-4">
+     <div class="container py-3">
+         <div class="row">
+             <div class="col-md-6">
+                 <h5>Contact Us</h5>
+                 <address>
+                     <strong>H-XYZ Fitness Center Inc.</strong><br>
+                     123 Fitness Blvd.<br>
+                     Wellness City, 98765<br>
+                     <abbr title="Phone">P:</abbr> (123) 456-7890
+                 </address>
+             </div>
+             <div class="col-md-6">
+                 <h5>Follow Us</h5>
+                 <ul class="list-unstyled">
+                     <li><a href="#" class="text-white">Twitter</a></li>
+                     <li><a href="#" class="text-white">Facebook</a></li>
+                     <li><a href="#" class="text-white">Instagram</a></li>
+                 </ul>
+             </div>
+         </div>
+     </div>
+ </footer>
+ <script src="/js/HXYZnav.js"></script>
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
