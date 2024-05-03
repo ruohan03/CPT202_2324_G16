@@ -1,0 +1,344 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+.logo{
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+.top-nav {
+    font-weight :bold ;
+    height: 60px;
+    background: rgb(128, 128, 128); /* 背景颜色，可根据需要调整 */
+    padding: 10px 20px; /* 添加一些内边距 */
+    z-index: 1000; /* 确保导航栏在顶部 */
+}
+
+.nav-center {
+    display: flex; /* 启用 Flexbox 布局 */
+    justify-content: space-between; /* 项目间隔均匀分布 */
+    align-items: center; /* 垂直居中 */
+    width: 100%; /* 导航栏宽度为全屏 */
+}
+
+.about{
+    padding: 10px 40px; /* Padding to make the button larger */
+    background-color: rgb(128, 128, 128); /* Pink background color */
+    color: white; /* White text color */
+    text-decoration: none!important; /* Removes underline from links */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    margin-right: 30px; /* Right margin to move the button slightly to the left */
+    margin-bottom: 10px;
+}
+.course{
+    padding: 10px 40px; /* Padding to make the button larger */
+    background-color: rgb(128, 128, 128); /* Pink background color */
+    color: white; /* White text color */
+    text-decoration: none!important; /* Removes underline from links */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    margin-right: 30px; /* Right margin to move the button slightly to the left */
+    margin-bottom: 10px;
+}
+
+.team {
+    text-decoration: none!important; /* Removes underline from links */
+    padding: 10px 40px; /* Padding to make the button larger */
+    background-color: rgb(128, 128, 128); /* Pink background color */
+    color: white; /* White text color */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    margin-right: 30px; /* Right margin to move the button slightly to the left */
+    margin-bottom: 10px;
+}
+
+.about:hover{
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+    cursor: pointer; /* 鼠标悬停时显示手型图标 */
+}
+.course:hover{
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+    cursor: pointer; /* 鼠标悬停时显示手型图标 */
+}
+.team:hover{
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+    cursor: pointer; /* 鼠标悬停时显示手型图标 */
+}
+
+.login-btn {
+    font-weight :bold ;
+    margin-bottom: 10px;
+    outline: #FFFFFF;
+    padding: 10px 20px;
+    background-color: #CE56C1;
+    color: white;
+    border: none; /* 去除边框 */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.login-btn:hover{
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+}
+
+.hero .container {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: space-between; /* 水平分布 */
+    padding: 20px; /* 容器内边距 */
+    height: 100vh; /* 视窗高度 */
+    margin-bottom: 100px;
+}
+.text-content h1 {
+    font-size: 48px;
+    padding: 5px; /* 容器内边距 */
+}
+.text-content p{
+    font-size: 26px;
+}
+.text-content {
+    font-size: 32px;
+    flex: 1; /* 占用可用空间 */
+    max-width: 50%; /* 最大宽度限制 */
+}
+
+.image-content {
+    flex: 1; /* 占用可用空间 */
+    max-width: 50%; /* 最大宽度限制 */
+}
+
+.image-content img {
+    width: 100%; /* 图片宽度充满容器 */
+    height: auto; /* 高度自适应 */
+}
+
+.learn-more-btn {
+    font-weight :bold ;
+    padding: 10px 20px;
+    color: #FFFFFF;
+    background-color: #CE56C1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 平滑过渡效果 */
+}
+.learn-more-btn:hover {
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+}
+
+#environment {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 确保标题和内容都在中间对齐 */
+    margin-bottom: 20px; /* 和下一个区域的间隔 */
+}
+
+.environment-header {
+    text-align: center; /* 标题居中 */
+}
+
+.environment-title {
+    font-weight: bold;
+    font-size: 32px; /* 标题字体大小 */
+    color: black; /* 标题颜色 */
+    margin-bottom: 20px; /* 与内容的间隔 */
+}
+
+.environment-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* 内容居中显示 */
+    gap: 10px; /* 图片之间的间隔 */
+}
+
+.environment-content img {
+    width: calc(33% - 20px); /* 三列图片布局，考虑间隔 */
+    height: auto; /* 保持图片比例 */
+    max-width: 100%; /* 确保图片不超过容器宽度 */
+}
+
+.divider {
+    border-top: 1px solid #ccc; /* 轻微的灰色线条 */
+    opacity: 0.5; /* 使线条不太明显 */
+    margin: 20px 0; /* 分割线的上下边距 */
+}
+
+#member-say {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 确保所有内容都在中间对齐 */
+}
+
+.member-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around; /* 两个成员容器平均分布 */
+    gap: 20px; /* 容器间隔 */
+}
+
+.member-say-title {
+
+    font-weight: bold;
+    font-size: 32px; /* 标题字体大小 */
+    text-align: center; /* 标题居中 */
+    color: #333; /* 标题颜色 */
+    margin: 20px 0; /* 标题与下方内容的间距 */
+}
+
+.member {
+    flex: 1; /* 每个成员容器都占用可用空间的一半 */
+    padding: 20px;
+    background-color: #f0f0f0; /* 容器背景色 */
+    border-radius: 8px; /* 圆角边框 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 添加阴影 */
+}
+
+.profile {
+    grid-area: profile;
+    display: flex;
+    flex-direction: column; /* 使头像和名称垂直排列 */
+    align-items: center; /* 中心对齐 */
+    padding-top: 10px;
+}
+
+.avatar {
+    width: 80px; /* 头像大小 */
+    height: 80px;
+    border-radius: 50%; /* 圆形头像 */
+}
+
+.name {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+#course-introduction {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 确保内容居中 */
+    margin: 40px auto;
+    width: 100%;
+    max-width: 1200px; /* 调整最大宽度以适应不同的屏幕 */
+}
+
+.section-title {
+
+    font-weight: bold;
+    font-size: 32px; /* 标题字体大小 */
+    color: #333;
+    margin-bottom: 20px; /* 标题和卡片之间的间隔 */
+    text-align: center;
+}
+
+.course-container {
+    display: flex;
+    flex-wrap: wrap; /* 允许卡片在容器宽度不足时换行 */
+    justify-content: space-around; /* 卡片之间平均分布 */
+    width: 100%; /* 容器宽度 */
+}
+
+.course-card {
+    display: flex;
+    flex-direction: column; /* 卡片内部元素垂直排列 */
+    align-items: center; /* 卡片内部内容居中对齐 */
+    width: 30%; /* 单个卡片的宽度，三个一行 */
+    margin: 15px; /* 卡片之间的间隔 */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* 阴影效果 */
+    border-radius: 8px; /* 边角圆滑处理 */
+    padding: 20px; /* 内边距 */
+}
+
+.course-card img {
+    width: 100%; /* 图片宽度充满卡片宽度 */
+    height: auto; /* 高度自适应 */
+    border-radius: 5px; /* 图片边角圆滑处理 */
+}
+
+.course-info {
+    text-align: center; /* 信息文本居中对齐 */
+    padding: 10px; /* 文本区域的内边距 */
+}
+
+.course-info h3 {
+    margin-top: 10px; /* 标题上方间隔 */
+    color: #333; /* 标题颜色 */
+    font-size: 20px; /* 标题字号 */
+}
+
+.course-info p {
+    font-size: 16px; /* 段落文字大小 */
+    color: #666; /* 段落文字颜色 */
+    line-height: 1.5; /* 行高 */
+}
+
+#team-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px auto;
+    width: 100%;
+}
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 32px; /* 标题字体大小 */
+    color: #333;
+}
+
+.team-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.team-member {
+    flex-basis: 30%; /* 控制宽度 */
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+    transform: scale(1.05); /* 鼠标悬停放大效果 */
+}
+
+.coach-photo {
+    width: 100%;
+    height: auto;
+    border-radius: 50%; /* 圆形头像 */
+}
+
+.member-info {
+    margin-top: 10px;
+}
+
+.member-info h3 {
+    font-size: 22px;
+    color: #333;
+}
+
+.member-info p {
+    font-size: 16px;
+    color: #666;
+}
+
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}

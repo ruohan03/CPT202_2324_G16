@@ -305,17 +305,27 @@ public class StaffController {
     }
 
     @PostMapping("/edit_staff/{staffId}")
-    public ResponseEntity<String> editStaff(@PathVariable("staffId") String staffId, @ModelAttribute Staff updatedStaff) {
+    public ResponseEntity<String> editStaff(@PathVariable("staffId") String staffId, @ModelAttribute Staff updatedStaff, @RequestParam(defaultValue = "false") boolean isActive) {
         // 验证courseId是否有效
         if (!courseService.existsByCourseId(updatedStaff.getCourseId())) {
             return ResponseEntity.badRequest().body("<script>alert('Invalid Course ID " + updatedStaff.getCourseId() + "'); window.location.href='/manage_staff';</script>");
         }
 
-        // 更新员工信息
-        updatedStaff.setStaffId(staffId); // 确保使用正确的staffId
-        staffService.editStaff(updatedStaff);
-        return ResponseEntity.ok("<script>alert('Staff updated successfully'); window.location.href='/manage_staff';</script>");
+        // 设置isActive状态
+        updatedStaff.setActive(isActive);
+
+        // 确保使用正确的staffId
+        updatedStaff.setStaffId(staffId);
+
+        // 调用服务层更新员工信息
+        boolean updateSuccess = staffService.updateStaff(updatedStaff);
+        if (updateSuccess) {
+            return ResponseEntity.ok("<script>alert('Staff updated successfully'); window.location.href='/manage_staff';</script>");
+        } else {
+            return ResponseEntity.badRequest().body("<script>alert('Error updating staff'); window.location.href='/manage_staff';</script>");
+        }
     }
+
 
 
     @GetMapping("/add_staff")

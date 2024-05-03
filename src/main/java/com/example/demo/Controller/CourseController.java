@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class CourseController {
@@ -34,9 +36,11 @@ public class CourseController {
             // 根据课程ID搜索
             List<Course> coursesById = courseService.findCoursesByCourseIdContaining(search);
 
-            // 合并两个搜索结果
-            courses = new ArrayList<>(coursesByName);
-            courses.addAll(coursesById);
+            // 使用 Set 来去除重复项
+            Set<Course> uniqueCourses = new HashSet<>(coursesByName);
+            uniqueCourses.addAll(coursesById);
+
+            courses = new ArrayList<>(uniqueCourses);
 
             if (courses.isEmpty()) {
                 // 如果搜索结果为空，设置一个属性以触发提示消息的显示
@@ -152,17 +156,18 @@ public class CourseController {
     }
 
     @PostMapping("/edit_course/{courseId}")
-    public ResponseEntity<String> editCourse(@PathVariable("courseId") String courseId, @ModelAttribute Course updatedCourse) {
+    public ResponseEntity<String> editCourse(@PathVariable("courseId") String courseId, @ModelAttribute Course updatedCourse, @RequestParam(defaultValue = "false") boolean isActive) {
         if (updatedCourse.getName() == null || updatedCourse.getName().isEmpty()) {
             return ResponseEntity.badRequest().body("<script>alert('Name is required'); window.location.href='/manage_courses';</script>");
         }
         if (courseService.existsByCourseId(courseId)) {
-            // Set the courseId of the updated course to match the original courseId
             updatedCourse.setCourseId(courseId);
-            courseService.editCourse(updatedCourse);
+            updatedCourse.setActive(isActive);  // 设置 isActive 状态
+            courseService.updateCourse(courseId, updatedCourse);
             return ResponseEntity.ok("<script>alert('Course updated successfully'); window.location.href='/manage_courses';</script>");
         } else {
             return ResponseEntity.badRequest().body("<script>alert('Course with ID " + courseId + " does not exist'); window.location.href='/manage_courses';</script>");
         }
     }
+
 }

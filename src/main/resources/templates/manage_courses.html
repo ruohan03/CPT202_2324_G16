@@ -3,7 +3,6 @@
 <head>
     <title>Manage Course</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- 引入 jQuery 库 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .search-container {
@@ -11,73 +10,74 @@
             align-items: center;
             justify-content: space-between;
         }
-        /* 在这里添加自定义样式 */
-        .alert {
+        input[type="text"], button {
+            padding: 10px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .alert, .alert-danger {
             padding: 15px;
             margin-bottom: 20px;
             border: 1px solid transparent;
             border-radius: 4px;
-            transition: all 0.3s ease-in-out;
-        }
-        .alert-danger {
-            max-width: 300px;
-            color: #a94442;
             background-color: #f2dede;
-            border-color: #ebccd1;
+            color: #a94442;
             text-align: center;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        /* 可以在这里添加更多样式 */
     </style>
 </head>
 <body>
 <div th:replace="back.html :: backButton"></div>
-<div class="title">
-    <h1>Available Courses</h1>
-</div>
+<h1>Available Courses</h1>
 
 <div class="search-container">
     <form th:action="@{/manage_courses}" method="get" class="search-form">
         <input type="text" name="search" placeholder="Search by course ID or name" class="search-input">
         <button type="submit" class="search-button">Search</button>
     </form>
-    <!-- 添加提示消息 -->
-    <div th:if="${noSearchMessage}" class="alert alert-danger" th:text="${noSearchMessage}" ></div>
+    <div th:if="${noSearchMessage}" class="alert alert-danger" th:text="${noSearchMessage}"></div>
 </div>
+
 <table>
     <thead>
     <tr>
         <th>Course ID</th>
         <th>Name</th>
         <th>Location</th>
+        <th>Active</th> <!-- 新增显示激活状态的列 -->
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${not #lists.isEmpty(courses)}" th:each="course : ${courses}" id="course-${course.courseId}">
-        <td th:text="${course.courseId}">C001</td>
-        <td th:text="${course.name}">Yoga</td>
-        <td th:text="${course.location}">Room A</td>
+    <tr th:if="${not #lists.isEmpty(courses)}" th:each="course : ${courses}">
+        <td th:text="${course.courseId}"></td>
+        <td th:text="${course.name}"></td>
+        <td th:text="${course.location}"></td>
+        <td th:text="${course.active ? 'Yes' : 'No'}"></td> <!-- 在这里显示激活状态 -->
 
-        <!-- Delete  -->
         <td>
-           <a th:href="@{/delete_course/{id}(id=${course.courseId})}">Delete</a>
-        </td>
-
-        <!-- Edit  -->
-        <td>
+            <a th:href="@{/delete_course/{id}(id=${course.courseId})}">Delete</a>
             <a th:href="@{/edit_course/{courseId}(courseId=${course.courseId})}">Edit</a>
         </td>
     </tr>
     </tbody>
 </table>
 
-
-<!-- Add Course button -->
 <div class="add-course-container">
     <button type="button" class="add-course-button" onclick="showAddCourseForm()">Add Course</button>
 </div>
 
-<!-- Add Course form (hidden by default) -->
 <div id="add-course-form" style="display: none;">
     <form th:action="@{/add_course}" method="post" class="add-course-form">
         <input type="text" name="courseId" placeholder="Course ID" class="add-course-input">
@@ -87,7 +87,6 @@
     </form>
 </div>
 
-<!-- JavaScript to toggle visibility of Add Course form -->
 <script th:inline="javascript">
     function showAddCourseForm() {
         var addCourseForm = document.getElementById('add-course-form');
@@ -99,25 +98,19 @@
     }
 </script>
 
-
 <div th:if="${errorMessage}" class="error-message">
     <span th:text="${errorMessage}"></span>
 </div>
 
-<div th:if="${successMessage}" >
+<div th:if="${successMessage}">
     <span th:text="${successMessage}"></span>
 </div>
 
-<!-- JavaScript 代码，在搜索结果为空时显示弹窗 -->
 <script th:if="${#lists.isEmpty(courses)}">
     $(document).ready(function(){
         alert("This course is not yet available");
     });
 </script>
-
-
-
-
 
 </body>
 </html>

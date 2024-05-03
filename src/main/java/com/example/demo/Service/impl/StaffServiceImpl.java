@@ -77,19 +77,21 @@ public class StaffServiceImpl implements StaffService {
     public boolean updateStaff(Staff staff) {
         return staffRepository.findById(staff.getStaffId())
                 .map(existingStaff -> {
-                    // 更新员工信息，这里假设员工实体有以下字段
+                    // 更新员工信息，包括 isActive 状态
                     existingStaff.setName(staff.getName());
                     existingStaff.setPhone(staff.getPhone());
                     existingStaff.setGender(staff.getGender());
                     existingStaff.setLevel(staff.getLevel());
                     existingStaff.setSalary(staff.getSalary());
                     existingStaff.setCourseId(staff.getCourseId());
+                    existingStaff.setActive(staff.isActive());  // 更新 isActive 状态
 
                     staffRepository.save(existingStaff);
                     return true;
                 })
                 .orElse(false);  // 如果找不到指定的员工，返回false
     }
+
 
 
     @Override
