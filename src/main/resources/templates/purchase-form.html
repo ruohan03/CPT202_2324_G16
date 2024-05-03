@@ -13,8 +13,8 @@
 <!-- Purchase Form Container -->
 <div class="profile-container">
     <h1 class="profile-header">Purchase Plan</h1>
-    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div th:if="${success}" class="alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert-danger" th:text="${error}"></div>
     <form th:action="@{/purchase}" th:object="${purchase}" method="post">
         <table class="profile-table">
             <tr>
@@ -55,7 +55,24 @@
         </div>
     </form>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const errorMessage = document.querySelector('.alert-danger');
+        if (errorMessage) {
+            setTimeout(() => {
+                errorMessage.style.display = 'none'; // 或者 successMessage.remove(); 若希望从 DOM 中完全移除元素
+            }, 3000); // 设置延时为 5000 毫秒（5 秒）
+        }    document.addEventListener("DOMContentLoaded", function() {
+            const successMessage = document.querySelector('.alert-success');
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.display = 'none'; // 或者 successMessage.remove(); 若希望从 DOM 中完全移除元素
+                }, 3000); // 设置延时为 5000 毫秒（5 秒）
+            }
+        });
+    });
 
+</script>
 <script src="/js/member-purchase.js"></script>
 <script src="/js/nav-book-course.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
