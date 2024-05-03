@@ -12,7 +12,7 @@ public interface CourseService {
     List<Course> findAllCourses();
 
     Course findCourseById(String id);
-    void editCourse(Course updatedCourse);
+
 
     String findCourseNameById(String courseId);
 
@@ -25,9 +25,11 @@ public interface CourseService {
     void addCourse(Course course);
     boolean existsByCourseId(String courseId);
 
-    void deleteCourse(String courseId);
-    boolean hasForeignKey(String courseId);
+//    void deleteCourse(String courseId);
+//    boolean hasForeignKey(String courseId);
 
     boolean checkCourseActive(Course course);
+    List<Course> getActiveCourses();
+    boolean existsByCourseIdAndIsActive(String courseId, boolean isActive);
 }
 

@@ -11,4 +11,6 @@ import java.util.List;
 public interface CourseRepository extends JpaRepository<Course, String> {
     List<Course> findByNameContaining(String name);
     List<Course> findByCourseIdContaining(String courseId);
+    List<Course> findByIsActiveTrue();
+    boolean existsByCourseIdAndIsActive(String courseId, boolean isActive);
 }

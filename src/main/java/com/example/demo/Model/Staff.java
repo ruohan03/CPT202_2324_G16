@@ -118,9 +118,7 @@ public class Staff {
         return isManager;
     }
 
-    public void setManager(boolean isManager) {
-        this.isManager = isManager;
-    }
+
 
     public boolean isActive() {
         return isActive;

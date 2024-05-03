@@ -1,5 +1,6 @@
 package com.example.demo.repo;
 
+import com.example.demo.Model.Course;
 import com.example.demo.Model.Staff;  // Make sure to import the Staff model
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -25,4 +26,5 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
     List<Staff> findByLevel(int level);
 
     List<Staff> findByCourseIdContaining(String courseId);
+
 }

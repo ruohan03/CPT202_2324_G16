@@ -1,8 +1,10 @@
 package com.example.demo.Service.impl;
+import com.example.demo.Model.Course;
 import com.example.demo.Model.Member;
 import com.example.demo.Model.Staff;  // Ensure you import the Staff model
 import com.example.demo.Service.StaffService;
 import com.example.demo.Service.PasswordService;
+import com.example.demo.repo.CourseRepository;
 import com.example.demo.repo.MemberRepository;
 import com.example.demo.repo.StaffRepository;  // Import the StaffRepository
 import jakarta.transaction.Transactional;
@@ -27,8 +29,8 @@ public class StaffServiceImpl implements StaffService {
     @Autowired
     private MemberRepository memberRepository;
 
-
-
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Override
     public List<Staff> findAllStaff() {
@@ -111,7 +113,6 @@ public class StaffServiceImpl implements StaffService {
         return memberRepository.findByRenewalNotificationSent(true);
     }
 
-
     @Override
     public List<Member> findMembersForRenewalNotification(Date thresholdDate) {
         return memberRepository.findMembersExpiringBefore(thresholdDate);
@@ -140,18 +141,4 @@ public class StaffServiceImpl implements StaffService {
         return staffRepository.existsById(staffId);
     }
 
-    @Override
-    @Transactional
-    public void deleteByStaffId(String staffId) {
-        if (existsByStaffId(staffId)) {
-            staffRepository.deleteById(staffId);
-        } else {
-            throw new RuntimeException("Staff not found with id: " + staffId);
-        }
-    }
-
-    @Override
-    public void editStaff(Staff updatedStaff) {
-        staffRepository.save(updatedStaff);
-    }
 }

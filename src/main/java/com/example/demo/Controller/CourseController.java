@@ -82,43 +82,6 @@ public class CourseController {
         return "manage_courses";
     }
 
-    @GetMapping ("/delete_course/{id}")
-    public ResponseEntity<String> deleteCourse(@PathVariable(value="id") String courseId) {
-        if (!courseService.existsByCourseId(courseId)) {
-            return ResponseEntity.badRequest().body("<script>alert('Course with ID " + courseId + " not found'); window.location.href='/manage_courses';</script>");
-        }
-        String confirmationMessage = "Are you sure you want to delete the course whose course ID is "+ courseId +" ? Once deleted, it cannot be withdrawn.";
-        // 生成包含确认消息的JavaScript代码
-        String confirmScript = "if(confirm('" + confirmationMessage + "')) { "
-                + "window.location.href='/delete_course_confirmed/" + courseId + "';"
-                + "} else {"
-                + "window.location.href='/manage_courses';"
-                + "}";
-        // 返回包含确认消息的 JavaScript 响应
-        return ResponseEntity.ok("<script>" + confirmScript + "</script>");
-    }
-    @GetMapping("/delete_course_confirmed/{id}")
-    public ResponseEntity<String> deleteCourseConfirmed(@PathVariable(value="id") String courseId) {
-        // 首先检查是否存在外键引用// 首先检查是否存在外键引用
-        boolean hasForeignKey = courseService.hasForeignKey(courseId);
-        // 如果存在，则将相关外键设置为NULL
-        if (hasForeignKey) {
-        List<Staff> staffList = staffService.findStaffByCourseId(courseId);
-        for (Staff staff : staffList) {
-            if (courseId.equals(staff.getCourseId())) {
-                    staff.setCourseId(null);
-                    staffService.saveOrUpdate(staff);
-                }
-            }
-        }
-        courseService.deleteCourse(courseId);
-        // 根据是否存在外键引用返回不同的响应消息
-        if (hasForeignKey) {
-            return ResponseEntity.ok("<script>alert('Course with ID " + courseId + " and the course of the trainers who originally took the course has been cleared'); window.location.href='/manage_courses';</script>");
-        } else {
-            return ResponseEntity.ok("<script>alert('Course with ID " + courseId + " deleted successfully'); window.location.href='/manage_courses';</script>");
-        }
-    }
 
     @GetMapping("/add_course")
     public String addNewCoursePage() {

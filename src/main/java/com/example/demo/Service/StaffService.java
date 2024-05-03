@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.Model.Course;
 import com.example.demo.Model.Member;
 import com.example.demo.Model.Staff;
 
@@ -36,7 +37,4 @@ public interface StaffService {
 
     boolean existsByStaffId(String staffId);
 
-    void deleteByStaffId(String staffId);
-
-    void editStaff(Staff updatedStaff);
 }
