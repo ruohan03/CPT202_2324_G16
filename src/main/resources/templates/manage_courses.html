@@ -67,7 +67,6 @@
         <td th:text="${course.active ? 'Yes' : 'No'}"></td> <!-- 在这里显示激活状态 -->
 
         <td>
-            <a th:href="@{/delete_course/{id}(id=${course.courseId})}">Delete</a>
             <a th:href="@{/edit_course/{courseId}(courseId=${course.courseId})}">Edit</a>
         </td>
     </tr>

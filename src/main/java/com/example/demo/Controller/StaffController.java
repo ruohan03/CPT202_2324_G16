@@ -260,38 +260,10 @@ public class StaffController {
         }
 
         staff = new ArrayList<>(results);
+        Collections.sort(staff, Comparator.comparing(Staff::getStaffId));
         model.addAttribute("staff", staff);
         return "manage_staff";
     }
-
-    @GetMapping ("/delete_staff/{id}")
-    public ResponseEntity<String> deleteStaff(@PathVariable(value="id") String staffId) {
-        if (!staffService.existsByStaffId(staffId)) {
-            return ResponseEntity.badRequest().body("<script>alert('Staff with ID " + staffId + " not found'); window.location.href='/manage_staff';</script>");
-        }
-        String confirmationMessage = "Are you sure you want to delete the staff whose staff ID is "+ staffId +" ? Once deleted, it cannot be withdrawn.";
-        // 生成包含确认消息的JavaScript代码
-        String confirmScript = "if(confirm('" + confirmationMessage + "')) { "
-                + "window.location.href='/delete_staff_confirmed/" + staffId + "';"
-                + "} else {"
-                + "window.location.href='/manage_staff';"
-                + "}";
-        // 返回包含确认消息的 JavaScript 响应
-        return ResponseEntity.ok("<script>" + confirmScript + "</script>");
-    }
-
-    @GetMapping("/delete_staff_confirmed/{id}")
-    public ResponseEntity<String> deleteStaffConfirmed(@PathVariable(value="id") String staffId) {
-        if (!staffService.existsByStaffId(staffId)) {
-            return ResponseEntity.badRequest().body("<script>alert('Staff with ID " + staffId + " not found'); window.location.href='/manage_staff';</script>");
-        }
-        // 执行删除操作
-        staffService.deleteByStaffId(staffId);
-        // 删除成功后的消息
-        String successMessage = "Staff with ID " + staffId + " has been successfully deleted.";
-        return ResponseEntity.ok("<script>alert('" + successMessage + "'); window.location.href='/manage_staff';</script>");
-    }
-
     @GetMapping("/edit_staff/{staffId}")
     public String showEditCourseForm(@PathVariable("staffId") String staffId, Model model) {
         Staff staff = staffService.findStaffById(staffId);
@@ -310,7 +282,10 @@ public class StaffController {
         if (!courseService.existsByCourseId(updatedStaff.getCourseId())) {
             return ResponseEntity.badRequest().body("<script>alert('Invalid Course ID " + updatedStaff.getCourseId() + "'); window.location.href='/manage_staff';</script>");
         }
-
+// 验证课程是否存在且isActive为true
+        if (courseService.existsByCourseIdAndIsActive(updatedStaff.getCourseId(), false)) {
+            return ResponseEntity.badRequest().body("<script>alert('Invalid Course ID " + updatedStaff.getCourseId() + " is not active'); window.location.href='/manage_staff';</script>");
+        }
         // 设置isActive状态
         updatedStaff.setActive(isActive);
 
@@ -329,8 +304,10 @@ public class StaffController {
 
 
     @GetMapping("/add_staff")
-    public String addNewStaffPage() {
-        return "add_staff";
+    public String addNewStaffPage(Model model) {
+        List<Course> activeCourses = courseService.getActiveCourses();
+        model.addAttribute("activeCourses", activeCourses);
+        return "manage_staff";
     }
     @PostMapping("/add_staff")
     public ResponseEntity<String> addStaff(@ModelAttribute Staff staff) {
@@ -343,9 +320,11 @@ public class StaffController {
             return ResponseEntity.badRequest().body("<script>alert('Staff with ID " + staff.getStaffId() + " already exists'); window.location.href='/manage_staff';</script>");
         }
 
-        if (!courseService.existsByCourseId(staff.getCourseId())) {
-            return ResponseEntity.badRequest().body("<script>alert('Invalid Course ID " + staff.getCourseId() + "'); window.location.href='/manage_staff';</script>");
+        // 验证课程是否存在且isActive为true
+        if (courseService.existsByCourseIdAndIsActive(staff.getCourseId(), false)) {
+            return ResponseEntity.badRequest().body("<script>alert('Invalid Course ID " + staff.getCourseId() + " is not active'); window.location.href='/manage_staff';</script>");
         }
+
 
         staffService.addStaff(staff);
         String encodedPassword = passwordService.encodePassword(staff.getPassword());

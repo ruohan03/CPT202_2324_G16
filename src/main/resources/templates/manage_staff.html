@@ -93,7 +93,11 @@
         </select>
 
         <input type="text" name="salary" placeholder="salary" class="add-staff-input" required>
-        <input type="text" name="courseId" placeholder="courseId" class="add-staff-input" required>
+
+        <input type="text" name="courseId" placeholder="CourseID" class="add-staff-input" required>
+
+
+
         <button type="submit" class="add-staff-button">Submit</button>
     </form>
 
@@ -122,6 +126,8 @@
         <th>Level</th>
         <th>Salary</th>
         <th>Course_id</th>
+        <th>Active</th> <!-- 新增显示激活状态的列 -->
+        <th>Actions</th>
 <!--        <th>Password</th>-->
     </tr>
     </thead>
@@ -134,12 +140,9 @@
         <td th:text="${staff.level}">5</td>
         <td th:text="${staff.salary}">100000</td>
         <td th:text="${staff.courseId}">C001</td>
-<!--        <td><span class="password" th:text="${staff.password}">Password</span></td>-->
+        <td th:text="${staff.active ? 'Yes' : 'No'}"></td> <!-- 在这里显示激活状态 -->
 
-        <!-- Delete  -->
-        <td>
-            <a th:href="@{/delete_staff/{id}(id=${staff.staffId})}">Delete</a>
-        </td>
+        <!--        <td><span class="password" th:text="${staff.password}">Password</span></td>-->
 
         <!-- Edit  -->
         <td>
