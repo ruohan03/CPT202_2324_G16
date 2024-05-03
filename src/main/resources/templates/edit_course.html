@@ -4,7 +4,28 @@
   <title>Edit Course</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Add your custom CSS styles here */
+    .edit-course-container {
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+    }
+    .edit-course-input, .edit-course-button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .edit-course-button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    .edit-course-button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
@@ -16,11 +37,20 @@
 <div class="edit-course-container">
   <form th:action="@{'/edit_course/' + ${course.courseId}}" method="post" class="edit-course-form">
     <input type="hidden" name="courseId" th:value="${course.courseId}">
-    <input type="text" name="name" placeholder="Course Name" th:value="${course.name}" class="edit-course-input">
-    <input type="text" name="location" placeholder="Location" th:value="${course.location}" class="edit-course-input">
+    <input type="text" name="name" placeholder="Course Name" th:value="${course.name}" class="edit-course-input" required>
+    <input type="text" name="location" placeholder="Location" th:value="${course.location}" class="edit-course-input" required>
+
+    <!-- Checkbox for Active Status -->
+    <div>
+      <label>
+        <input type="checkbox" name="isActive" th:checked="${course.active}"> Active
+      </label>
+    </div>
+
     <button type="submit" class="edit-course-button">Update Course</button>
   </form>
 </div>
 
 </body>
 </html>
+

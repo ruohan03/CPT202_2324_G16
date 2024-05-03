@@ -52,9 +52,11 @@ public class CourseServiceImpl implements CourseService {
         if (existingCourse != null) {
             existingCourse.setName(updatedCourse.getName());
             existingCourse.setLocation(updatedCourse.getLocation());
+            existingCourse.setActive(updatedCourse.isActive());  // 更新 isActive 状态
             courseRepository.save(existingCourse);
         }
     }
+
 
     @Override
         public void addCourse(Course course) {

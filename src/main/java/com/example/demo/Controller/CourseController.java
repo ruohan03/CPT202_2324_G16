@@ -156,17 +156,18 @@ public class CourseController {
     }
 
     @PostMapping("/edit_course/{courseId}")
-    public ResponseEntity<String> editCourse(@PathVariable("courseId") String courseId, @ModelAttribute Course updatedCourse) {
+    public ResponseEntity<String> editCourse(@PathVariable("courseId") String courseId, @ModelAttribute Course updatedCourse, @RequestParam(defaultValue = "false") boolean isActive) {
         if (updatedCourse.getName() == null || updatedCourse.getName().isEmpty()) {
             return ResponseEntity.badRequest().body("<script>alert('Name is required'); window.location.href='/manage_courses';</script>");
         }
         if (courseService.existsByCourseId(courseId)) {
-            // Set the courseId of the updated course to match the original courseId
             updatedCourse.setCourseId(courseId);
-            courseService.editCourse(updatedCourse);
+            updatedCourse.setActive(isActive);  // 设置 isActive 状态
+            courseService.updateCourse(courseId, updatedCourse);
             return ResponseEntity.ok("<script>alert('Course updated successfully'); window.location.href='/manage_courses';</script>");
         } else {
             return ResponseEntity.badRequest().body("<script>alert('Course with ID " + courseId + " does not exist'); window.location.href='/manage_courses';</script>");
         }
     }
+
 }
