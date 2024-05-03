@@ -338,6 +338,11 @@ public class StaffController {
         }
 
         staffService.addStaff(staff);
+        String encodedPassword = passwordService.encodePassword(staff.getPassword());
+        staff.setEncodedPassword(encodedPassword);
+        // 保存会员信息到数据库
+        staffService.saveOrUpdate(staff);
+
         return ResponseEntity.ok("<script>alert('Staff added successfully'); window.location.href='/manage_staff';</script>");
     }
 
