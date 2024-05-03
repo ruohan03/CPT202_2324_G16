@@ -29,12 +29,19 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="course : ${courses}">
+        <!-- Active Courses -->
+        <tr th:each="course : ${courses}" th:if="${course.active}">
             <td th:text="${course.name}"></td>
             <td th:text="${course.location}"></td>
             <td>
                 <button class="select-button" type="submit" name="courseId" th:value="${course.courseId}">Select</button>
             </td>
+        </tr>
+        <!-- Inactive Courses -->
+        <tr th:each="course : ${courses}" th:if="${!course.active}" style="color: red;">
+            <td th:text="${course.name}"></td>
+            <td th:text="${course.location}"></td>
+            <td>No Access, Please try it in the future</td>
         </tr>
         </tbody>
     </table>
@@ -42,3 +49,4 @@
 <script src="/js/reserve-nav.js"></script>
 </body>
 </html>
+

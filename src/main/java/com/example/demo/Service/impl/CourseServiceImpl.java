@@ -22,6 +22,11 @@ public class CourseServiceImpl implements CourseService {
         return (List<Course>) courseRepository.findAll();
     }
 
+    @Override
+    public boolean checkCourseActive(Course course) {
+        return course.isActive(); // Directly return the isActive status from the Course object
+    }
+
     public Course findCourseById(String id) {
         return courseRepository.findById(id).orElse(null);
     }

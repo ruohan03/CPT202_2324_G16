@@ -27,5 +27,7 @@ public interface CourseService {
 
     void deleteCourse(String courseId);
     boolean hasForeignKey(String courseId);
+
+    boolean checkCourseActive(Course course);
 }
 

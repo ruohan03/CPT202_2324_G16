@@ -26,6 +26,7 @@ import java.util.List;
 
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -134,18 +135,22 @@ public class ReservationController {
             return "redirect:/login"; // 如果找不到成员信息，也重定向到登录页面
         }
 
+        // 获取课程列表并检查每个课程的激活状态
+        List<Course> courses = courseService.findAllCourses();
+        courses.forEach(course -> course.setActive(courseService.checkCourseActive(course))); // 检查并设置激活状态
+
         // 添加属性到模型中，供前端使用
         model.addAttribute("currentPage", "bookCourse");
         model.addAttribute("isLoggedIn", true); // 始终设为 true 因为已验证用户登录
         model.addAttribute("member", member); // 添加 member 对象
+        model.addAttribute("courses", courses); // 添加处理过的课程列表
 
-        // 获取课程列表并添加到模型中
-        List<Course> courses = courseService.findAllCourses();
-        model.addAttribute("courses", courses);
-        logger.debug("Courses listed for logged-in user.");
+        logger.debug("Courses listed for logged-in user with active status.");
 
         return "reserve-course"; // 返回课程列表页面
     }
+
+
 
     @GetMapping("/member/select-trainer")
     public String selectCoach(@RequestParam("courseId") String courseId, Model model, HttpSession session) {
