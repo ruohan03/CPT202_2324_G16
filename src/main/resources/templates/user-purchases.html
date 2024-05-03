@@ -27,9 +27,11 @@
         tr:nth-child(even) {
             background-color: #f2f2f2; /* 间隔行背景颜色 */
         }
+
     </style>
 </head>
 <body>
+<div th:replace="back.html :: backButton"></div>
 <h1>Your Purchases</h1>
 <table>
     <thead>
@@ -49,5 +51,6 @@
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>

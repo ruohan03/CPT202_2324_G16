@@ -34,7 +34,9 @@
     </style>
 </head>
 <body>
+<button onclick="goBack()">返回上一页</button>
 <div class="container">
+
     <h1>Generate Sales Report</h1>
     <form action="/admin/reports" method="post">
         <label for="startDate">Start Date:</label>
@@ -50,8 +52,13 @@
     </form>
 </div>
 
-<script src="/js/report_form.js">
+<script>
+    function goBack() {
+        window.history.back();
+    }
 </script>
+
+<script src="/js/report-form.js"></script>
 </body>
 </html>
 

@@ -36,6 +36,17 @@ public class StaffController {
     @Autowired
     private MemberService memberService;
 
+    @GetMapping("/trainer/homepage")
+    public String trainerHomepage(){
+        return "trainer_homepage";
+    }
+
+    @GetMapping("/admin/homepage")
+    public String managerHomepage(){
+        return "manager_homepage";
+    }
+
+
 
     @GetMapping("/staff")
     public String getAllStaff(Model model){
@@ -78,7 +89,7 @@ public class StaffController {
             session.setAttribute("staffId", staff.get().getStaffId());  // 设置会话属性
             session.setAttribute("isManager", staff.get().isManager());  // 设置是否为管理员的标识
             model.addAttribute("staff", staff.get());
-            return staff.get().isManager() ? "manager_homepage" : "trainer_homepage";
+            return staff.get().isManager() ? "redirect:/admin/homepage" : "redirect:/trainer/homepage";
         } else {
             // We need to check if the staff exists but is not active to provide a specific error message
             Staff inactiveStaff = staffRepository.findByPhone(phone);
