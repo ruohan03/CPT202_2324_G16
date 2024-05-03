@@ -7,19 +7,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-
-<!-- Navigation Bar -->
-<div class="top-nav">
-    <a href="/staff/login" class="logo">H-XYZ | 打击代写就现在</a>
-    <div class="nav-center">
-        <a href="/staff/login" th:class="${currentPage == 'home' ? 'current-page':''}">Home</a>
-        <a href="/staff/profile" th:class="${currentPage == 'staffProfile' ? 'current-page':''}">My Profile</a>
-    </div>
-    <div class="nav-right">
-        <span th:text="${staff.name}"></span>
-        <a href="/logout" class="active">Logout</a>
-    </div>
-</div>
+<div th:replace="back.html :: backButton"></div>
 
 <!-- Profile Container -->
 <div class="profile-container">

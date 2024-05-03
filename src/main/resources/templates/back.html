@@ -1,0 +1,9 @@
+<!-- src/main/resources/templates/back.html -->
+<div th:fragment="backButton">
+    <button onclick="goBack()">Back</button>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</div>
