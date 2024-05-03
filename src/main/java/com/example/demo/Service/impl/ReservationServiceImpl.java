@@ -147,5 +147,17 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.findByMemberIdAndLessonStartDate(memberId, date);
     }
 
+    @Override
+    public boolean signInReservation(String reservationId) {
+        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
+        if (reservation.isPresent() && !reservation.get().getIsSignIn()) {
+            Reservation updatedReservation = reservation.get();
+            updatedReservation.setSignIn(true);
+            reservationRepository.save(updatedReservation);
+            return true;
+        }
+        return false;
+    }
+
 }
 

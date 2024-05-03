@@ -34,7 +34,7 @@ public interface ReservationService {
     String signIn(String reservationId, String memberId);
     List<Reservation> findReservationsByDate(String memberId, LocalDate date);
 
-
+    boolean signInReservation(String reservationId);
 
 }
 

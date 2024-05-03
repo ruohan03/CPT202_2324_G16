@@ -118,4 +118,5 @@ public class Reservation {
 
     public void setCreatedDate(LocalDateTime createdDate) {this.createdDate = createdDate;}
 
+    public void setSignIn(boolean isSignIn) {this.isSignIn = isSignIn;}
 }

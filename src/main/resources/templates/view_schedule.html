@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,8 +40,15 @@
                 <td th:text="${reservation.lessonEndTime}"></td>
                 <td th:text="${reservation.isCancelled ? 'Yes' : 'No'}"></td>
                 <td th:text="${reservation.isSignIn ? 'Yes' : 'No'}"></td>
+                <!-- Sign In Button Form -->
+                <td>
+                    <form th:action="'/sign_in/' + ${reservation.reservationId}" method="post">
+                        <button type="submit" th:disabled="${reservation.isSignIn}">Sign In</button>
+                    </form>
+                </td>
             </tr>
         </th:block>
+
         </tbody>
     </table>
 </div>

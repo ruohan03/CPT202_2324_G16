@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -85,6 +87,19 @@ public class ReservationController {
             return "redirect:/staff/login";
         }
     }
+
+
+    @PostMapping("/sign_in/{reservationId}")
+    public String signIn(@PathVariable("reservationId") String reservationId, HttpSession session) {
+        String staffId = (String) session.getAttribute("staffId");
+        if (staffId != null && reservationService.signInReservation(reservationId)) {
+            return "redirect:/view_schedule";
+        } else {
+            return "redirect:/staff/login";
+        }
+    }
+
+
 
     @GetMapping("/view_all_schedule")
     public String getAllStaffReservations(HttpSession session, Model model){
