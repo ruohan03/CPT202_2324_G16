@@ -3,6 +3,7 @@
 <head>
     <title>Courses</title>
     <link rel="stylesheet" href="css/style.css">
+
     <!-- 引入 jQuery 库 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
@@ -19,7 +20,7 @@
             border-radius: 4px;
             transition: all 0.3s ease-in-out;
         }
-        .alert-danger {
+        .alert alert-danger {
             max-width: 300px;
             color: #a94442;
             background-color: #f2dede;
@@ -28,9 +29,22 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         /* 可以在这里添加更多样式 */
+        /* 定义动画 */
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(-20px); /* 开始和结束时都向上移动，创建淡出效果 */
+            }
+            10%, 90% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
     </style>
 </head>
 <body>
+
 <div class="title">
     <h1>Available Courses</h1>
 </div>
@@ -41,7 +55,7 @@
         <button type="submit" class="search-button">Search</button>
     </form>
     <!-- 添加提示消息 -->
-    <div th:if="${noSearchMessage}" class="alert alert-danger" th:text="${noSearchMessage}" ></div>
+    <div th:if="${noSearchMessage}" class="alert-danger" th:text="${noSearchMessage}" ></div>
 </div>
 <table>
     <thead>
@@ -65,6 +79,15 @@
 <script th:if="${#lists.isEmpty(courses)}">
     $(document).ready(function(){
         alert("This course is not yet available");
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const errorMessage = document.querySelector('.alert-danger');
+        if (errorMessage) {
+            setTimeout(() => {
+                errorMessage.style.display = 'none'; // 或者 successMessage.remove(); 若希望从 DOM 中完全移除元素
+            }, 3000); // 设置延时为 5000 毫秒（5 秒）
+        }
     });
 </script>
 </body>

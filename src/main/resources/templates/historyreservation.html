@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Reservation</title>
+    <link rel="stylesheet" href="/css/H-XYZ.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<style>
+    .complete {
+        font-size: 18px;
+        background-color: #FFFFFF; /* White background on hover */
+        color: #D51FBA; /* Pink text on hover */
+        cursor: pointer; /* 鼠标悬停时显示手型图标 */
+        border-radius: 4px; /* Rounded corners for the button */
+        transition: background-color 0.3s;
+        margin-top: 10px;
+        outline: none;
+    }
+    .incomplete {
+        font-size: 18px;
+        background-color: #FFFFFF; /* White background on hover */
+        color: #D51FBA; /* Pink text on hover */
+        cursor: pointer; /* 鼠标悬停时显示手型图标 */
+        border-radius: 4px; /* Rounded corners for the button */
+        transition: background-color 0.3s; /* Smooth transition for hover effect */
+        margin-top: 18px;
+        outline: none;
+    }
+
+</style>
+<body th:data-member-id="${session.memberId}">
+<nav>
+    <div th:fragment="top-nav">
+        <div class="top-nav">
+            <div class="nav-center">
+                <a href="/home_page" class="home">H-XYZ | 打击代写就现在</a>
+                <a href="/member/order/course"class="bookCourse">Book Course</a>
+                <a href="/member/profile"class="memberprofile">My profile</a>
+                <a href="/member/update-password" class="changePassword">Update Password</a>
+                <a href="/purchase/new" class="newPurchase">Buy Plans</a>
+                <a href="/history" class="historyreservation">History</a>
+                <a href="/login"><button class="logout-button">Log out</button></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>History Reservation</h1>
+    <a href="/incomplete"><button class="complete">Completed</button></a>
+    <a href="/completed"><button class="incomplete">Incompleted</button></a>
+    <table>
+        <thead>
+        <tr>
+            <th>Reservation ID</th>
+            <th>Member ID</th>
+            <th>Staff ID</th>
+            <th>Lesson Start Date</th>
+            <th>Lesson Start Time</th>
+            <th>Lesson End Time</th>
+            <th>Cancelled</th>
+            <th>Sign-in</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate through reservations and display each row -->
+        <th:block th:each="reservation : ${reservationList}">
+            <tr>
+                <td th:text="${reservation.reservationId}"></td>
+                <td th:text="${reservation.memberId}"></td>
+                <td th:text="${reservation.staffId}"></td>
+                <td th:text="${reservation.lessonStartDate}"></td>
+                <td th:text="${reservation.lessonStartTime}"></td>
+                <td th:text="${reservation.lessonEndTime}"></td>
+                <td th:text="${reservation.isCancelled ? 'Yes' : 'No'}"></td>
+                <td th:text="${reservation.isSignIn ? 'Yes' : 'No'}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+

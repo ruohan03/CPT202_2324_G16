@@ -2,9 +2,9 @@
 .profile-container {
     max-width: 600px; /* Container maximum width */
     background-color: #fff; /* White background */
-    margin: 30px auto; /* Horizontally and vertically centered */
+    margin: 30px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow effect */
-    padding: 20px; /* Padding */
+    padding: 30px; /* Padding */
     border-radius: 8px; /* Rounded corners */
 }
 

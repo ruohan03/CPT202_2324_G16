@@ -404,9 +404,13 @@ public class ReservationController {
         return "incomplete-reservations";
     }
 
+        @GetMapping("/history")
+        public String showHistory() {return "historyreservation";
+        }
+
+    }
 
 
 
 
 
-}

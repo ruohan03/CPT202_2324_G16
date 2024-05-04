@@ -3,10 +3,6 @@ body, html {
     padding: 0;
     font-family: Arial, sans-serif;
 }
-.logo{
-    margin-bottom: 10px;
-    font-size: 22px;
-}
 .top-nav {
     font-weight :bold ;
     height: 60px;
@@ -20,6 +16,7 @@ body, html {
     justify-content: space-between; /* 项目间隔均匀分布 */
     align-items: center; /* 垂直居中 */
     width: 100%; /* 导航栏宽度为全屏 */
+    text-decoration: none!important; /* Removes underline from links */
 }
 
 .about{
@@ -42,15 +39,73 @@ body, html {
     margin-right: 30px; /* Right margin to move the button slightly to the left */
     margin-bottom: 10px;
 }
-
-.team {
-    text-decoration: none!important; /* Removes underline from links */
+.team{
     padding: 10px 40px; /* Padding to make the button larger */
     background-color: rgb(128, 128, 128); /* Pink background color */
     color: white; /* White text color */
+    text-decoration: none!important; /* Removes underline from links */
     border-radius: 4px; /* Rounded corners for the button */
     transition: background-color 0.3s; /* Smooth transition for hover effect */
     margin-right: 30px; /* Right margin to move the button slightly to the left */
+    margin-bottom: 10px;
+}
+
+.home{
+    color: black;
+    margin-bottom: 10px;
+    font-size: 22px;
+    text-decoration: none!important; /* Removes underline from links */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    border-radius: 4px; /* Rounded corners for the button */
+}
+.bookCourse{
+    padding: 10px 40px; /* Padding to make the button larger */
+    background-color: rgb(128, 128, 128); /* Pink background color */
+    color: white; /* White text color */
+    text-decoration: none!important; /* Removes underline from links */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    margin-right: 10px; /* Right margin to move the button slightly to the left */
+    margin-bottom: 10px;
+}
+.memberprofile{
+    padding: 10px 40px; /* Padding to make the button larger */
+    background-color: rgb(128, 128, 128); /* Pink background color */
+    color: white; /* White text color */
+    text-decoration: none!important; /* Removes underline from links */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    margin-right: 10px; /* Right margin to move the button slightly to the left */
+    margin-bottom: 10px;
+}
+.changePassword{
+    padding: 10px 40px; /* Padding to make the button larger */
+    background-color: rgb(128, 128, 128); /* Pink background color */
+    color: white; /* White text color */
+    text-decoration: none!important; /* Removes underline from links */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    margin-right: 10px; /* Right margin to move the button slightly to the left */
+    margin-bottom: 10px;
+}
+.newPurchase{
+    padding: 10px 40px; /* Padding to make the button larger */
+    background-color: rgb(128, 128, 128); /* Pink background color */
+    color: white; /* White text color */
+    text-decoration: none!important; /* Removes underline from links */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    margin-right: 10px; /* Right margin to move the button slightly to the left */
+    margin-bottom: 10px;
+}
+.historyreservation{
+    padding: 10px 40px; /* Padding to make the button larger */
+    background-color: rgb(128, 128, 128); /* Pink background color */
+    color: white; /* White text color */
+    text-decoration: none!important; /* Removes underline from links */
+    border-radius: 4px; /* Rounded corners for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    margin-right: 10px; /* Right margin to move the button slightly to the left */
     margin-bottom: 10px;
 }
 
@@ -70,7 +125,55 @@ body, html {
     cursor: pointer; /* 鼠标悬停时显示手型图标 */
 }
 
+.home:hover {
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+    cursor: pointer; /* 鼠标悬停时显示手型图标 */
+}
+.bookCourse:hover{
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+    cursor: pointer; /* 鼠标悬停时显示手型图标 */
+}
+.memberprofile:hover{
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+    cursor: pointer; /* 鼠标悬停时显示手型图标 */
+}
+.changePassword:hover{
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+    cursor: pointer; /* 鼠标悬停时显示手型图标 */
+}
+.newPurchase:hover{
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+    cursor: pointer; /* 鼠标悬停时显示手型图标 */
+}
+.historyreservation:hover{
+    background-color: #FFFFFF; /* White background on hover */
+    color: #D51FBA; /* Pink text on hover */
+    cursor: pointer; /* 鼠标悬停时显示手型图标 */
+}
+
 .login-btn {
+        font-weight :bold ;
+        margin-bottom: 10px;
+        outline: #FFFFFF;
+        padding: 10px 20px;
+        background-color: #CE56C1;
+        color: white;
+        border: none; /* 去除边框 */
+        border-radius: 4px; /* Rounded corners for the button */
+        transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.login-btn:hover{
+        background-color: #FFFFFF; /* White background on hover */
+        color: #D51FBA; /* Pink text on hover */
+}
+
+.logout-button {
     font-weight :bold ;
     margin-bottom: 10px;
     outline: #FFFFFF;
@@ -81,8 +184,7 @@ body, html {
     border-radius: 4px; /* Rounded corners for the button */
     transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
-
-.login-btn:hover{
+.logout-button:hover {
     background-color: #FFFFFF; /* White background on hover */
     color: #D51FBA; /* Pink text on hover */
 }
@@ -342,3 +444,4 @@ footer {
     text-align: center;
     padding: 20px 0;
 }
+

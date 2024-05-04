@@ -1,36 +1,108 @@
-<form action="/search" method="get">
-    <label for="date">Select Date:</label>
-    <input type="date" id="date" name="date" />
-    <button type="submit">Filter</button>
-</form>
-<ul th:if="${!incompleteReservations.isEmpty()}">
-    <li th:each="reservation : ${incompleteReservations}">
-        <div>
-            <h3 th:text="${reservation.courseId}">Course Name</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Reservation</title>
+    <link rel="stylesheet" href="/css/H-XYZ.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+<style>
+    .incomplete-container{
+        width: 400px;
+        background: #fff;
+        margin: 50px auto;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        text-align: center;
+    }
 
-            <p th:text="'Date: ' + ${reservation.lessonStartDate} + ', Time: ' + ${reservation.lessonStartTime} + ' - ' + ${reservation.lessonEndTime}">Course Time</p>
-            <p th:text="'Instructor: ' + ${reservation.staffId}">Instructor Name</p>
-            <p th:text="'Reservation ID: ' + ${reservation.reservationId}">Reservation ID</p>
-
-            <!-- Sign-in button, only displayed for reservations that have not been signed in and the course has not ended -->
-            <form th:if="${!reservation.isSignIn && !reservation.isCancelled && reservation.lessonStartDate.isAfter(T(java.time.LocalDate).now()) || (reservation.lessonStartDate.isEqual(T(java.time.LocalDate).now()) && reservation.lessonEndTime.isAfter(T(java.time.LocalTime).now()))}" th:action="@{/signin}" method="post" class="signin-form">
-                <input type="hidden" name="reservationId" th:value="${reservation.reservationId}" />
-                <button type="submit">Sign In</button>
-            </form>
-
-            <!-- Cancel reservation button, only displayed for courses that have not started -->
-            <form th:if="${!reservation.isCancelled && reservation.lessonStartDate.isAfter(T(java.time.LocalDate).now())}" th:action="@{/cancel}" method="post" class="cancel-form">
-                <input type="hidden" name="reservationId" th:value="${reservation.reservationId}" />
-                <button type="submit">Cancel Reservation</button>
-            </form>
-
-            <!-- Logic for marking as absent -->
-            <p th:if="${!reservation.isSignIn && reservation.lessonStartDate.isBefore(T(java.time.LocalDate).now()) || (reservation.lessonStartDate.isEqual(T(java.time.LocalDate).now()) && reservation.lessonEndTime.isBefore(T(java.time.LocalTime).now()))}" style="color: red;">Absent</p>
-
-            <!-- Displaying cancelled and signed-in status -->
-            <p th:if="${reservation.isCancelled}" style="color: red;">Cancelled</p>
+</style>
+<nav>
+    <div th:fragment="top-nav">
+        <div class="top-nav">
+            <div class="nav-center">
+                <a href="/home_page" class="home">H-XYZ | 打击代写就现在</a>
+                <a href="/member/order/course"class="bookCourse">Book Course</a>
+                <a href="/member/profile"class="memberprofile">My profile</a>
+                <a href="/member/update-password" class="changePassword">Update Password</a>
+                <a href="/purchase/new" class="newPurchase">Buy Plans</a>
+                <a href="/history" class="historyreservation">History</a>
+                <a href="/login"><button class="logout-button">Log out</button></a>
+            </div>
         </div>
-    </li>
-</ul>
-<p th:if="${incompleteReservations.isEmpty() and selectedDate != null}">No incomplete reservations for the selected date</p>
-<p th:if="${incompleteReservations.isEmpty() and selectedDate == null}">No incomplete reservations</p>
+    </div>
+</nav>
+<body>
+<div class="incomplete-container">
+    <form action="/search" method="get">
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" name="date" />
+        <button type="submit">Filter</button>
+    </form>
+
+    <ul th:if="${!incompleteReservations.isEmpty()}">
+        <li th:each="reservation : ${incompleteReservations}">
+            <div>
+                <h3 th:text="${reservation.courseId}">Course Name</h3>
+                <p th:text="'Date: ' + ${reservation.lessonStartDate} + ', Time: ' + ${reservation.lessonStartTime} + ' - ' + ${reservation.lessonEndTime}">Course Time</p>
+                <p th:text="'Instructor: ' + ${reservation.staffId}">Instructor Name</p>
+                <p th:text="'Reservation ID: ' + ${reservation.reservationId}">Reservation ID</p>
+
+                <!-- Sign-in button, only displayed for reservations that have not been signed in and the course has not ended -->
+                <form th:if="${!reservation.isSignIn && !reservation.isCancelled && reservation.lessonStartDate.isAfter(T(java.time.LocalDate).now()) || (reservation.lessonStartDate.isEqual(T(java.time.LocalDate).now()) && reservation.lessonEndTime.isAfter(T(java.time.LocalTime).now()))}" th:action="@{/signin}" method="post" class="signin-form">
+                    <input type="hidden" name="reservationId" th:value="${reservation.reservationId}" />
+                    <button type="submit">Sign In</button>
+                </form>
+
+                <!-- Cancel reservation button, only displayed for courses that have not started -->
+                <form th:if="${!reservation.isCancelled && reservation.lessonStartDate.isAfter(T(java.time.LocalDate).now())}" th:action="@{/cancel}" method="post" class="cancel-form">
+                    <input type="hidden" name="reservationId" th:value="${reservation.reservationId}" />
+                    <button type="submit">Cancel Reservation</button>
+                </form>
+
+                <!-- Logic for marking as absent -->
+                <p th:if="${!reservation.isSignIn && reservation.lessonStartDate.isBefore(T(java.time.LocalDate).now()) || (reservation.lessonStartDate.isEqual(T(java.time.LocalDate).now()) && reservation.lessonEndTime.isBefore(T(java.time.LocalTime).now()))}" style="color: red;">Absent</p>
+
+                <!-- Displaying cancelled and signed-in status -->
+                <p th:if="${reservation.isCancelled}" style="color: red;">Cancelled</p>
+            </div>
+        </li>
+    </ul>
+
+    <p th:if="${incompleteReservations.isEmpty() and selectedDate != null}">No incomplete reservations for the selected date</p>
+    <p th:if="${incompleteReservations.isEmpty() and selectedDate == null}">No incomplete reservations</p>
+</div>
+
+    <footer class="bg-dark text-white mt-4">
+        <div class="container py-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Contact Us</h5>
+                    <address>
+                        <strong>H-XYZ Fitness Center Inc.</strong><br>
+                        123 Fitness Blvd.<br>
+                        Wellness City, 98765<br>
+                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                    </address>
+                </div>
+                <div class="col-md-6">
+                    <h5>Follow Us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Twitter</a></li>
+                        <li><a href="#" class="text-white">Facebook</a></li>
+                        <li><a href="#" class="text-white">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${member != null ? member.name + ' : Profile' : 'Fitness Center'}">Fitness Center</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/H-XYZ.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <style>
@@ -18,18 +18,36 @@
 </head>
 <body th:data-member-id="${session.memberId}">
 
-    <div th:replace="member-nav :: top-nav"></div>
-
-    <div th:if="${welcomeMessage}" class="welcome-message" th:text="${welcomeMessage}"></div>
-    <div th:if="${renewalMessage}" class="alert alert-warning" th:text="${renewalMessage}"></div>
-    <div th:if="${error}" class="error-message" th:text="${error}"></div>
-
-    <div class="jumbotron">
-        <div class="container text-center">
-            <p class="lead">Let's stay healthy and vibrant together!</p>
-            <a class="btn btn-primary btn-lg" role="button" id="bookCourseBtn">Book a Course</a>
+ <nav>
+     <div th:fragment="top-nav">
+         <div class="top-nav">
+             <div class="nav-center">
+                 <a href="/home_page" class="home">H-XYZ | 打击代写就现在</a>
+                 <a href="/member/order/course"class="bookCourse">Book Course</a>
+                 <a href="/member/profile"class="memberprofile">My profile</a>
+                 <a href="/member/update-password" class="changePassword">Update Password</a>
+                 <a href="/purchase/new" class="newPurchase">Buy Plans</a>
+                 <a href="/history" class="historyreservation">History</a>
+                 <a href="/login"><button class="logout-button">Log out</button></a>
+             </div>
+         </div>
+     </div>
+ </nav>
+    <section class="hero">
+        <div class="container">
+            <div class="text-content text-center">
+                <div th:if="${welcomeMessage}" class="welcome-message" th:text="${welcomeMessage}"></div>
+                <div th:if="${renewalMessage}" class="alert alert-warning" th:text="${renewalMessage}"></div>
+                <div th:if="${error}" class="error-message" th:text="${error}"></div>
+                <h1>Perfect Workout Coach For Body Shape</h1>
+                <p class="lead">Let's stay healthy and vibrant together!</p>
+            </div>
+            <div class="image-content">
+                <img src="../images/about-img.png" alt="Fitness Image">
+            </div>
         </div>
-    </div>
+    </section>
+
 
     <footer class="bg-dark text-white mt-4">
         <div class="container py-3">
