@@ -4,27 +4,12 @@
     <meta charset="UTF-8">
     <title th:text="${member.name} + ': Profile'">Profile</title>
     <link rel="stylesheet" href="/css/profile.css">
-    <link rel="stylesheet" href="/css/H-XYZ.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body th:data-member-id="${session.memberId}">
 
 <!-- Navigation Bar -->
-<nav>
-    <div th:fragment="top-nav">
-        <div class="top-nav">
-            <div class="nav-center">
-                <div href="/home_page" class="home">H-XYZ | 打击代写就现在</div>
-                <a href="/member/order/course"class="bookCourse">Book Course</a>
-                <a href="/member/profile"class="memberprofile">My profile</a>
-                <a href="/member/update-password" class="changePassword">Update Password</a>
-                <a href="/purchase/new" class="newPurchase">Buy Plans</a>
-                <a href="/history" class="historyreservation">History</a>
-                <a href="/login"><button class="logout-button">Log out</button></a>
-            </div>
-        </div>
-    </div>
-</nav>
+<div th:replace="member-nav.html :: top-nav"></div>
 
 <!-- Profile Container -->
 <div class="profile-container">

@@ -1,60 +1,44 @@
 body, html {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-}
-.logo{
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-.top-nav {
-    font-weight :bold ;
-    height: 60px;
-    background: rgb(128, 128, 128); /* 背景颜色，可根据需要调整 */
-    padding: 10px 20px; /* 添加一些内边距 */
-    z-index: 1000; /* 确保导航栏在顶部 */
+    font-family: Ubuntu, sans-serif;
+    background-color: #f4f4f4;
 }
 
-.nav-center {
-    display: flex; /* 启用 Flexbox 布局 */
-    justify-content: space-between; /* 项目间隔均匀分布 */
-    align-items: center; /* 垂直居中 */
-    width: 100%; /* 导航栏宽度为全屏 */
-    text-decoration: none!important; /* Removes underline from links */
-}
-
-.about{
-    padding: 10px 40px; /* Padding to make the button larger */
-    background-color: rgb(128, 128, 128); /* Pink background color */
-    color: white; /* White text color */
-    text-decoration: none!important; /* Removes underline from links */
-    border-radius: 4px; /* Rounded corners for the button */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-    margin-right: 30px; /* Right margin to move the button slightly to the left */
-    margin-bottom: 10px;
-}
-.course{
-    padding: 10px 40px; /* Padding to make the button larger */
-    background-color: rgb(128, 128, 128); /* Pink background color */
-    color: white; /* White text color */
-    text-decoration: none!important; /* Removes underline from links */
-    border-radius: 4px; /* Rounded corners for the button */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-    margin-right: 30px; /* Right margin to move the button slightly to the left */
-    margin-bottom: 10px;
-}
-.team{
-    padding: 10px 40px; /* Padding to make the button larger */
-    background-color: rgb(128, 128, 128); /* Pink background color */
-    color: white; /* White text color */
-    text-decoration: none!important; /* Removes underline from links */
-    border-radius: 4px; /* Rounded corners for the button */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-    margin-right: 30px; /* Right margin to move the button slightly to the left */
+.about {
+    padding: 10px 40px;
+    background-color: rgb(128, 128, 128);
+    color: white;
+    text-decoration: none!important;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    margin-right: 30px;
     margin-bottom: 10px;
 }
 
-.home{
+.course {
+    padding: 10px 40px;
+    background-color: rgb(128, 128, 128);
+    color: white;
+    text-decoration: none!important;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.team {
+    padding: 10px 40px;
+    background-color: rgb(128, 128, 128);
+    color: white;
+    text-decoration: none!important;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.home {
     color: black;
     margin-bottom: 10px;
     font-size: 22px;

@@ -7,25 +7,9 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/reserve-step-arrow.css">
-    <link rel="stylesheet" href="/css/H-XYZ.css">
 </head>
 <body>
-<nav>
-    <div th:fragment="top-nav">
-        <div class="top-nav">
-            <div class="nav-center">
-                <a href="/home_page" class="home">H-XYZ | 打击代写就现在</a>
-                <a href="/member/order/course"class="bookCourse">Book Course</a>
-                <a href="/member/profile"class="memberprofile">My profile</a>
-                <a href="/member/update-password" class="changePassword">Update Password</a>
-                <a href="/purchase/new" class="newPurchase">Buy Plans</a>
-                <a href="/history" class="historyreservation">History</a>
-                <a href="/login"><button class="logout-button">Log out</button></a>
-            </div>
-        </div>
-    </div>
-</nav>
-
+<div th:replace="member-nav.html :: top-nav"></div>
 
     <div class="reservation-steps">
         <div class="step completed" data-href="/member/order/course">Select Course</div>

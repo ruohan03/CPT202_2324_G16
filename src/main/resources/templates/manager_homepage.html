@@ -21,12 +21,13 @@
 </head>
 <body>
 <div class="container">
+    <a href="/staff/login" class="btn btn-primary">Logout</a>
     <div class="dashboard-header">
         <h2>Welcome, Manager</h2>
         <p>This is your dashboard. Use the links below to manage the platform.</p>
     </div>
     <div class="list-group">
-        <a href="/staff/profile" class="list-group-item list-group-item-action">Personal Information</a>
+<!--        <a href="/staff/profile" class="list-group-item list-group-item-action">Personal Information</a>-->
         <a href="/reservation-list" class="list-group-item list-group-item-action">View All Reservations</a>
         <a href="/manage_staff" class="list-group-item list-group-item-action">Manage Staff</a>
         <a href="/manage_courses" class="list-group-item list-group-item-action">Manage Courses</a>
@@ -36,17 +37,17 @@
         <a href="/manage-members" class="list-group-item list-group-item-action">Recharge Member Accounts</a> <!-- 新增链接到充值页面 -->
     </div>
     <!-- Report Query Section -->
-    <form action="/generate_report" method="post">
-        <div class="form-group">
-            <label for="reportType">Select Report Type:</label>
-            <select class="form-control" id="reportType" name="reportType">
-                <option value="staff_performance">Staff Performance</option>
-                <option value="course_enrollment">Course Enrollment</option>
-                <option value="financial_summary">Financial Summary</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Generate Report</button>
-    </form>
+<!--    <form action="/generate_report" method="post">-->
+<!--        <div class="form-group">-->
+<!--            <label for="reportType">Select Report Type:</label>-->
+<!--            <select class="form-control" id="reportType" name="reportType">-->
+<!--                <option value="staff_performance">Staff Performance</option>-->
+<!--                <option value="course_enrollment">Course Enrollment</option>-->
+<!--                <option value="financial_summary">Financial Summary</option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-primary">Generate Report</button>-->
+<!--    </form>-->
 </div>
 <!-- Bootstrap and jQuery scripts for consistent UI functionality -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

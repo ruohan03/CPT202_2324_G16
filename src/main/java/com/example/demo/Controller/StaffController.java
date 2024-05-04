@@ -36,25 +36,6 @@ public class StaffController {
     @Autowired
     private MemberService memberService;
 
-    @GetMapping("/trainer/homepage")
-    public String trainerHomepage(){
-        return "trainer_homepage";
-    }
-
-    @GetMapping("/admin/homepage")
-    public String managerHomepage(){
-        return "manager_homepage";
-    }
-
-
-
-    @GetMapping("/staff")
-    public String getAllStaff(Model model){
-        List<Staff> staff = staffService.findAllStaff();
-        System.out.println(staff); // 用于调试，查看获取的员工信息
-        model.addAttribute("staff", staff);
-        return "staffView";  // 指向你的员工视图的Thymeleaf模板
-    }
 
     @GetMapping("/staff/course/{courseId}")
     public ResponseEntity<List<Staff>> getStaffByCourseId(@PathVariable String courseId) {
@@ -86,6 +67,7 @@ public class StaffController {
     public String login(@RequestParam String phone, @RequestParam String password, HttpSession session, Model model) {
         Optional<Staff> staff = staffService.login(phone, password);
         if (staff.isPresent()) {
+            session.setAttribute("staffName", staff.get().getName());
             session.setAttribute("staffId", staff.get().getStaffId());  // 设置会话属性
             session.setAttribute("isManager", staff.get().isManager());  // 设置是否为管理员的标识
             model.addAttribute("staff", staff.get());
@@ -101,6 +83,28 @@ public class StaffController {
                 return "redirect:/staff/login?error=true";
             }
         }
+    }
+
+    @GetMapping("/trainer/homepage")
+    public String trainerHomepage(HttpSession session, Model model){
+        String staffName = (String) session.getAttribute("staffName");
+        model.addAttribute("staffName", staffName);
+        return "trainer_homepage";
+    }
+
+    @GetMapping("/admin/homepage")
+    public String managerHomepage(){
+        return "manager_homepage";
+    }
+
+
+
+    @GetMapping("/staff")
+    public String getAllStaff(Model model){
+        List<Staff> staff = staffService.findAllStaff();
+        System.out.println(staff); // 用于调试，查看获取的员工信息
+        model.addAttribute("staff", staff);
+        return "staffView";  // 指向你的员工视图的Thymeleaf模板
     }
 
 

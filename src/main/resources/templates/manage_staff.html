@@ -3,157 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <title>Manage Staff</title>
-    <link rel="stylesheet" href="css/style.css">
-    <!-- 引入 jQuery 库 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
     <style>
-        .search-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px; /* 为搜索容器添加内边距 */
-        }
-        input[type="text"], button, select {
-            padding: 10px;
-            margin-right: 5px; /* 为输入框、按钮和下拉菜单添加右边距 */
-            border: 1px solid #ccc;
-            border-radius: 5px; /* 输入框、按钮和下拉菜单的圆角 */
-        }
-        button {
-            background-color: #007bff; /* 按钮背景色 */
-            color: white; /* 按钮文字颜色 */
-            cursor: pointer; /* 鼠标悬停时显示指针形状 */
-            transition: background-color 0.3s; /* 按钮背景颜色的过渡效果 */
-        }
-        button:hover {
-            background-color: #0056b3; /* 鼠标悬停时按钮的背景色 */
-        }
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            transition: all 0.3s ease-in-out;
-        }
-        .alert-danger {
-            max-width: 300px;
-            color: #a94442;
-            background-color: #f2dede;
-            border-color: #ebccd1;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        #add-staff-button {
+            position: absolute;
+            top: 60px;
+            right: 50px;
+            z-index: 100; /* Ensure the button is above other elements */
+            border-radius: 50%; /* Make the button round */
+            width: 50px; /* Adjust width as needed */
+            height: 50px; /* Adjust height as needed */
+            padding: 0; /* Remove padding */
+            text-align: center; /* Center the content */
         }
     </style>
 </head>
-<body>
-<div th:replace="back.html :: backButton"></div>
-<h1>Staff Management</h1>
 
-<div class="search-container">
-    <!-- 搜索表单 -->
-    <form th:action="@{/manage_staff}" method="get" class="search-form">
-        <input type="text" name="search" placeholder="Search by name, ID, gender, or course ID" class="search-input">
-        <button type="submit" class="search-button">Search</button>
-    </form>
-    <!-- 显示搜索无结果的消息 -->
-    <div th:if="${not #lists.isEmpty(noSearchMessage)}" class="alert alert-danger" th:text="${noSearchMessage}"></div>
+<div class="container-scroller">
+    <div th:replace="manager-nav.html"></div>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <button type="button" class="btn btn-inverse-info" id="add-staff-button">
+                    <span class="mdi mdi-account-plus-outline"></span>
+                </button>
+                <h1 >Staff Management</h1>
+                <!-- Add Staff Modal -->
+                <div id="add-staff-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" onclick="closeModal()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div id="add-staff-form">
+                                <div class="col-12 grid-margin">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Add staff</h4>
+                                            <p class="card-description">
+                                                New Staff Information
+                                            </p>
+                                            <form th:action="@{/add_staff}" method="post" class="forms-sample">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Staff ID</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" name="staffId" placeholder="Staff ID" class="form-control form-control-sm" required aria-label="Username">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" name="name" placeholder="name" class="form-control form-control-sm" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label"> Password </label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" name="password" placeholder="password" class="form-control form-control-sm" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label"> phone </label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" name="phone" placeholder="phone" class="form-control form-control-sm" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label"> Gender </label>
+                                                            <div class="col-sm-9">
+                                                                    <select name="gender" class="form-control form-control-sm" required>
+                                                                        <option value="">Select Gender</option>
+                                                                        <option value="Male">Male</option>
+                                                                        <option value="Female">Female</option>
+                                                                    </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label"> Level</label>
+                                                            <div class="col-sm-9">
+                                                                <select name="level" class="form-control form-control-sm" required>
+                                                                    <option value="">Select Level</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label"> Salary </label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" name="salary" placeholder="salary" class="form-control form-control-sm" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label"> CourseId </label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" name="courseId" placeholder="CourseID" class="form-control form-control-sm" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-info mr-2">Submit</button>
+                                                <button type="button" class="btn btn-light" onclick="closeModal()">Cancel</button>
+                                                </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 员工信息表格 -->
+                <table id="staffTable">
+                    <thead>
+                    <tr>
+                        <th>Staff ID</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>Level</th>
+                        <th>Salary</th>
+                        <th>CourseId</th>
+                        <th>Active</th> <!-- 新增显示激活状态的列 -->
+                        <th>Actions</th>
+                <!--        <th>Password</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="staff : ${staff}">
+                        <td th:text="${staff.staffId}">T003</td>
+                        <td th:text="${staff.name}">Mary</td>
+                        <td th:text="${staff.phone}">278227</td>
+                        <td th:text="${staff.gender}">Female</td>
+                        <td th:text="${staff.level}">5</td>
+                        <td th:text="${staff.salary}">100000</td>
+                        <td th:text="${staff.courseId}">C001</td>
+                        <td th:text="${staff.active ? 'Yes' : 'No'}"></td> <!-- 在这里显示激活状态 -->
+                        <td>
+                            <a th:href="@{/edit_staff/{staffId}(staffId=${staff.staffId})}">Edit</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${staff.isEmpty()}">
+                        <td colspan="5">No trainers found.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Add Staff button -->
-<style>
-    .add-staff-button {
-        margin-left: 200px;
-    }
-</style>
-<div class="add-staff-container">
-    <button type="button" class="add-staff-button" onclick="showAddStaffForm()">Add Staff</button>
-</div>
-
-<!-- Add Staff form (hidden by default) -->
-<div id="add-staff-form" style="display: none;">
-    <form th:action="@{/add_staff}" method="post" class="add-staff-form">
-        <input type="text" name="staffId" placeholder="Staff ID" class="add-staff-input" required>
-        <input type="text" name="name" placeholder="name" class="add-staff-input" required>
-        <input type="text" name="password" placeholder="password" class="add-staff-input" required>
-        <input type="text" name="phone" placeholder="phone" class="add-staff-input" required>
-
-        <!-- Gender field as a select dropdown -->
-        <select name="gender" class="add-staff-input" required>
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-
-        <!-- Level field as a select dropdown -->
-        <select name="level" class="add-staff-input" required>
-            <option value="">Select Level</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-
-        <input type="text" name="salary" placeholder="salary" class="add-staff-input" required>
-
-        <input type="text" name="courseId" placeholder="CourseID" class="add-staff-input" required>
-
-
-
-        <button type="submit" class="add-staff-button">Submit</button>
-    </form>
-
-</div>
-
-<!-- JavaScript to toggle visibility of Add Course form -->
-<script th:inline="javascript">
-    function showAddStaffForm() {
-        var addStaffForm = document.getElementById('add-staff-form');
-        if (addStaffForm.style.display === 'none') {
-            addStaffForm.style.display = 'block';
-        } else {
-            addStaffForm.style.display = 'none';
-        }
-    }
-</script>
-
-<!-- 员工信息表格 -->
-<table border="1">
-    <thead>
-    <tr>
-        <th>Staff ID</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Gender</th>
-        <th>Level</th>
-        <th>Salary</th>
-        <th>Course_id</th>
-        <th>Active</th> <!-- 新增显示激活状态的列 -->
-        <th>Actions</th>
-<!--        <th>Password</th>-->
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="staff : ${staff}">
-        <td th:text="${staff.staffId}">T003</td>
-        <td th:text="${staff.name}">Mary</td>
-        <td th:text="${staff.phone}">278227</td>
-        <td th:text="${staff.gender}">Female</td>
-        <td th:text="${staff.level}">5</td>
-        <td th:text="${staff.salary}">100000</td>
-        <td th:text="${staff.courseId}">C001</td>
-        <td th:text="${staff.active ? 'Yes' : 'No'}"></td> <!-- 在这里显示激活状态 -->
-
-        <!--        <td><span class="password" th:text="${staff.password}">Password</span></td>-->
-
-        <!-- Edit  -->
-        <td>
-            <a th:href="@{/edit_staff/{staffId}(staffId=${staff.staffId})}">Edit</a>
-        </td>
-
-    </tr>
-    <tr th:if="${staff.isEmpty()}">
-        <td colspan="5">No trainers found.</td>
-    </tr>
-    </tbody>
-</table>
+<script src="/js/add-staff.js"></script>
 </body>
 </html>

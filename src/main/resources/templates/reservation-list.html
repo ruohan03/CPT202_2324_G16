@@ -5,23 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservation List</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
+    <style>
+        table th, table td {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="back.html :: backButton"></div>
 <div class="container">
-    <h1>Reservation List</h1>
-    <table>
+    <table id="myTable">
+        <h2 class="page-title center-text" >Reservation List</h2>
         <thead>
-        <tr>
-            <th>Reservation ID</th>
-            <th>Member ID</th>
-            <th>Staff ID</th>
-            <th>Lesson Start Date</th>
-            <th>Lesson Start Time</th>
-            <th>Lesson End Time</th>
-            <th>Cancelled</th>
-            <th>Sign-in</th>
-        </tr>
+            <tr>
+                <th onclick="sortTable(0, 'myTable')">Reservation ID <span class = "mdi mdi-sort "></span></th>
+                <th onclick="sortTable(1, 'myTable')">Member ID <span class = "mdi mdi-sort "></span></th>
+                <th onclick="sortTable(2, 'myTable')">Staff ID <span class = "mdi mdi-sort "></span></th>
+                <th onclick="sortTable(3, 'myTable')">Lesson Start Date <span class = "mdi mdi-sort "></span></th>
+                <th onclick="sortTable(4, 'myTable')">Time <span class = "mdi mdi-sort "></span></th>
+                <th onclick="sortTable(6, 'myTable')">Cancelled <span class = "mdi mdi-sort "></span></th>
+                <th onclick="sortTable(7, 'myTable')">Sign-in <span class = "mdi mdi-sort "></span></th>
+            </tr>
         </thead>
         <tbody>
         <!-- Iterate through reservations and display each row -->
@@ -33,8 +38,7 @@
                 <td th:text="${reservation.memberId}"></td>
                 <td th:text="${reservation.staffId}"></td>
                 <td th:text="${reservation.lessonStartDate}"></td>
-                <td th:text="${reservation.lessonStartTime}"></td>
-                <td th:text="${reservation.lessonEndTime}"></td>
+                <td th:text="${reservation.lessonStartTime}+' - '+${reservation.lessonEndTime}"></td>
                 <td th:text="${reservation.isCancelled ? 'Yes' : 'No'}"></td>
                 <td th:text="${reservation.isSignIn ? 'Yes' : 'No'}"></td>
             </tr>
@@ -42,5 +46,45 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    function sortTable(n, tableId) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById(tableId);
+        rows = table.rows;
+        switching = true;
+        dir = "asc";
+
+        while (switching) {
+            switching = false;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount ++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+</script>
 </body>
 </html>

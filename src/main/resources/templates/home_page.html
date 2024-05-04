@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${member != null ? member.name + ' : Profile' : 'Fitness Center'}">Fitness Center</title>
     <link rel="stylesheet" href="/css/H-XYZ.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <style>
@@ -18,21 +20,8 @@
 </head>
 <body th:data-member-id="${session.memberId}">
 
- <nav>
-     <div th:fragment="top-nav">
-         <div class="top-nav">
-             <div class="nav-center">
-                 <a href="/home_page" class="home">H-XYZ | 打击代写就现在</a>
-                 <a href="/member/order/course"class="bookCourse">Book Course</a>
-                 <a href="/member/profile"class="memberprofile">My profile</a>
-                 <a href="/member/update-password" class="changePassword">Update Password</a>
-                 <a href="/purchase/new" class="newPurchase">Buy Plans</a>
-                 <a href="/history" class="historyreservation">History</a>
-                 <a href="/login"><button class="logout-button">Log out</button></a>
-             </div>
-         </div>
-     </div>
- </nav>
+    <div th:replace="member-nav.html :: top-nav"></div>
+
     <section class="hero">
         <div class="container">
             <div class="text-content text-center">

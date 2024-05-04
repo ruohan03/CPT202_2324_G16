@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History Reservation</title>
-    <link rel="stylesheet" href="/css/H-XYZ.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <style>
@@ -31,21 +30,8 @@
 
 </style>
 <body th:data-member-id="${session.memberId}">
-<nav>
-    <div th:fragment="top-nav">
-        <div class="top-nav">
-            <div class="nav-center">
-                <a href="/home_page" class="home">H-XYZ | 打击代写就现在</a>
-                <a href="/member/order/course"class="bookCourse">Book Course</a>
-                <a href="/member/profile"class="memberprofile">My profile</a>
-                <a href="/member/update-password" class="changePassword">Update Password</a>
-                <a href="/purchase/new" class="newPurchase">Buy Plans</a>
-                <a href="/history" class="historyreservation">History</a>
-                <a href="/login"><button class="logout-button">Log out</button></a>
-            </div>
-        </div>
-    </div>
-</nav>
+
+<div th:replace="member-nav.html :: top-nav"></div>
 
 <div class="container">
     <h1>History Reservation</h1>

@@ -87,6 +87,7 @@ public class CourseController {
     public String addNewCoursePage() {
         return "add_course";
     }
+
     @PostMapping("/add_course")
     public ResponseEntity<String> addCourse(@ModelAttribute Course course) {
         if (course == null || course.getCourseId() == null || course.getName() == "") {

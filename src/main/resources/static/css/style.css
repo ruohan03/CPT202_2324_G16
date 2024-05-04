@@ -1,24 +1,99 @@
-/* 基本样式和字体设置 */
-body, h1, a {
-    font-family: 'Helvetica Neue', Arial, sans-serif; /* 统一字体 */
+/* Typography */
+body {
+    font-size: 1rem;
+    font-family: "ubuntu-regular", sans-serif;
+    font-weight: initial;
+    line-height: normal;
+    -webkit-font-smoothing: antialiased;
+    background-color: #f4f4f4;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: "ubuntu-medium", sans-serif;
+}
+
+p {
+    font-size: 0.875rem;
+}
+
+h1,
+.h1 {
+    font-size: 2.19rem;
+}
+
+h2,
+.h2 {
+    font-size: 1.88rem;
+}
+
+h3,
+.h3 {
+    font-size: 1.56rem;
+}
+
+h4,
+.h4 {
+    font-size: 1.13rem;
+}
+
+h5,
+.h5 {
+    font-size: 1rem;
+}
+
+h6,
+.h6 {
+    font-size: .9375rem;
+}
+
+p {
+    font-size: .9375rem;
+    line-height: 1.5;
+}
+
+.center-text {
     text-align: center;
 }
-body {
-    background-color: #f8f9fa; /* 背景色 */
-    color: black; /* 深蓝色文字 */
+
+/* Fonts */
+@font-face {
+    font-family: 'ubuntu-light';
+    src: url("../fonts/Ubuntu/Ubuntu-Light.eot");
+    /* IE9 Compat Modes */
+    src: url("../fonts/Ubuntu/Ubuntu-Light.woff2") format("woff2"), url("../fonts/Ubuntu/Ubuntu-Light.woff") format("woff"), url("../fonts/Ubuntu/Ubuntu-Light.ttf") format("truetype");
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, sans-serif;
-    z-index: 2; /* 将背景置于内容之后 */
+@font-face {
+    font-family: 'ubuntu-regular';
+    src: url("../fonts/Ubuntu/Ubuntu-Regular.eot");
+    /* IE9 Compat Modes */
+    src: url("../fonts/Ubuntu/Ubuntu-Regular.woff2") format("woff2"), url("../fonts/Ubuntu/Ubuntu-Regular.woff") format("woff"), url("../fonts/Ubuntu/Ubuntu-Regular.ttf") format("truetype");
 }
 
+@font-face {
+    font-family: 'ubuntu-medium';
+    src: url("../fonts/Ubuntu/Ubuntu-Medium.eot");
+    /* IE9 Compat Modes */
+    src: url("../fonts/Ubuntu/Ubuntu-Medium.woff2") format("woff2"), url("../fonts/Ubuntu/Ubuntu-Medium.woff") format("woff"), url("../fonts/Ubuntu/Ubuntu-Medium.ttf") format("truetype");
+}
 
+@font-face {
+    font-family: 'ubuntu-bold';
+    src: url("../fonts/Ubuntu/Ubuntu-Bold.eot");
+    /* IE9 Compat Modes */
+    src: url("../fonts/Ubuntu/Ubuntu-Bold.woff2") format("woff2"), url("../fonts/Ubuntu/Ubuntu-Bold.woff") format("woff"), url("../fonts/Ubuntu/Ubuntu-Bold.ttf") format("truetype");
+}
 
 /* 表格基础样式 */
 table {
@@ -154,36 +229,132 @@ a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1050;  /*确保在其他内容之上*/
 }
 
-/* 模态框内容样式 */
 .modal-content {
     background: #fff;
     padding: 20px;
     border-radius: 4px;
     text-align: center;
+    max-width: 90%;  /* 限制最大宽度 */
+    width: auto;  /* 宽度根据内容调整 */
+    margin: auto;  /* 水平居中 */
+    max-width: 90%;  /*// 最大宽度为90%以防内容过宽*/
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);  /*// 添加阴影效果增加立体感*/
+    transition: transform 0.3s ease-out;  /*// 平滑变化效果*/
+    transform: translateY(-50px);  /*// 初始向上移动，当显示时会下移回中心*/
+    opacity: 1;  /*// 初始不可见*/
+    visibility: visible;
 }
 
-.modal-content span {
-    display: block;
-    margin-bottom: 15px;
+/* 当模态框可见时 */
+.modal-overlay.active .modal-content {
+    transform: translateY(0);  /*// 回到视觉中心*/
+    opacity: 1;  /*// 完全可见*/
+    visibility: visible;  /*// 显示*/
 }
 
-/* 链接和悬停效果，应用新主题色 */
-a {
-    color: #010544; /* 深蓝色 */
-    text-decoration: none;
-    transition: color 0.3s ease;
+.close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 1.5em;
 }
 
-a:hover {
-    color: #CE56C1; /* 主题粉色用于悬停和聚焦 */
-    text-decoration: underline;
+
+@media (max-width: 576px) {
+    .modal-content {
+        padding: 10px;
+    }
 }
+
+
+
+/* Navigation Bar Styles */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff; /* White background for nav */
+    padding: 10px 30px;
+    border-bottom: 2px solid #ddd; /* Grey line to separate content */
+}
+
+.top-nav a, .top-nav span {
+    color: #010544; /* 深蓝色文字 */
+    background-color: #fff; /* 白色背景 */
+    text-decoration: none; /* 去除下划线 */
+    padding: 8px 16px;
+    border-radius: 5px; /* 圆角效果 */
+    transition: background-color 0.3s, color 0.3s; /* 平滑过渡效果 */
+    font-weight: bold; /* 添加粗体样式 */
+}
+
+
+/* 当前页面链接的激活样式 */
+.top-nav a.current-page {
+    background-color: #f2f2f2; /* 背景变为灰色 */
+    color: #CE56C1; /* 文字颜色变为亮紫色 */
+    border-radius: 5px; /* 圆角效果 */
+    padding: 8px 16px;
+}
+
+/* 链接悬停效果，仅适用于非当前页面的链接 */
+.top-nav a:not(.current-page):hover {
+    background-color: #f2f2f2; /* 悬停背景变灰 */
+    color: #CE56C1; /* 悬停文字颜色变为亮紫色 */
+    text-decoration: none; /* 悬停时无下划线 */
+}
+
+/* Hover effect for links */
+.top-nav a:not(.logo):hover {
+    background-color: #e6e6e6; /* 非 logo 链接悬停背景变灰 */
+    color: #CE56C1; /* 非 logo 链接悬停文字颜色变成亮紫色 */
+    text-decoration: none; /* 确保悬停时没有下划线 */
+}
+/* Active link styling */
+.top-nav a.active {
+    background-color: #e6e6e6; /* Light grey background for active state */
+    color: #CE56C1; /* Purple text for active state */
+    border: none;
+}
+
+/* Logo链接样式 */
+.logo {
+    color: #010544; /* 深蓝色文字 */
+    text-decoration: none; /* 去除下划线 */
+    padding: 8px 16px;
+    background-color: transparent; /* 透明背景确保 logo 无背景填充 */
+    border-radius: 5px; /* 圆角效果，根据需要可调整或去除 */
+    transition: color 0.3s; /* 平滑文字颜色过渡 */
+}
+
+/* Logo 无悬停效果 */
+.logo:hover {
+    background-color: transparent; /* 透明背景，保持不变 */
+    color: #010544; /* 文字颜色保持不变 */
+}
+
+.nav-center {
+    display: flex;
+    justify-content: center; /* This will center the links */
+    flex-grow: 1; /* This will allow the container to take up all available space */
+    margin: 0 10px;
+}
+
+/* Right side of nav */
+.nav-right {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Allows right-side items to occupy the right space */
+    justify-content: flex-end; /* Aligns items to the right */
+}
+
 
 .container {
     padding: 20px;
-
 }
 
 .list-group-item {
@@ -216,6 +387,25 @@ a:hover {
     color: #010544; /* Deep blue text for username */
     margin-right: 20px; /* Space before logout button */
 }
+
+/* Logout button styling */
+.logout-button {
+    color: #fff; /* White text for button */
+    background-color: #CE56C1; /* Purple background for button */
+    border-radius: 5px; /* Rounded corners for button */
+    padding: 8px 16px; /* Padding inside the button */
+    text-decoration: none; /* Removes underline from the button */
+    transition: background-color 0.3s, color 0.3s;
+    display: inline-flex; /* Aligns the text and icon vertically */
+    align-items: center; /* Vertical alignment */
+    height: 36px; /* Ensure that the height matches other nav items */
+    margin: 0 10px; /* Adjust margins to fit with other nav items */
+}
+
+.logout-button:hover {
+    background-color: #BE46A2; /* Darker purple background on hover for button */
+}
+
 
 .search-form {
     display: flex;
@@ -381,4 +571,22 @@ label {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.search-container {
+    display: flex;            /* 使用 flex 布局 */
+    align-items: center;      /* 垂直居中对齐所有元素 */
+    gap: 10px;                /* 所有元素之间统一设置间隔 */
+}
+
+.search-form {
+    display: flex;            /* 让搜索框和搜索按钮在一行显示 */
+    gap: 10px;                /* 搜索框和搜索按钮之间的间隔 */
+}
+
+.search-input {
+    max-width: 500px;
+    padding: 8px;             /* 输入框内部的填充 */
+    border-radius: 5px;       /* 圆角边框 */
+    border: 2px solid #ccc;   /* 边框样式 */
 }

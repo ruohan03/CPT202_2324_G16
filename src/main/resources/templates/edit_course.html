@@ -2,53 +2,57 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Edit Course</title>
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    .edit-course-container {
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f8f8f8;
-    }
-    .edit-course-input, .edit-course-button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .edit-course-button {
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-    }
-    .edit-course-button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/template.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.css">
+
 </head>
 <body>
-<div th:replace="back.html :: backButton"></div>
-<div class="title">
-  <h1>Edit Course</h1>
-</div>
-
-<div class="edit-course-container">
-  <form th:action="@{'/edit_course/' + ${course.courseId}}" method="post" class="edit-course-form">
-    <input type="hidden" name="courseId" th:value="${course.courseId}">
-    <input type="text" name="name" placeholder="Course Name" th:value="${course.name}" class="edit-course-input" required>
-    <input type="text" name="location" placeholder="Location" th:value="${course.location}" class="edit-course-input" required>
-
-    <!-- Checkbox for Active Status -->
-    <div>
-      <label>
-        <input type="checkbox" name="isActive" th:checked="${course.active}"> Active Status
-      </label>
+<div class="container-scroller">
+  <div th:replace="manager-nav.html"></div>
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Edit Course</h4>
+                <p class="card-description">
+                    Edit course details
+                </p>
+                <form class="forms-sample" th:action="@{'/edit_course/' + ${course.courseId}}" method="post">
+                  <div class="form-group row">
+                    <label for="courseCode" class="col-sm-3 col-form-label">Course Code</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="Course Code" th:value="${course.courseId}"readonly>
+                    </div>
+                  </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Course Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="name" placeholder="Course Name" th:value="${course.name}" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Location</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="location" placeholder="Location" th:value="${course.location}" class="form-control" required>
+                      </div>
+                    </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">
+                      <input type="checkbox" name="isActive" th:checked="${course.active}">
+                      Active
+                    </label>
+                  </div>
+                  <button type="submit" class="btn btn-gradient-info">Update</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <button type="submit" class="edit-course-button">Update Course</button>
-  </form>
+  </div>
 </div>
 
 </body>

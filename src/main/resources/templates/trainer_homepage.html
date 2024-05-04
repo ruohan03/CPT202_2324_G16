@@ -19,15 +19,14 @@
 </head>
 <body>
 <div class="container">
+    <a href="/staff/login" class="btn btn-primary">Logout</a>
     <div class="dashboard-header">
-        <h2>Welcome, Trainer</h2>
+        <h2>Welcome, <span th:text="${staffName}">Trainer</span></h2>
         <p>This is your dashboard. Use the links below to manage your activities.</p>
     </div>
     <div class="list-group">
         <a href="/staff/profile" class="list-group-item list-group-item-action">Personal Information</a>
         <a href="/view_schedule" class="list-group-item list-group-item-action">View Schedule</a>
-        <a href="/submit_reports" class="list-group-item list-group-item-action">Submit Reports</a>
-        <a href="/client_progress" class="list-group-item list-group-item-action">Track Client Progress</a>
     </div>
 </div>
 <!-- 引入 Bootstrap 和 jQuery -->
