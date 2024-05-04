@@ -3,6 +3,10 @@ body, html {
     padding: 0;
     font-family: Arial, sans-serif;
 }
+.logo{
+    font-size: 24px;
+    margin-bottom: 10px;
+}
 .top-nav {
     font-weight :bold ;
     height: 60px;
@@ -65,7 +69,7 @@ body, html {
     text-decoration: none!important; /* Removes underline from links */
     border-radius: 4px; /* Rounded corners for the button */
     transition: background-color 0.3s; /* Smooth transition for hover effect */
-    margin-right: 10px; /* Right margin to move the button slightly to the left */
+    margin-right: 5px; /* Right margin to move the button slightly to the left */
     margin-bottom: 10px;
 }
 .memberprofile{
@@ -75,7 +79,7 @@ body, html {
     text-decoration: none!important; /* Removes underline from links */
     border-radius: 4px; /* Rounded corners for the button */
     transition: background-color 0.3s; /* Smooth transition for hover effect */
-    margin-right: 10px; /* Right margin to move the button slightly to the left */
+    margin-right: 5px; /* Right margin to move the button slightly to the left */
     margin-bottom: 10px;
 }
 .changePassword{
@@ -85,7 +89,7 @@ body, html {
     text-decoration: none!important; /* Removes underline from links */
     border-radius: 4px; /* Rounded corners for the button */
     transition: background-color 0.3s; /* Smooth transition for hover effect */
-    margin-right: 10px; /* Right margin to move the button slightly to the left */
+    margin-right: 5px; /* Right margin to move the button slightly to the left */
     margin-bottom: 10px;
 }
 .newPurchase{
@@ -95,7 +99,7 @@ body, html {
     text-decoration: none!important; /* Removes underline from links */
     border-radius: 4px; /* Rounded corners for the button */
     transition: background-color 0.3s; /* Smooth transition for hover effect */
-    margin-right: 10px; /* Right margin to move the button slightly to the left */
+    margin-right: 5px; /* Right margin to move the button slightly to the left */
     margin-bottom: 10px;
 }
 .historyreservation{
@@ -105,7 +109,7 @@ body, html {
     text-decoration: none!important; /* Removes underline from links */
     border-radius: 4px; /* Rounded corners for the button */
     transition: background-color 0.3s; /* Smooth transition for hover effect */
-    margin-right: 10px; /* Right margin to move the button slightly to the left */
+    margin-right: 5px; /* Right margin to move the button slightly to the left */
     margin-bottom: 10px;
 }
 
