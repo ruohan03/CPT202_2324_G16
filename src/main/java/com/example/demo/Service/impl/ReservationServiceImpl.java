@@ -65,8 +65,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public boolean hasExistingReservation(String memberId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-        return reservationRepository.existsByMemberIdAndLessonStartDateAndLessonStartTimeAndLessonEndTime(memberId,date, startTime, endTime);
+        // 先检查是否存在未取消的预约
+        return reservationRepository.existsByMemberIdAndLessonStartDateAndLessonStartTimeAndLessonEndTimeAndIsCancelled(
+                memberId, date, startTime, endTime, false);
     }
+
 
     @Transactional
     @Override
