@@ -162,5 +162,9 @@ public class ReservationServiceImpl implements ReservationService {
         return false;
     }
 
+    @Override
+    public List<Reservation> findReservationByMemberId(String memberId) {
+        return reservationRepository.findReservationByMemberId(memberId);
+    }
 }
 

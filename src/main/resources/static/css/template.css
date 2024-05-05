@@ -19547,10 +19547,10 @@ code {
   background-color: #57965D;
   border-color: #57965D;
 }
-
 .btn-inverse-success.focus, .btn-inverse-success:focus {
   box-shadow: 0 0 0 3px rgba(27, 207, 180, 0.5);
 }
+
 
 .btn-inverse-success.disabled, .btn-inverse-success:disabled {
   color: #57965D;

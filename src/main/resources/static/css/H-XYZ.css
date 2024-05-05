@@ -5,15 +5,27 @@ body, html {
     background-color: #f4f4f4;
 }
 
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    align-items: center;
+    background-color: #e0e0e0; /* White background for nav */
+    padding: 10px 30px;
+    border-bottom: 2px solid #ddd; /* Grey line to separate content */
+    position: fixed; /* Add this line */
+    width: 100%; /* Add this line */
+    z-index: 1000; /* Add this line */
+}
+
 .about {
     padding: 10px 40px;
-    background-color: rgb(128, 128, 128);
+    /*background-color: rgb(128, 128, 128);*/
     color: white;
     text-decoration: none!important;
     border-radius: 4px;
     transition: background-color 0.3s;
     margin-right: 30px;
-    margin-bottom: 10px;
 }
 
 .course {
@@ -24,7 +36,6 @@ body, html {
     border-radius: 4px;
     transition: background-color 0.3s;
     margin-right: 30px;
-    margin-bottom: 10px;
 }
 
 .team {
@@ -35,7 +46,6 @@ body, html {
     border-radius: 4px;
     transition: background-color 0.3s;
     margin-right: 30px;
-    margin-bottom: 10px;
 }
 
 .home {
@@ -163,7 +173,6 @@ body, html {
 
 .logout-button {
     font-weight :bold ;
-    margin-bottom: 10px;
     outline: #FFFFFF;
     padding: 10px 20px;
     background-color: #CE56C1;
@@ -182,8 +191,8 @@ body, html {
     align-items: center; /* 垂直居中 */
     justify-content: space-between; /* 水平分布 */
     padding: 20px; /* 容器内边距 */
-    height: 100vh; /* 视窗高度 */
-    margin-bottom: 100px;
+    height: 80vh; /* 视窗高度 */
+    margin-bottom: 50px;
 }
 .text-content h1 {
     font-size: 48px;

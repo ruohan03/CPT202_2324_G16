@@ -324,20 +324,80 @@ public class ReservationController {
         return response;
     }
 
-    @GetMapping("/completed")
+    @GetMapping("/member/all-reservations")
+    public String getAllReservationsForUser(HttpSession session, Model model) {
+        // 获取会话中的 memberId，判断登录状态
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId == null) {
+            logger.debug("No memberId found in session, redirecting to login.");
+            return "redirect:/login"; // 如果未登录，重定向到登录页面
+        }
+
+        // 从数据库获取 member 对象
+        Member member = memberService.findMemberById(memberId);
+        if (member == null) {
+            return "redirect:/login"; // 如果找不到成员信息，也重定向到登录页面
+        }
+
+        // 获取预约列表
+        List<Reservation> reservations = reservationService.findReservationByMemberId(memberId);
+
+        // 获取每个预约对应的 staff 对象
+        Map<String, Staff> staffMap = new HashMap<>();
+        Map<String, Course> courseMap = new HashMap<>();
+        for (Reservation reservation : reservations) {
+            Staff staff = staffService.findStaffById(reservation.getStaffId());
+            Course course = courseService.findCourseById(reservation.getCourseId());
+            staffMap.put(reservation.getReservationId(), staff);
+            courseMap.put(reservation.getReservationId(), course);
+        }
+
+        // 添加属性到模型中，供前端使用
+        model.addAttribute("currentPage", "viewReservations");
+        model.addAttribute("isLoggedIn", true); // 始终设为 true 因为已验证用户登录
+        model.addAttribute("member", member); // 添加 member 对象
+        model.addAttribute("reservations", reservations); // 添加处理过的预约列表
+        model.addAttribute("staffMap", staffMap); // 添加 staff 对象的映射
+        model.addAttribute("courseMap", courseMap); // 添加 course 对象的映射
+
+        logger.debug("Reservations listed for logged-in user.");
+
+        return "all-reservations"; // 返回预约列表页面
+    }
+
+    @GetMapping("/member/completed")
     public String getCompletedReservations(HttpSession session, Model model) {
         String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
             return "redirect:/login";  // 如果会员未登录，重定向到登录页面
         }
+        // 从数据库获取 member 对象
+        Member member = memberService.findMemberById(memberId);
+        if (member == null) {
+            return "redirect:/login"; // 如果找不到成员信息，也重定向到登录页面
+        }
+
         List<Reservation> completedReservations = reservationService.getCompletedReservationsForMember(memberId);
+        Map<String, Staff> staffMap = new HashMap<>();
+        Map<String, Course> courseMap = new HashMap<>();
+        for (Reservation reservation : completedReservations) {
+            Staff staff = staffService.findStaffById(reservation.getStaffId());
+            Course course = courseService.findCourseById(reservation.getCourseId());
+            staffMap.put(reservation.getReservationId(), staff);
+            courseMap.put(reservation.getReservationId(), course);
+        }
         model.addAttribute("completedReservations", completedReservations);
+        model.addAttribute("staffMap", staffMap); // 添加 staff 对象的映射
+        model.addAttribute("courseMap", courseMap); // 添加 course 对象的映射
+        model.addAttribute("member", member);
+        model.addAttribute("isLoggedIn", true);
+        model.addAttribute("currentPage", "viewReservations");
         return "completed-reservations";  // 返回已完成预约的视图
     }
 
     // 获取未完成预约
     // 获取未完成的预约列表
-    @GetMapping("/incomplete")
+    @GetMapping("/member/incomplete")
     public String getIncompleteReservations(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         String memberId = (String) session.getAttribute("memberId");
         if (memberId == null) {
@@ -345,9 +405,27 @@ public class ReservationController {
             redirectAttributes.addFlashAttribute("error", "您必须先登录才能访问预约信息。");
             return "redirect:/login";
         }
+        // 从数据库获取 member 对象
+        Member member = memberService.findMemberById(memberId);
+        if (member == null) {
+            return "redirect:/login"; // 如果找不到成员信息，也重定向到登录页面
+        }
         try {
             List<Reservation> incompleteReservations = reservationService.getIncompleteReservationsForMember(memberId);
+            Map<String, Staff> staffMap = new HashMap<>();
+            Map<String, Course> courseMap = new HashMap<>();
+            for (Reservation reservation : incompleteReservations) {
+                Staff staff = staffService.findStaffById(reservation.getStaffId());
+                Course course = courseService.findCourseById(reservation.getCourseId());
+                staffMap.put(reservation.getReservationId(), staff);
+                courseMap.put(reservation.getReservationId(), course);
+            }
             model.addAttribute("incompleteReservations", incompleteReservations);
+            model.addAttribute("staffMap", staffMap); // 添加 staff 对象的映射
+            model.addAttribute("courseMap", courseMap); // 添加 course 对象的映射
+            model.addAttribute("member", member);
+            model.addAttribute("isLoggedIn", true);
+            model.addAttribute("currentPage", "viewReservations");
             return "incomplete-reservations";  // 返回未完成预约的视图
         } catch (Exception e) {
             // 处理任何潜在的异常，并给出一个用户友好的错误消息

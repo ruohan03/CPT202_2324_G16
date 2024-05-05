@@ -36,5 +36,7 @@ public interface ReservationService {
 
     boolean signInReservation(String reservationId);
 
+    List<Reservation> findReservationByMemberId(String memberId);
+
 }
 

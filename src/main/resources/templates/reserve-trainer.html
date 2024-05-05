@@ -7,29 +7,58 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/reserve-step-arrow.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 <body>
-<div th:replace="member-nav.html :: top-nav"></div>
+<div class="content-wrap">
+    <div th:replace="member-nav.html :: top-nav"></div>
+    <div class="content-body">
+        <div class="reservation-steps">
+            <div class="step completed" data-href="/member/order/course">Select Course</div>
+            <div class="step active" data-href="/member/select-trainer">Select Trainer</div>
+            <div class="step" data-href="/member/select-time">Select Time</div>
+            <div class="step" data-href="/member/confirm-reservation">Confirm</div>
+        </div>
 
-    <div class="reservation-steps">
-        <div class="step completed" data-href="/member/order/course">Select Course</div>
-        <div class="step active" data-href="/member/select-trainer">Select Trainer</div>
-        <div class="step" data-href="/member/select-time">Select Time</div>
-        <div class="step" data-href="/member/confirm-reservation">Confirm</div>
+        <form th:action="@{/member/select-time}" method="get" class="trainer-selection-form">
+            <input type="hidden" id="memberId" name="memberId" th:value="${member.memberId}" />
+            <input type="hidden" name="courseId" th:value="${selectedCourse.courseId}" />
+            <div class="list-group">
+                <div th:each="trainer : ${Trainers}" class="list-group-item d-flex justify-content-between align-items-center">
+                    <span th:text="${trainer.name + ' - Level: ' + trainer.level}" class="trainer-info"></span>
+                    <button type="submit" name="staffId" th:value="${trainer.staffId}" class="select-button">Select</button>
+                </div>
+            </div>
+        </form>
     </div>
-
-    <form th:action="@{/member/select-time}" method="get" class="trainer-selection-form">
-        <input type="hidden" id="memberId" name="memberId" th:value="${member.memberId}" />
-        <input type="hidden" name="courseId" th:value="${selectedCourse.courseId}" />
-        <div class="list-group">
-            <div th:each="trainer : ${Trainers}" class="list-group-item d-flex justify-content-between align-items-center">
-                <span th:text="${trainer.name + ' - Level: ' + trainer.level}" class="trainer-info"></span>
-                <button type="submit" name="staffId" th:value="${trainer.staffId}" class="select-button">Select</button>
+    <footer class="bg-dark text-white mt-4">
+        <div class="container py-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Contact Us</h5>
+                    <address>
+                        <strong>Fitness Center Inc.</strong><br>
+                        123 Fitness Blvd.<br>
+                        Wellness City, 98765<br>
+                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                    </address>
+                </div>
+                <div class="col-md-6">
+                    <h5>Follow Us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Twitter</a></li>
+                        <li><a href="#" class="text-white">Facebook</a></li>
+                        <li><a href="#" class="text-white">Instagram</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </form>
+    </footer>
+</div>
 
-    <script src="/js/reserve-nav.js"></script>
+<script src="/js/reserve-nav.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

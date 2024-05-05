@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>预约确认</title>
+    <title>Reservation Confirm</title>
+    <link rel="stylesheet" href="/css/template.css">
     <link rel="stylesheet" href="/css/style.css">
     <!-- 引入jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -12,71 +13,96 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <!-- 引入Bootstrap JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <link rel="stylesheet" href="/css/reserve-step-arrow.css">
 </head>
 <body>
-<div th:replace="member-nav.html :: top-nav"></div>
-
-
-    <div class="reservation-steps">
-        <div class="step completed" data-href="/member/order/course">Select Course</div>
-        <div class="step completed" data-href="/member/select-trainer">Select Trainer</div>
-        <div class="step completed" data-href="/member/select-time">Select Time</div>
-        <div class="step active">Confirm</div>
-    </div>
-
-    <div class="container">
-        <h1>Confirm Reservation</h1>
-        <div class="row">
-            <div class="col">
-                <table class="profile-table">
-                    <tr>
-                        <th>Course</th>
-                        <td th:text="${course.name}"></td>
-                    </tr>
-                    <tr>
-                        <th>Trainer</th>
-                        <td th:text="${staff.name}"></td>
-                    </tr>
-                    <tr>
-                        <th>Reserve date</th>
-                        <td th:text="${date}"></td>
-                    </tr>
-                    <tr>
-                        <th>Time slot</th>
-                        <td th:text="${startTime + ' - ' + endTime}"></td>
-                    </tr>
-                </table>
-            </div>
+<div class="content-wrap">
+    <div th:replace="member-nav.html :: top-nav"></div>
+    <div class="content-body">
+        <div class="reservation-steps">
+            <div class="step completed" data-href="/member/order/course">Select Course</div>
+            <div class="step completed" data-href="/member/select-trainer">Select Trainer</div>
+            <div class="step completed" data-href="/member/select-time">Select Time</div>
+            <div class="step active">Confirm</div>
         </div>
-        <form th:action="@{/member/finalize-reservation}" method="post">
-            <input type="hidden" name="courseId" th:value="${course.courseId}" />
-            <input type="hidden" name="staffId" th:value="${staff.staffId}" />
-            <input type="hidden" name="date" th:value="${date}" />
-            <input type="hidden" name="time" th:value="${startTime + '-' + endTime}" />
-            <button type="submit" class="btn btn-primary">Confirming an Reservation</button>
-        </form>
-    </div>
 
-    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">error prompt</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="modalMessage"></p>
-                </div>
-                <div class="modal-footer no-border justify-content-center">
-                    <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2 class="center-text">Confirm Reservation</h2>
+                    <table class="profile-table">
+                        <tr>
+                            <th>Course</th>
+                            <td th:text="${course.name}"></td>
+                        </tr>
+                        <tr>
+                            <th>Trainer</th>
+                            <td th:text="${staff.name}"></td>
+                        </tr>
+                        <tr>
+                            <th>Reserve date</th>
+                            <td th:text="${date}"></td>
+                        </tr>
+                        <tr>
+                            <th>Time slot</th>
+                            <td th:text="${startTime + ' - ' + endTime}"></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
+            <form th:action="@{/member/finalize-reservation}" method="post">
+                <input type="hidden" name="courseId" th:value="${course.courseId}" />
+                <input type="hidden" name="staffId" th:value="${staff.staffId}" />
+                <input type="hidden" name="date" th:value="${date}" />
+                <input type="hidden" name="time" th:value="${startTime + '-' + endTime}" />
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+
+        <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">error prompt</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer no-border justify-content-center">
+                        <button type="button" class="btn btn-success" id="confirmButton">Confirm</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <footer class="bg-dark text-white mt-4">
+        <div class="container py-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Contact Us</h5>
+                    <address>
+                        <strong>Fitness Center Inc.</strong><br>
+                        123 Fitness Blvd.<br>
+                        Wellness City, 98765<br>
+                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                    </address>
+                </div>
+                <div class="col-md-6">
+                    <h5>Follow Us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Twitter</a></li>
+                        <li><a href="#" class="text-white">Facebook</a></li>
+                        <li><a href="#" class="text-white">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 <script src="/js/reserve-confirm.js"></script>
 </body>
 </html>

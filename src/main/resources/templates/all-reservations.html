@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Reservations</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+</head>
+<body>
+<div class="content-wrap">
+    <div th:replace="member-nav.html :: top-nav"></div>
+        <div class="content-body">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-center">All Reservations</h3>
+                        <div class="margin-bottom">
+                            <div class="btn-group">
+                                <a href="/member/incomplete" class="btn btn-light btn-sm btn-rounded">Upcoming Lessons</a>
+                                <a href="/member/completed" class="btn btn-light btn-sm btn-rounded">Completed Lessons</a>
+                                <a href="/member/all-reservations" class="btn btn-light btn-sm btn-rounded">All Reservations</a>
+                            </div>
+                        </div>
+                        <table class="table table-hover" id="reservationTable">
+                            <thead>
+                            <tr style="text-align: center;">
+                                <th>Staff Name</th>
+                                <th>Course Name</th>
+                                <th>Lesson Time</th>
+                                <th>Cancelled</th>
+                                <th>Sign-in</th>
+                                <th>Reservation Time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="reservation : ${reservations}">
+                                <td th:text="${staffMap[reservation.reservationId].name}"></td>
+                                <td th:text="${courseMap[reservation.reservationId].name}"></td>
+                                <td th:text="${reservation.lessonStartDate}+'    '+${reservation.lessonStartTime}+' - '+${reservation.lessonEndTime}"></td>
+                                <td th:text="${reservation.isCancelled ? 'Yes' : 'No'}"></td>
+                                <td th:text="${reservation.isSignIn ? 'Yes' : 'No'}"></td>
+                                <td th:text="${reservation.createdDate}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    <footer class="bg-dark text-white mt-4">
+        <div class="container py-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Contact Us</h5>
+                    <address>
+                        <strong>Fitness Center Inc.</strong><br>
+                        123 Fitness Blvd.<br>
+                        Wellness City, 98765<br>
+                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                    </address>
+                </div>
+                <div class="col-md-6">
+                    <h5>Follow Us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Twitter</a></li>
+                        <li><a href="#" class="text-white">Facebook</a></li>
+                        <li><a href="#" class="text-white">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#reservationTable').DataTable();
+    });
+</script>
+</body>
+</html>

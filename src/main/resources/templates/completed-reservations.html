@@ -3,70 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History Reservation</title>
-    <link rel="stylesheet" href="/css/H-XYZ.css">
+    <title>Completed Lessons</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 </head>
-<style>
-    .completed-container{
-        width: 400px;
-        background: #fff;
-        margin: 50px auto;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-        text-align: center;
-    }
-
-</style>
-
-<nav>
-    <div th:fragment="top-nav">
-        <div class="top-nav">
-            <div class="nav-center">
-                <a href="/home_page" class="home">H-XYZ | 打击代写就现在</a>
-                <a href="/member/order/course"class="bookCourse">Book Course</a>
-                <a href="/member/profile"class="memberprofile">My profile</a>
-                <a href="/member/update-password" class="changePassword">Update Password</a>
-                <a href="/purchase/new" class="newPurchase">Buy Plans</a>
-                <a href="/history" class="historyreservation">History</a>
-                <a href="/login"><button class="logout-button">Log out</button></a>
+<div class="content-wrap">
+    <div th:replace="member-nav.html :: top-nav"></div>
+    <div class="content-body">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center">Completed Reservations</h3>
+                    <div class="margin-bottom">
+                        <div class="btn-group">
+                            <a href="/member/incomplete" class="btn btn-light btn-sm btn-rounded">Upcoming Lessons</a>
+                            <a href="/member/completed" class="btn btn-light btn-sm btn-rounded">Completed Lessons</a>
+                            <a href="/member/all-reservations" class="btn btn-light btn-sm btn-rounded">All Reservations</a>
+                        </div>
+                    </div>
+                    <table class="table table-hover" id="completedReservationTable">
+                        <thead>
+                        <tr style="text-align: center;">
+                            <th>Reservation ID</th>
+                            <th>Staff Name</th>
+                            <th>Course Name</th>
+                            <th>Lesson Time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="reservation : ${completedReservations}">
+                            <td th:text="${reservation.reservationId}"></td>
+                            <td th:text="${staffMap[reservation.reservationId].name}"></td>
+                            <td th:text="${courseMap[reservation.reservationId].name}"></td>
+                            <td th:text="${reservation.lessonStartDate}+'    '+${reservation.lessonStartTime}+' - '+${reservation.lessonEndTime}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
     </div>
-</nav>
-
-
-<div class="completed-container">
-    <header>
-    <h1>Completed Reservations</h1>
-    </header>
-    <section>
-        <ul th:if="${!completedReservations.isEmpty()}">
-            <li th:each="reservation : ${completedReservations}">
-                <div>
-                    <h3 th:text="${reservation.courseId}">Course Name</h3>
-                    <p th:text="'Date: ' + ${reservation.lessonStartDate} + ', Time: ' + ${reservation.lessonStartTime} + ' - ' + ${reservation.lessonEndTime}">Course Time</p>
-                    <p th:text="'Instructor: ' + ${reservation.staffId}">Instructor Name</p>
-                    <p th:text="'Reservation ID: ' + ${reservation.reservationId}">Reservation ID</p>
-                </div>
-            </li>
-        </ul>
-        <div th:if="${completedReservations.isEmpty()}">
-            <p>No completed reservations.</p>
-        </div>
-    </section>
-</div>
-
-<footer class="bg-dark text-white mt-4">
+    <footer class="bg-dark text-white mt-4">
         <div class="container py-3">
             <div class="row">
                 <div class="col-md-6">
                     <h5>Contact Us</h5>
                     <address>
-                        <strong>H-XYZ Fitness Center Inc.</strong><br>
+                        <strong>Fitness Center Inc.</strong><br>
                         123 Fitness Blvd.<br>
                         Wellness City, 98765<br>
                         <abbr title="Phone">P:</abbr> (123) 456-7890
@@ -82,9 +67,14 @@
                 </div>
             </div>
         </div>
-</footer>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </footer>
+</div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#completedReservationTable').DataTable();
+    });
+</script>
 </body>
 </html>

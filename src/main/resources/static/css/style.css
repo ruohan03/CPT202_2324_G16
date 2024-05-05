@@ -5,7 +5,8 @@ body {
     font-weight: initial;
     line-height: normal;
     -webkit-font-smoothing: antialiased;
-    background-color: #f4f4f4;
+    background-color: #f4f4f4!important;
+    height: 100%;
 }
 
 h1,
@@ -94,6 +95,17 @@ p {
     /* IE9 Compat Modes */
     src: url("../fonts/Ubuntu/Ubuntu-Bold.woff2") format("woff2"), url("../fonts/Ubuntu/Ubuntu-Bold.woff") format("woff"), url("../fonts/Ubuntu/Ubuntu-Bold.ttf") format("truetype");
 }
+
+.content-wrap {
+    min-height: 100vh; /* Minimum height to take the full viewport height */
+    display: flex;
+    flex-direction: column; /* Stack children elements vertically */
+}
+.content-body {
+    flex: 1; /* Allow this element to grow and take necessary space */
+    padding: 20px; /* Just for some spacing */
+}
+
 
 /* 表格基础样式 */
 table {
@@ -273,18 +285,20 @@ a:hover {
 
 
 /* Navigation Bar Styles */
+
 .top-nav {
     display: flex;
     justify-content: space-between;
+    height: 60px;
     align-items: center;
-    background-color: #fff; /* White background for nav */
+    background-color: #e0e0e0; /* White background for nav */
     padding: 10px 30px;
     border-bottom: 2px solid #ddd; /* Grey line to separate content */
 }
 
 .top-nav a, .top-nav span {
     color: #010544; /* 深蓝色文字 */
-    background-color: #fff; /* 白色背景 */
+    background-color:#e0e0e0 ; /* 白色背景 */
     text-decoration: none; /* 去除下划线 */
     padding: 8px 16px;
     border-radius: 5px; /* 圆角效果 */
@@ -295,7 +309,7 @@ a:hover {
 
 /* 当前页面链接的激活样式 */
 .top-nav a.current-page {
-    background-color: #f2f2f2; /* 背景变为灰色 */
+    background-color: #FFFFFF; /* 背景变为灰色 */
     color: #CE56C1; /* 文字颜色变为亮紫色 */
     border-radius: 5px; /* 圆角效果 */
     padding: 8px 16px;
@@ -303,20 +317,20 @@ a:hover {
 
 /* 链接悬停效果，仅适用于非当前页面的链接 */
 .top-nav a:not(.current-page):hover {
-    background-color: #f2f2f2; /* 悬停背景变灰 */
+    background-color: #FFFFFF;
     color: #CE56C1; /* 悬停文字颜色变为亮紫色 */
     text-decoration: none; /* 悬停时无下划线 */
 }
 
 /* Hover effect for links */
 .top-nav a:not(.logo):hover {
-    background-color: #e6e6e6; /* 非 logo 链接悬停背景变灰 */
+    background-color: #FFFFFF; /* 非 logo 链接悬停背景变灰 */
     color: #CE56C1; /* 非 logo 链接悬停文字颜色变成亮紫色 */
     text-decoration: none; /* 确保悬停时没有下划线 */
 }
 /* Active link styling */
 .top-nav a.active {
-    background-color: #e6e6e6; /* Light grey background for active state */
+    background-color: #FFFFFF; /* Light grey background for active state */
     color: #CE56C1; /* Purple text for active state */
     border: none;
 }
@@ -339,7 +353,8 @@ a:hover {
 
 .nav-center {
     display: flex;
-    justify-content: center; /* This will center the links */
+    justify-content: center;
+    align-items: center;
     flex-grow: 1; /* This will allow the container to take up all available space */
     margin: 0 10px;
 }
@@ -352,9 +367,11 @@ a:hover {
     justify-content: flex-end; /* Aligns items to the right */
 }
 
-
 .container {
-    padding: 20px;
+    width: 100%;       /* 容器宽度设置为100% */
+    max-width: none;   /* 移除最大宽度限制 */
+    padding-right: 0;  /* 移除内边距 */
+    padding-left: 0;   /* 移除内边距 */
 }
 
 .list-group-item {
@@ -365,6 +382,10 @@ a:hover {
 .list-group-item:hover {
     background-color: #0056b3; /* 鼠标悬浮时的背景色 */
     color: white; /* 鼠标悬浮时的文字颜色 */
+}
+
+.margin-bottom {
+    margin-bottom: 10px; /* 你可以根据需要调整这个值 */
 }
 
 /* 响应式设计 */
@@ -393,7 +414,7 @@ a:hover {
     color: #fff; /* White text for button */
     background-color: #CE56C1; /* Purple background for button */
     border-radius: 5px; /* Rounded corners for button */
-    padding: 8px 16px; /* Padding inside the button */
+    /*padding: 8px 16px; !* Padding inside the button *!*/
     text-decoration: none; /* Removes underline from the button */
     transition: background-color 0.3s, color 0.3s;
     display: inline-flex; /* Aligns the text and icon vertically */
