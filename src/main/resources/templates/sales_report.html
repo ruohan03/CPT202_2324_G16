@@ -3,68 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <title>Sales Report</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
     <style>
-        .chart-container {
-            position: relative;
-            height: 40vh;
-            width: 80vw;
-            margin: auto;
+        .charts-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chart {
+            width: calc(33.33% - 10px); /* Subtract some pixels for margin if needed */
         }
     </style>
 </head>
 <body>
-<div class="container mt-4">
-    <div th:replace="back.html :: backButton"></div>
-    <h1 class="text-center mb-4">Sales Report</h1>
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                <tr>
-                    <th>Plan</th>
-                    <th>Total Sales</th>
-                    <th>Sales Count</th>
-                </tr>
-                </thead>
-                <tbody th:each="entry : ${salesData}">
-                <tr>
-                    <td th:text="${entry.key}"></td>
-                    <td th:text="${entry.value.totalSales}"></td>
-                    <td th:text="${entry.value.count}"></td>
-                </tr>
-                </tbody>
-                <tfoot class="table-primary">
-                <tr>
-                    <th>All Plan Sales</th>
-                    <th th:text="${totalSales}">[Total Sales]</th>
-                    <th th:text="${totalCount}">[Total Count]</th>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <h2 class="text-center">Sales Distribution by Plan</h2>
-            <div class="chart-container">
-                <canvas id="salesChart"></canvas>
+<div class="container-scroller">
+    <div th:replace="manager-nav.html"></div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div style="margin-top: 20px;">
+                <div class="page-header">
+                    <h2>
+                        Sales Report
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-hover" id="salesTable">
+                                    <h3 class="card-title">Sales data</h3>
+                                    <p class="card-description">
+                                        All Plan Sales Data
+                                    </p>
+                                    <thead>
+                                        <tr>
+                                            <th>Plan</th>
+                                            <th>Total Sales</th>
+                                            <th>Sales Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody th:each="entry : ${salesData}">
+                                    <tr>
+                                        <td th:text="${entry.key}"></td>
+                                        <td th:text="${entry.value.totalSales}"></td>
+                                        <td th:text="${entry.value.count}"></td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>All Plan Sales</th>
+                                        <th th:text="${totalSales}">[Total Sales]</th>
+                                        <th th:text="${totalCount}">[Total Count]</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 >Sales Distribution by Plan</h3>
+                                <div class="chart-container">
+                                    <canvas id="salesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h3>Daily Sales Over Time</h3>
+                    <div class="chart-container">
+                        <canvas id="dailySalesChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-12 mt-4">
-            <h2 class="text-center">Daily Sales Over Time</h2>
-            <div class="chart-container">
-                <canvas id="dailySalesChart"></canvas>
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024. H-XYZ Gym Management System.</span>
             </div>
-
-    </div>
+        </footer>
     </div>
 </div>
-
-
 
 <script th:inline="javascript">
     /*<![CDATA[*/

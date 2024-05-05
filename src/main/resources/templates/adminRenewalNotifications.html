@@ -4,62 +4,60 @@
     <meta charset="UTF-8">
     <title>Admin - Renewal Notifications</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .table-responsive {
-            margin-bottom: 20px;
-        }
-        .header {
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 <body>
-<div th:replace="back.html :: backButton"></div>
-<div class="container mt-5">
-    <div class="header">
-        <h1>Renewal Notifications</h1>
-        <form method="post" action="/admin/send-renewal-notifications">
-            <button type="submit" class="btn btn-danger">Send Renewal Notifications</button>
-        </form>
-    </div>
-    <div class="table-responsive">
-        <h2>Members Nearing Expiry</h2>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>End Date</th>
-            </tr>
-            </thead>
-            <tbody th:each="member : ${expiringMembers}">
-            <tr>
-                <td th:text="${member.name}"></td>
-                <td th:text="${#dates.format(member.endDate, 'yyyy-MM-dd')}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="table-responsive">
-        <h2>Notified Members</h2>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>End Date</th>
-                <th>Notification Sent</th>
-            </tr>
-            </thead>
-            <tbody th:each="member : ${notifiedMembers}">
-            <tr>
-                <td th:text="${member.name}"></td>
-                <td th:text="${#dates.format(member.endDate, 'yyyy-MM-dd')}"></td>
-                <td th:text="${member.renewalNotificationSent ? 'Yes' : 'No'}"></td>
-            </tr>
-            </tbody>
-        </table>
+<div class="container-scroller">
+    <div th:replace="manager-nav.html"></div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <h2>Renewal Notifications</h2>
+
+            <form method="post" action="/admin/send-renewal-notifications" class="float-left">
+                <button type="submit" class="btn btn-danger">Send Renewal Notifications</button>
+            </form>
+
+            <h3 class="text-center" style="margin-top:90px ">Notified Members</h3>
+            <table class="table-hover" style="text-align: center;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>End Date</th>
+                        <th>Notification Sent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="member : ${notifiedMembers}">
+                    <td th:text="${member.name}"></td>
+                    <td th:text="${#dates.format(member.endDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${member.renewalNotificationSent ? 'Yes' : 'No'}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="text-center">Members Nearing Expiry</h3>
+            <table class=" text table-hover" style="text-align: center;">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>End Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  th:each="member : ${expiringMembers}">
+                    <td th:text="${member.name}"></td>
+                    <td th:text="${#dates.format(member.endDate, 'yyyy-MM-dd')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024. H-XYZ Gym Management System.</span>
+            </div>
+        </footer>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

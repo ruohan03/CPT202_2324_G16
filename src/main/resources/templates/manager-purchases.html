@@ -4,49 +4,57 @@
     <meta charset="UTF-8">
     <title>All Purchases</title>
     <link rel="stylesheet" href="/css/style.css">
-    <style>
-        .back-button {
-            position: fixed; /* 固定位置，始终可见 */
-            top: 20px; /* 距离顶部20px */
-            left: 20px; /* 距离左侧20px */
-        }
-    </style>
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
 </head>
 <body>
-<div th:replace="back.html :: backButton"></div>
-<div class="back-button">
-    <a href="/manager-homepage" class="button">Return to Dashboard</a> <!-- 修改链接指向你的管理主页 -->
-</div>
-<div class="container">
-    <h1>All Purchases</h1>
-
-    <!-- 错误消息显示部分 -->
-    <div th:if="${error}" class="alert alert-danger">
-        <p th:text="${error}"></p>
+<div class="container-scroller">
+    <div th:replace="manager-nav.html"></div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <h2 class="text-center">All Purchases</h2>
+            <!-- 错误消息显示部分 -->
+            <div th:if="${error}" class="alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+            <table id="purchaseTable" class="table-hover">
+                <thead>
+                    <tr>
+                        <th>Purchase ID</th>
+                        <th>Member ID</th>
+                        <th>Member Name</th>
+                        <th>Plan</th>
+                        <th>Purchase Date</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="purchase : ${purchases}">
+                        <td th:text="${purchase.purchaseId}"></td>
+                        <td th:text="${purchase.member.memberId}"></td>
+                        <td th:text="${purchase.member.name}"></td>
+                        <td th:text="${purchase.plan}"></td>
+                        <td th:text="${#dates.format(purchase.purchaseDate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${purchase.cost}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024. H-XYZ Gym Management System.</span>
+            </div>
+        </footer>
     </div>
-
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Purchase ID</th>
-            <th>Member ID</th>
-            <th>Member Name</th>
-            <th>Plan</th>
-            <th>Purchase Date</th>
-            <th>Cost</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="purchase : ${purchases}">
-            <td th:text="${purchase.purchaseId}"></td>
-            <td th:text="${purchase.member.memberId}"></td>
-            <td th:text="${purchase.member.name}"></td>
-            <td th:text="${purchase.plan}"></td>
-            <td th:text="${#dates.format(purchase.purchaseDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${purchase.cost}"></td>
-        </tr>
-        </tbody>
-    </table>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#purchaseTable').DataTable();
+    });
+</script>
 </body>
 </html>

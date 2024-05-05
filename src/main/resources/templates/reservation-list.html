@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservation List</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/template.css">
     <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
     <style>
         table th, table td {
             text-align: center;
@@ -13,78 +17,53 @@
     </style>
 </head>
 <body>
-<div th:replace="back.html :: backButton"></div>
-<div class="container">
-    <table id="myTable">
-        <h2 class="page-title center-text" >Reservation List</h2>
-        <thead>
-            <tr>
-                <th onclick="sortTable(0, 'myTable')">Reservation ID <span class = "mdi mdi-sort "></span></th>
-                <th onclick="sortTable(1, 'myTable')">Member ID <span class = "mdi mdi-sort "></span></th>
-                <th onclick="sortTable(2, 'myTable')">Staff ID <span class = "mdi mdi-sort "></span></th>
-                <th onclick="sortTable(3, 'myTable')">Lesson Start Date <span class = "mdi mdi-sort "></span></th>
-                <th onclick="sortTable(4, 'myTable')">Time <span class = "mdi mdi-sort "></span></th>
-                <th onclick="sortTable(6, 'myTable')">Cancelled <span class = "mdi mdi-sort "></span></th>
-                <th onclick="sortTable(7, 'myTable')">Sign-in <span class = "mdi mdi-sort "></span></th>
-            </tr>
-        </thead>
-        <tbody>
-        <!-- Iterate through reservations and display each row -->
-        <!-- Assuming 'reservations' is a list of Reservation objects passed from the controller -->
-        <!-- You may need to adjust the property names based on your actual Reservation class -->
-        <th:block th:each="reservation : ${reservationList}">
-            <tr>
-                <td th:text="${reservation.reservationId}"></td>
-                <td th:text="${reservation.memberId}"></td>
-                <td th:text="${reservation.staffId}"></td>
-                <td th:text="${reservation.lessonStartDate}"></td>
-                <td th:text="${reservation.lessonStartTime}+' - '+${reservation.lessonEndTime}"></td>
-                <td th:text="${reservation.isCancelled ? 'Yes' : 'No'}"></td>
-                <td th:text="${reservation.isSignIn ? 'Yes' : 'No'}"></td>
-            </tr>
-        </th:block>
-        </tbody>
-    </table>
+<div class="container-scroller">
+    <div th:replace="manager-nav.html"></div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <h2 class="center-text" >Reservation List</h2>
+            <table id="reservationTable" class="table-hover">
+                <thead>
+                    <tr>
+                        <th >Reservation ID </th>
+                        <th >Member ID </th>
+                        <th >Staff ID </th>
+                        <th>Lesson Start Date</th>
+                        <th >Time</th>
+                        <th>Cancelled </th>
+                        <th>Sign-in </th>
+                    </tr>
+                </thead>
+                <tbody>
+                <!-- Iterate through reservations and display each row -->
+                <!-- Assuming 'reservations' is a list of Reservation objects passed from the controller -->
+                <!-- You may need to adjust the property names based on your actual Reservation class -->
+                <th:block th:each="reservation : ${reservationList}">
+                    <tr>
+                        <td th:text="${reservation.reservationId}"></td>
+                        <td th:text="${reservation.memberId}"></td>
+                        <td th:text="${reservation.staffId}"></td>
+                        <td th:text="${reservation.lessonStartDate}"></td>
+                        <td th:text="${reservation.lessonStartTime}+' - '+${reservation.lessonEndTime}"></td>
+                        <td th:text="${reservation.isCancelled ? 'Yes' : 'No'}"></td>
+                        <td th:text="${reservation.isSignIn ? 'Yes' : 'No'}"></td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024. H-XYZ Gym Management System.</span>
+            </div>
+        </footer>
+    </div>
 </div>
 
 <script>
-    function sortTable(n, tableId) {
-        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-        table = document.getElementById(tableId);
-        rows = table.rows;
-        switching = true;
-        dir = "asc";
-
-        while (switching) {
-            switching = false;
-            for (i = 1; i < (rows.length - 1); i++) {
-                shouldSwitch = false;
-                x = rows[i].getElementsByTagName("TD")[n];
-                y = rows[i + 1].getElementsByTagName("TD")[n];
-                if (dir == "asc") {
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                } else if (dir == "desc") {
-                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-            }
-            if (shouldSwitch) {
-                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                switching = true;
-                switchcount ++;
-            } else {
-                if (switchcount == 0 && dir == "asc") {
-                    dir = "desc";
-                    switching = true;
-                }
-            }
-        }
-    }
+    $(document).ready(function() {
+        $('#reservationTable').DataTable();
+    });
 </script>
 </body>
 </html>

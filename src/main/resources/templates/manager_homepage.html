@@ -5,49 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css"> <!-- 确保此路径与您的CSS文件匹配 -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.css">
     <style>
-        .dashboard-header h2 {
-            margin-top: 20px;
-            text-align: center;
+        .container{
+            margin-top: 100px;
         }
-        .list-group-item, .dashboard-header p, form {
-            text-align: center;
+        .container-scroller {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        form {
-            margin-top: 20px;
+        .content-wrapper {
+            flex: 1;
+        }
+        .footer {
+            flex-shrink: 0;
+        }
+        .container {
+            margin-top: 100px;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <a href="/staff/login" class="btn btn-primary">Logout</a>
-    <div class="dashboard-header">
-        <h2>Welcome, Manager</h2>
-        <p>This is your dashboard. Use the links below to manage the platform.</p>
-    </div>
-    <div class="list-group">
-<!--        <a href="/staff/profile" class="list-group-item list-group-item-action">Personal Information</a>-->
-        <a href="/reservation-list" class="list-group-item list-group-item-action">View All Reservations</a>
-        <a href="/manage_staff" class="list-group-item list-group-item-action">Manage Staff</a>
-        <a href="/manage_courses" class="list-group-item list-group-item-action">Manage Courses</a>
-        <a href="/admin/renewal-notifications" class="list-group-item list-group-item-action">Send Renewal Notifications</a>
-        <a href="/admin/reports" class="list-group-item list-group-item-action">Sales Report</a>
-        <a href="/admin/purchases" class="list-group-item list-group-item-action">Purchases View</a>
-        <a href="/manage-members" class="list-group-item list-group-item-action">Recharge Member Accounts</a> <!-- 新增链接到充值页面 -->
-    </div>
-    <!-- Report Query Section -->
-<!--    <form action="/generate_report" method="post">-->
-<!--        <div class="form-group">-->
-<!--            <label for="reportType">Select Report Type:</label>-->
-<!--            <select class="form-control" id="reportType" name="reportType">-->
-<!--                <option value="staff_performance">Staff Performance</option>-->
-<!--                <option value="course_enrollment">Course Enrollment</option>-->
-<!--                <option value="financial_summary">Financial Summary</option>-->
-<!--            </select>-->
-<!--        </div>-->
-<!--        <button type="submit" class="btn btn-primary">Generate Report</button>-->
-<!--    </form>-->
+<div class="container-scroller">
+    <nav class="navbar default-layout-navbar col-lg-12 col-10 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a href="/admin/homepage" class="logo">H-XYZ | 打击代写就现在</a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item nav-logout d-none d-lg-block">
+                    <a class="nav-link" href="/staff/login">
+                        <i class="mdi mdi-login-variant"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+        <div class="content-wrapper">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h2>Welcome, Manager</h2>
+                    <p>This is your dashboard. Use the links below to manage the platform.</p>
+                </div>
+                <div class="list-group">
+                    <a href="/reservation-list" class="list-group-item list-group-item-action">View All Reservations</a>
+                    <a href="/manage_staff" class="list-group-item list-group-item-action">Manage Staff</a>
+                    <a href="/manage_courses" class="list-group-item list-group-item-action">Manage Courses</a>
+                    <a href="/admin/renewal-notifications" class="list-group-item list-group-item-action">Send Renewal Notifications</a>
+                    <a href="/admin/reports" class="list-group-item list-group-item-action">Sales Report</a>
+                    <a href="/admin/purchases" class="list-group-item list-group-item-action">Purchases View</a>
+                    <a href="/manage-members" class="list-group-item list-group-item-action">Recharge Member Accounts</a> <!-- 新增链接到充值页面 -->
+                </div>
+            </div>
+        </div>
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024.Gym Management System.</span>
+        </div>
+    </footer>
 </div>
 <!-- Bootstrap and jQuery scripts for consistent UI functionality -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -55,7 +73,3 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
-
-

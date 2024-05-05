@@ -32,7 +32,7 @@
             </button>
             <h1>Available Courses</h1>
 
-            <table id="courseTable">
+            <table id="courseTable" class="table-hover">
                 <thead>
                 <tr>
                     <th>Course ID</th>
@@ -109,6 +109,11 @@
                 <span th:text="${successMessage}"></span>
             </div>
         </div>
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024. H-XYZ Gym Management System.</span>
+            </div>
+        </footer>
     </div>
 </div>
 <script src="/js/manage-course.js"></script>

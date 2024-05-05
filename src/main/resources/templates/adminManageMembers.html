@@ -3,56 +3,76 @@
 <head>
     <title>Admin Member Management</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <style>
+        table th, table td {
+            text-align: center;
+        }
+        .form-no-padding {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-<h1>Member Management</h1>
-<!-- 显示错误消息 -->
-<div th:if="${noSearchMessage}" th:text="${noSearchMessage}" style="color: red;"></div>
-
-<!-- 搜索表单 -->
-<form th:action="@{/manage-members}" method="get">
-    <input type="text" name="search" placeholder="Search by Phone" required>
-    <button type="submit">Search</button>
-</form>
-
-<!-- 显示所有用户的表格 -->
-<table>
-    <div th:replace="back.html :: backButton"></div>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Gender</th>
-        <th>Plan</th>
-        <th>Remaining Sum</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="member : ${members}"> <!-- 注意这里改为绑定 `members` 变量 -->
-        <td th:text="${member.memberId}"></td>
-        <td th:text="${member.name}"></td>
-        <td th:text="${member.phone}"></td>
-        <td th:text="${member.gender}"></td>
-        <td th:text="${member.plan}"></td>
-        <td th:text="${member.remaining_sum}"></td> <!-- 确保使用正确的属性名 -->
-        <td>
-            <!-- 充值按钮触发模态框或新页面 -->
-            <form th:action="@{/recharge-member}" method="post"> <!-- 确保这个路径与控制器中定义的路径相匹配 -->
-                <input type="hidden" th:value="${member.memberId}" name="memberId">
-                <input type="number" name="amount" placeholder="Enter amount" required>
-                <button type="submit">Recharge</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<!-- Footer -->
-<footer>
-    <p>© 2024 Gym Management System</p>
-</footer>
+<div class="container-scroller">
+    <div th:replace="manager-nav.html"></div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <h1>Member Management</h1>
+            <!-- 显示错误消息 -->
+            <div th:if="${noSearchMessage}" th:text="${noSearchMessage}" style="color: red;"></div>
+            <!-- 显示所有用户的表格 -->
+            <table id="memberTable" class="table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Plan</th>
+                        <th>Remaining Sum</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="member : ${members}"> <!-- 注意这里改为绑定 `members` 变量 -->
+                        <td th:text="${member.memberId}"></td>
+                        <td th:text="${member.name}"></td>
+                        <td th:text="${member.phone}"></td>
+                        <td th:text="${member.plan}"></td>
+                        <td th:text="${member.remaining_sum}"></td> <!-- 确保使用正确的属性名 -->
+                        <td>
+                            <!-- 充值按钮触发模态框或新页面 -->
+                            <form th:action="@{/recharge-member}" method="post" class="form-no-padding"> <!-- 确保这个路径与控制器中定义的路径相匹配 -->
+                                <input type="hidden" th:value="${member.memberId}" name="memberId">
+                                <div class="input-group">
+                                    <input type="number" name="amount" placeholder="Enter amount"  class="form-control-sm" required>
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-sm btn-gradient-success"><span class="mdi mdi mdi-check"></span></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024. H-XYZ Gym Management System.</span>
+            </div>
+        </footer>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#memberTable').DataTable();
+    });
+</script>
 </body>
 </html>
 
