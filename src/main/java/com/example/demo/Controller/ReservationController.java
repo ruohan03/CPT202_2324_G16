@@ -443,7 +443,7 @@ public class ReservationController {
         }
         String result = reservationService.cancelReservation(reservationId, memberId);
         redirectAttributes.addFlashAttribute("message", result);
-        return "redirect:/incomplete";
+        return "redirect:/member/incomplete";
     }
 
     // 签到
