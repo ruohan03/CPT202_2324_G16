@@ -25,7 +25,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Staff ID</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="staffId" placeholder="Staff ID" th:value="${staff.name}" class="form-control form-control-sm" required aria-label="Username">
+                                            <input type="text" name="staffId" placeholder="Staff ID" th:value="${staff.staffId}" class="form-control form-control-sm" required aria-label="Staff ID">
                                         </div>
                                     </div>
                                 </div>
@@ -33,7 +33,17 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Name</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="name" placeholder="name" th:value="${staff.phone}" class="form-control form-control-sm" required>
+                                            <input type="text" name="name" placeholder="Name" th:value="${staff.name}" class="form-control form-control-sm" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Phone</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="phone" placeholder="Phone" th:value="${staff.phone}" class="form-control form-control-sm" required>
                                         </div>
                                     </div>
                                 </div>

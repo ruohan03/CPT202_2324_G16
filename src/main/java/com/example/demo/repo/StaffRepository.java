@@ -15,7 +15,9 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
 
     Staff findByPhone(String phone);
 
-    List<Staff> findStaffByCourseIdAndLevelLessThanEqual(String courseId, int level);
+    // 在 StaffRepository 中添加过滤 isActive 的条件
+    List<Staff> findStaffByCourseIdAndLevelLessThanEqualAndIsActive(String courseId, int level, boolean isActive);
+
 
     Staff findByPhoneAndName(String phone, String name);
 

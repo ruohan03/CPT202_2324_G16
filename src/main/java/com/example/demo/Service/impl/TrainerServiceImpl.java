@@ -23,6 +23,7 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public List<Staff> findCoachesByCourseAndLevel(String courseId, int maxLevel) {
-        return staffRepository.findStaffByCourseIdAndLevelLessThanEqual(courseId, maxLevel);
+        return staffRepository.findStaffByCourseIdAndLevelLessThanEqualAndIsActive(courseId, maxLevel, true);
     }
+
 }
