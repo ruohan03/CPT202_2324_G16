@@ -1,23 +1,19 @@
 package com.example.demo.Service.impl;
 
 import com.example.demo.Model.Member;
-import com.example.demo.Model.PlanSalesData;
 import com.example.demo.Model.Purchase;
-import com.example.demo.Service.MemberService;
+import com.example.demo.Service.PurchaseService;
 import com.example.demo.repo.MemberRepository;
 import com.example.demo.repo.PurchaseRepository;
-import com.example.demo.Service.PurchaseService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 @Service
@@ -291,5 +287,25 @@ public class PurchaseServiceImpl implements PurchaseService {
         return new SalesSummary(totalSalesCount, totalSalesAmount, topSellingPlan, topSellingPlanCount);
     }
 
+    @Override
+    public double getThisWeekSales() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        Date startOfWeekDate = Date.from(startOfWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endOfWeekDate = Date.from(endOfWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Double sales = purchaseRepository.sumTotalPriceByDateBetween(startOfWeekDate, endOfWeekDate);
+        return (sales != null) ? sales : 0.0;
+    }
 
+    @Override
+    public double getLastWeekSales() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfLastWeek = today.minusWeeks(1).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfLastWeek = today.minusWeeks(1).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        Date startOfLastWeekDate = Date.from(startOfLastWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endOfLastWeekDate = Date.from(endOfLastWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Double sales = purchaseRepository.sumTotalPriceByDateBetween(startOfLastWeekDate, endOfLastWeekDate);
+        return (sales != null) ? sales : 0.0;
+    }
 }

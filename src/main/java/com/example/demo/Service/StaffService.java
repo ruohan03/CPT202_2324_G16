@@ -37,4 +37,6 @@ public interface StaffService {
 
     boolean existsByStaffId(String staffId);
 
+    String findNameByStaffId(String staffId);
+
 }

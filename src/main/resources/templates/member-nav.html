@@ -18,7 +18,7 @@
             <a href="/member/incomplete" th:class="${currentPage == 'viewReservations' ? 'current-page':''}" th:if="${isLoggedIn}">My Lessons</a>
         </div>
         <div class="nav-right">
-            <span class = "mdi mdi-account" th:text="${isLoggedIn ? member.name : 'Visitor'}"></span>
+            <a href="/member/profile" class="mdi mdi-account" th:text="${isLoggedIn ? member.name : 'Visitor'}"></a>
             <a th:if="${isLoggedIn}" href="/logout" class="logout-button"> <i class="mdi mdi-logout-variant"></i> Logout</a>
             <a th:if="${!isLoggedIn}" href="/login" class="login-button"><i class="mdi mdi-login-variant"></i> Login</a>
         </div>

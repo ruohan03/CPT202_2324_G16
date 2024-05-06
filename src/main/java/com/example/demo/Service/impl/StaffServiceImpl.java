@@ -7,11 +7,14 @@ import com.example.demo.Service.PasswordService;
 import com.example.demo.repo.CourseRepository;
 import com.example.demo.repo.MemberRepository;
 import com.example.demo.repo.StaffRepository;  // Import the StaffRepository
+import com.example.demo.repo.ReservationRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.exception.ResourceNotFoundException;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +34,9 @@ public class StaffServiceImpl implements StaffService {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Override
     public List<Staff> findAllStaff() {
@@ -94,8 +100,6 @@ public class StaffServiceImpl implements StaffService {
                 .orElse(false);  // 如果找不到指定的员工，返回false
     }
 
-
-
     @Override
     public void sendRenewalNotifications() {
         Calendar cal = Calendar.getInstance();
@@ -141,4 +145,9 @@ public class StaffServiceImpl implements StaffService {
         return staffRepository.existsById(staffId);
     }
 
+    @Override
+    public String findNameByStaffId(String staffId) {
+        Staff staff = staffRepository.findById(staffId).orElse(null);
+        return staff != null ? staff.getName() : null;
+    }
 }

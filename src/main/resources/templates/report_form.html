@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <title>Sales Report Form</title>
     <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl{
+            padding-left: 0;
+        }
+    </style>
 </head>
 <body>
 <div class="container-scroller">
     <div th:replace="manager-nav.html"></div>
     <div class="main-panel">
         <div class="content-wrapper">
-            <div style="margin-top: 50px;">
                 <div class="d-flex justify-content-center align-items-center vh-100">
                     <div class="col-md-9 grid-margin stretch-card">
                         <div class="card">
@@ -37,7 +43,6 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -48,7 +53,8 @@
         </footer>
     </div>
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/manager-nav.js"></script>
 <script src="/js/report-form.js"></script>
 </body>
 </html>

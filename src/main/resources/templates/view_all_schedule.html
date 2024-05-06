@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Reservation List</title>
+    <title>All Appointment List</title>
     <link rel="stylesheet" href="/css/template.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.css">
@@ -39,19 +39,12 @@
                 <div class="col-lg-10 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="text-center" style="margin-top:-10px ">All Reservations</h3>
-                            <div class="margin-bottom">
-                                <div class="btn-group">
-                                    <a href="/staff/view_all_schedule" class="btn btn-dark btn-sm btn-rounded">All Reservations</a>
-                                    <a href="/staff/view_schedule" class="btn btn-light btn-sm btn-rounded">Upcoming Lessons</a>
-                                    <a href="/staff/view_complete_schedule" class="btn btn-light btn-sm btn-rounded">Completed Lessons</a>
-                                </div>
-                            </div>
-                            <H4 th:if="${staffAllReservationList.isEmpty()}" class="text-danger">No Reservation</H4>
+                            <h3 class="text-center" style="margin-top:-10px ">All Appointments</h3>
+                            <H4 th:if="${staffAllReservationList.isEmpty()}" class="text-danger">No Appointment</H4>
                             <table id="allSchedules" class="table table-hover" th:if="${!staffAllReservationList.isEmpty()}">
                                 <thead>
                                 <tr>
-                                    <th>Reservation ID</th>
+                                    <th>Appointment ID</th>
                                     <th>Member ID</th>
                                     <th>Lesson Date</th>
                                     <th>Status</th>

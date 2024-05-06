@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin - Renewal Notifications</title>
-    <link rel="stylesheet" href="/css/style.css">
+
     <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl{
+            padding-right: 0;
+            padding-left: 0;
+        }
+    </style>
 </head>
 <body>
 <div class="container-scroller">
     <div th:replace="manager-nav.html"></div>
     <div class="main-panel">
+        <div style="padding-left: 0"></div>
         <div class="content-wrapper">
             <h2>Renewal Notifications</h2>
 
@@ -60,6 +68,8 @@
         </footer>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/manager-nav.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

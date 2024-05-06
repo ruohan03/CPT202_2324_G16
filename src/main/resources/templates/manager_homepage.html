@@ -5,66 +5,186 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
     <style>
-        .container{
-            margin-top: 100px;
-        }
-        .container-scroller {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        .content-wrapper {
-            flex: 1;
-        }
-        .footer {
-            flex-shrink: 0;
+        .card-text{
+            color: #FFFFFF!important;
         }
     </style>
 </head>
 <body>
 <div class="container-scroller">
-    <nav class="navbar default-layout-navbar col-lg-12 col-10 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a href="/admin/homepage" class="logo">H-XYZ | 打击代写就现在</a>
-        </div>
-        <div class="navbar-menu-wrapper d-flex align-items-stretch">
-            <ul class="navbar-nav navbar-nav-right">
-                <li class="nav-item nav-logout d-none d-lg-block">
-                    <a class="nav-link" href="/staff/login">
-                        <i class="mdi mdi-login-variant"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div th:replace="manager-nav.html"></div>
+    <div class="main-panel">
         <div class="content-wrapper">
-            <div class="container">
-                <div class="dashboard-header">
-                    <h2>Welcome, Manager</h2>
-                    <p>This is your dashboard. Use the links below to manage the platform.</p>
+            <div class="page-header">
+                <h2>Welcome, Manager</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-4 stretch-card grid-margin">
+                    <div class="card bg-gradient-danger card-img-holder text-white">
+                        <div class="card-body">
+                            <img src="/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                            <h4 class="font-weight-normal mb-3">Weekly Sales
+                                <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                            </h4>
+                            <h2 class="mb-5">$ [[${thisWeekSales}]]</h2>
+                            <h6 class="card-text" th:if="${salesPercentage >0}">Increased by [[${formattedSalesPercentage}]]%</h6>
+                            <h6 class="card-text" th:if="${salesPercentage == 0}">No change</h6>
+                            <h6 class="card-text" th:if="${salesPercentage < 0}">Decreased by [[${formattedSalesPercentage}]]%</h6>
+                        </div>
+                    </div>
                 </div>
-                <div class="list-group">
-                    <a href="/reservation-list" class="list-group-item list-group-item-action">View All Reservations</a>
-                    <a href="/manage_staff" class="list-group-item list-group-item-action">Manage Staff</a>
-                    <a href="/manage_courses" class="list-group-item list-group-item-action">Manage Courses</a>
-                    <a href="/admin/renewal-notifications" class="list-group-item list-group-item-action">Send Renewal Notifications</a>
-                    <a href="/admin/reports" class="list-group-item list-group-item-action">Sales Report</a>
-                    <a href="/admin/purchases" class="list-group-item list-group-item-action">Purchases View</a>
-                    <a href="/manage-members" class="list-group-item list-group-item-action">Recharge Member Accounts</a> <!-- 新增链接到充值页面 -->
+                <div class="col-md-4 stretch-card grid-margin">
+                    <div class="card bg-gradient-success card-img-holder text-white">
+                        <div class="card-body">
+                            <img src="/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                            <h4 class="font-weight-normal mb-3">Active Members
+                                <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                            </h4>
+                            <h2 class="mb-5">[[${thisWeekReservationsMembersCount}]]</h2>
+                            <h6 class="card-text" th:if="${reservationsMembersCountPercentage > 0}">Increased by [[${formattedReservationsMemberCountPercentage}]]%</h6>
+                            <h6 class="card-text" th:if="${reservationsMembersCountPercentage == 0}">No change</h6>
+                            <h6 class="card-text" th:if="${reservationsMembersCountPercentage < 0}">Decreased by [[${formattedReservationsMemberCountPercentage}]]%</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 stretch-card grid-margin">
+                    <div class="card bg-gradient-info card-img-holder text-white">
+                        <div class="card-body">
+                            <img src="/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                            <h4 class="font-weight-normal mb-3">Weekly Appointment
+                                <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                            </h4>
+                            <h2 class="mb-5">[[${thisWeekReservationsCount}]]</h2>
+                            <h6 class="card-text" th:if="${reservationsCountPercentage > 0}">Increased by [[${formattedReservationsCountPercentage}]]%</h6>
+                            <h6 class="card-text" th:if="${reservationsCountPercentage == 0}">No change</h6>
+                            <h6 class="card-text" th:if="${reservationsCountPercentage < 0}">Decreased by [[${formattedReservationsCountPercentage}]]%</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Weekly Trainer's Rank</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Coach Name</th>
+                                    <th>Appointments</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="staff, stat : ${weeklyReservationsCountForStaff}">
+                                    <td>
+                                        <span th:if="${stat.count} == 1" class="mdi mdi-crown mdi-24px" style="color: yellow;"></span>
+                                        <span th:if="${stat.count} != 1" th:text="${stat.count}"></span>
+                                    </td>
+                                    <td th:text="${staffMap[staff[0]].name}"></td>
+                                    <td th:text="${staff[1]}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Appointments Status</h4>
+                            <canvas id="appointment-chart"></canvas>
+                            <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
+                            <div id="chart-legend"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    <footer class="footer">
-        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024.Gym Management System.</span>
-        </div>
-    </footer>
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024.Gym Management System.</span>
+            </div>
+        </footer>
+    </div>
 </div>
 <!-- Bootstrap and jQuery scripts for consistent UI functionality -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script >
+    let ctx = document.getElementById('appointment-chart').getContext('2d');
+
+    let data = {
+        datasets: [{
+            data: [[${reservationPercentages}]], // 使用后端数据
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)', // 红色
+                'rgba(54, 162, 235, 0.2)', // 蓝色
+                'rgba(255, 206, 86, 0.2)',  // 黄色
+                'rgba(75, 192, 192, 0.2)'  // 新增的颜色，代表“取消”
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'  // 新增的颜色，代表“取消”
+            ],
+            legendColor:[
+                'rgba(255, 99, 132, 0.2)', // 红色
+                'rgba(54, 162, 235, 0.2)', // 蓝色
+                'rgba(255, 206, 86, 0.2)',  // 黄色
+                'rgba(75, 192, 192, 0.2)'  // 新增的颜色，代表“取消”
+            ],
+            borderWidth: 1
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            'Completed Lesson',
+            'Upcoming Lesson',
+            'Absent Lesson',
+            'Cancelled Lesson'  // 新增的标签，代表“取消”
+        ]
+    };
+
+    let myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false, // 隐藏默认的图例
+                    labels: {
+                        generateLabels: function (chart) {
+                            var text = [];
+                            text.push('<ul class="' + chart.id + '-legend">');
+                            for (var i = 0; i < chart.data.datasets[0].data.length; i++) {
+                                text.push('<li><div style="display: flex; justify-content: space-between; width: 100%;">');
+                                if (chart.data.labels[i]) {
+                                    text.push('<span><span style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '; width: 16px; height: 16px; display: inline-block; margin-right: 5px;"></span>' + chart.data.labels[i] + '</span>'); // 将色块和标签放在同一个<span>元素中
+                                    text.push('<span style="text-align: right;">' + (chart.data.datasets[0].data[i] * 100).toFixed(1) + '%</span>'); // 右对齐
+                                }
+                                text.push('</div></li>');
+                            }
+                            text.push('</ul>');
+                            return text.join("");
+                        }
+                    }
+                }
+            }
+        }
+    });
+    document.getElementById('chart-legend').innerHTML = myPieChart.options.plugins.legend.labels.generateLabels(myPieChart);
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/manager-nav.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

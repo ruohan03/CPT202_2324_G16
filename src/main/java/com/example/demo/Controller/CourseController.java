@@ -79,6 +79,7 @@ public class CourseController {
             courses = courseService.findAllCourses();
         }
         model.addAttribute("courses", courses);
+        model.addAttribute("currentPage", "manage_courses");
         return "manage_courses";
     }
 
@@ -112,6 +113,7 @@ public class CourseController {
         Course course = courseService.findCourseById(courseId);
         if (course != null) {
             model.addAttribute("course", course);
+            model.addAttribute("currentPage", "manage_courses");
             return "edit_course";
         } else {
             // Course not found, redirect or show error message

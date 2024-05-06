@@ -1,10 +1,8 @@
 package com.example.demo.Service;
 
-import com.example.demo.Model.PlanSalesData;
 import com.example.demo.Model.Purchase;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -94,4 +92,8 @@ public interface PurchaseService {
 
 
     PlanSalesData calculateTotalSalesData(List<Purchase> purchases);
+
+    double getThisWeekSales();
+
+    double getLastWeekSales();
 }

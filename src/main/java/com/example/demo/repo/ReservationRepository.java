@@ -51,5 +51,31 @@ import java.util.List;
 
     boolean existsByMemberIdAndLessonStartDateAndLessonStartTimeAndLessonEndTimeAndIsCancelled(
             String memberId, LocalDate date, LocalTime startTime, LocalTime endTime, boolean isCancelled);
+
+    @Query("SELECT COUNT(r) FROM Reservation r WHERE r.lessonStartDate BETWEEN :start AND :end")
+    int countByDateBetween(@Param("start") LocalDate startOfWeek, @Param("end") LocalDate endOfWeek);
+
+    @Query("SELECT COUNT(DISTINCT r.memberId) FROM Reservation r WHERE r.lessonStartDate BETWEEN :start AND :end")
+    int countDistinctMemberByDateBetween(@Param("start") LocalDate startOfWeek, @Param("end") LocalDate endOfWeek);
+
+//    获取已上课、未上课、缺席和取消的预约数量
+    @Query("SELECT COUNT(r) FROM Reservation r WHERE r.isSignIn = true AND r.isCancelled = false AND r.lessonStartDate BETWEEN :start AND :end")
+    int countByAttended(@Param("start") LocalDate startOfWeek, @Param("end") LocalDate endOfWeek);
+
+    @Query("SELECT COUNT(r) FROM Reservation r WHERE r.isSignIn = false AND r.isCancelled = false AND r.lessonStartTime > :now AND r.lessonStartDate BETWEEN :start AND :end")
+    int countByNotAttendedYet(@Param("now") LocalTime now, @Param("start") LocalDate startOfWeek, @Param("end") LocalDate endOfWeek);
+
+    @Query("SELECT COUNT(r) FROM Reservation r WHERE r.isSignIn = false AND r.isCancelled = false AND r.lessonStartTime < :now AND r.lessonStartDate BETWEEN :start AND :end")
+    int countByMissed(@Param("now") LocalTime now, @Param("start") LocalDate startOfWeek, @Param("end") LocalDate endOfWeek);
+
+    @Query("SELECT COUNT(r) FROM Reservation r WHERE r.isCancelled = true AND r.lessonStartDate BETWEEN :start AND :end")
+    int countByCancelled(@Param("start") LocalDate startOfWeek, @Param("end") LocalDate endOfWeek);
+
+    //教练周业绩
+    @Query("SELECT r.staffId, COUNT(r) FROM Reservation r WHERE r.lessonStartDate BETWEEN :start AND :end AND r.isCancelled = false GROUP BY r.staffId ORDER BY COUNT(r) DESC")
+    List<Object[]> countByStaffIdAndDateBetweenAndIsCancelledFalse(@Param("start") LocalDate start, @Param("end") LocalDate end);
+
+    @Query("SELECT DISTINCT r.staffId FROM Reservation r WHERE r.lessonStartDate BETWEEN :start AND :end")
+    List<String> findDistinctStaffIdByDateBetween(@Param("start") LocalDate start, @Param("end") LocalDate end);
 }
 

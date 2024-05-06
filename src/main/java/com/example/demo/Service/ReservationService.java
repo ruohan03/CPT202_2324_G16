@@ -1,10 +1,7 @@
 package com.example.demo.Service;
 import com.example.demo.Model.Reservation;
-import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -38,5 +35,24 @@ public interface ReservationService {
 
     List<Reservation> findReservationByMemberId(String memberId);
 
+    int getThisWeekReservationsCount();
+
+    int getThisWeekReservationsMembersCount();
+
+    int getLastWeekReservationsCount();
+
+    int getLastWeekReservationsMembersCount();
+
+    //获取已上课、未上课、缺席和取消的预约数量
+    int getAttendedReservationsCount();
+
+    int getNotAttendedYetReservationsCount();
+
+    int getMissedReservationsCount();
+
+    int getCancelledReservationsCount();
+
+    //教练周业绩
+    List<Object[]> getWeeklyReservationsCountForStaff();
 }
 

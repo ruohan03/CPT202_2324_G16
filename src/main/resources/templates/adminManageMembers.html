@@ -23,7 +23,7 @@
     <div th:replace="manager-nav.html"></div>
     <div class="main-panel">
         <div class="content-wrapper">
-            <h1>Member Management</h1>
+            <h1 class="text-center">Member Management</h1>
             <!-- 显示错误消息 -->
             <div th:if="${noSearchMessage}" th:text="${noSearchMessage}" style="color: red;"></div>
             <!-- 显示所有用户的表格 -->
@@ -68,11 +68,14 @@
         </footer>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/manager-nav.js"></script>
 <script>
     $(document).ready(function() {
         $('#memberTable').DataTable();
     });
 </script>
+
 </body>
 </html>
 

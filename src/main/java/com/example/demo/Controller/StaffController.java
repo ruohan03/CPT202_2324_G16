@@ -3,10 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Member;
 import com.example.demo.Model.Staff;
-import com.example.demo.Service.CourseService;
-import com.example.demo.Service.MemberService;
-import com.example.demo.Service.PasswordService;
-import com.example.demo.Service.StaffService;
+import com.example.demo.Service.*;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repo.StaffRepository;
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.text.DecimalFormat;
 
 @Controller
 public class StaffController {
@@ -26,14 +24,16 @@ public class StaffController {
     private StaffService staffService;
     @Autowired
     private CourseService courseService;
-
     @Autowired
     private PasswordService passwordService;
-
     @Autowired
     private StaffRepository staffRepository;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private ReservationService reservationService;
+    @Autowired
+    private PurchaseService purchaseService;
 
 
     @GetMapping("/staff/course/{courseId}")
@@ -84,15 +84,72 @@ public class StaffController {
         }
     }
 
-    @GetMapping("/staff/homepage")
-    public String trainerHomepage(HttpSession session, Model model){
-        String staffName = (String) session.getAttribute("staffName");
-        model.addAttribute("staffName", staffName);
-        return "trainer_homepage";
-    }
+//    @GetMapping("/staff/homepage")
+//    public String trainerHomepage(HttpSession session, Model model){
+//        String staffName = (String) session.getAttribute("staffName");
+//        model.addAttribute("staffName", staffName);
+//        return "trainer_homepage";
+//    }
 
     @GetMapping("/admin/homepage")
-    public String managerHomepage(){
+    public String managerHomepage(Model model){
+        DecimalFormat df = new DecimalFormat("#.0");
+        int thisWeekReservationsCount = reservationService.getThisWeekReservationsCount();
+        double thisWeekSales = purchaseService.getThisWeekSales();
+        int thisWeekReservationsMembersCount = reservationService.getThisWeekReservationsMembersCount();
+
+        int lastWeekReservationsCount = reservationService.getLastWeekReservationsCount();
+        double lastWeekSales = purchaseService.getLastWeekSales();
+        int lastWeekReservationsMembersCount = reservationService.getLastWeekReservationsMembersCount();
+
+        double reservationsCountPercentage = (double)(thisWeekReservationsCount - lastWeekReservationsCount) / lastWeekReservationsCount * 100;
+        double salesPercentage = (thisWeekSales - lastWeekSales) / lastWeekSales * 100;
+        double reservationsMembersCountPercentage = (double)(thisWeekReservationsMembersCount - lastWeekReservationsMembersCount) / lastWeekReservationsMembersCount * 100;
+
+        int attendedReservationsCount = reservationService.getAttendedReservationsCount();
+        int notAttendedYetReservationsCount = reservationService.getNotAttendedYetReservationsCount();
+        int missedReservationsCount = reservationService.getMissedReservationsCount();
+        int cancelledReservationsCount = reservationService.getCancelledReservationsCount();
+        int total = attendedReservationsCount + notAttendedYetReservationsCount + missedReservationsCount + cancelledReservationsCount;
+
+        List<Double> reservationPercentages = new ArrayList<>();
+        reservationPercentages.add((double) attendedReservationsCount / total);
+        reservationPercentages.add((double) notAttendedYetReservationsCount / total );
+        reservationPercentages.add((double) missedReservationsCount / total );
+        reservationPercentages.add((double) cancelledReservationsCount / total);
+
+        List<Object[]> weeklyReservationsCountForStaff = reservationService.getWeeklyReservationsCountForStaff();
+        Map<String, Staff> staffMap = new HashMap<>();
+        for (Object[] obj : weeklyReservationsCountForStaff) {
+            String staffId = (String) obj[0];
+            Staff staff = staffService.findStaffById(staffId);
+            if (staff != null) {
+                staffMap.put(staffId, staff);
+            }
+        }
+
+        model.addAttribute("thisWeekReservationsCount", thisWeekReservationsCount);
+        model.addAttribute("thisWeekSales", thisWeekSales);
+        model.addAttribute("thisWeekReservationsMembersCount", thisWeekReservationsMembersCount);
+
+        model.addAttribute("reservationsCountPercentage", reservationsCountPercentage);
+        model.addAttribute("formattedReservationsCountPercentage", df.format(Math.abs(reservationsCountPercentage)));
+        model.addAttribute("salesPercentage", salesPercentage);
+        model.addAttribute("formattedSalesPercentage", df.format(Math.abs(salesPercentage)));
+        model.addAttribute("reservationsMembersCountPercentage", reservationsMembersCountPercentage);
+        model.addAttribute("formattedReservationsMemberCountPercentage",df.format(Math.abs(reservationsMembersCountPercentage)));
+
+        model.addAttribute("reservationPercentages", reservationPercentages);
+        model.addAttribute("attendedReservationsCount", attendedReservationsCount);
+        model.addAttribute("notAttendedYetReservationsCount", notAttendedYetReservationsCount);
+        model.addAttribute("missedReservationsCount", missedReservationsCount);
+        model.addAttribute("cancelledReservationsCount", cancelledReservationsCount);
+
+        model.addAttribute("weeklyReservationsCountForStaff", weeklyReservationsCountForStaff);
+        model.addAttribute("staffMap", staffMap);
+
+        model.addAttribute("currentPage", "adminHomepage");
+
         return "manager_homepage";
     }
 
@@ -198,6 +255,7 @@ public class StaffController {
 
             model.addAttribute("expiringMembers", expiringMembers);
             model.addAttribute("notifiedMembers", notifiedMembers);
+            model.addAttribute("currentPage", "adminRenewalNotifications");
             return "adminRenewalNotifications"; // Thymeleaf页面显示即将到期和已通知的会员列表
         } else {
             return "redirect:/staff/login";
@@ -267,6 +325,7 @@ public class StaffController {
         staff = new ArrayList<>(results);
         Collections.sort(staff, Comparator.comparing(Staff::getStaffId));
         model.addAttribute("staff", staff);
+        model.addAttribute("currentPage", "manageStaff");
         return "manage_staff";
     }
 
@@ -275,6 +334,7 @@ public class StaffController {
         Staff staff = staffService.findStaffById(staffId);
         if (staff != null) {
             model.addAttribute("staff", staff);
+            model.addAttribute("currentPage", "manageStaff");
             return "edit_staff";
         } else {
             // Staff not found, redirect or show error message
@@ -362,6 +422,7 @@ public class StaffController {
 
         members = new ArrayList<>(results);
         model.addAttribute("members", members);
+        model.addAttribute("currentPage", "adminManageMembers");
         return "adminManageMembers"; // Thymeleaf页面，用于显示所有会员列表和搜索功能
     }
 

@@ -7,9 +7,15 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -167,6 +173,78 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<Reservation> findReservationByMemberId(String memberId) {
         return reservationRepository.findReservationByMemberId(memberId);
+    }
+
+    @Override
+    public int getThisWeekReservationsCount() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return reservationRepository.countByDateBetween(startOfWeek, endOfWeek);
+    }
+
+    @Override
+    public int getThisWeekReservationsMembersCount() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return reservationRepository.countDistinctMemberByDateBetween(startOfWeek, endOfWeek);
+    }
+
+    @Override
+    public int getLastWeekReservationsCount() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfLastWeek = today.minusWeeks(1).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfLastWeek = today.minusWeeks(1).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return reservationRepository.countByDateBetween(startOfLastWeek, endOfLastWeek);
+    }
+
+    @Override
+    public int getLastWeekReservationsMembersCount() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfLastWeek = today.minusWeeks(1).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfLastWeek = today.minusWeeks(1).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return reservationRepository.countDistinctMemberByDateBetween(startOfLastWeek, endOfLastWeek);
+    }
+
+    @Override
+    public int getAttendedReservationsCount() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return reservationRepository.countByAttended(startOfWeek, endOfWeek);
+    }
+
+    @Override
+    public int getNotAttendedYetReservationsCount() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return reservationRepository.countByNotAttendedYet(LocalDateTime.now().toLocalTime(), startOfWeek, endOfWeek);
+    }
+
+    @Override
+    public int getMissedReservationsCount() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return reservationRepository.countByMissed(LocalDateTime.now().toLocalTime(), startOfWeek, endOfWeek);
+    }
+
+    @Override
+    public int getCancelledReservationsCount() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return reservationRepository.countByCancelled(startOfWeek, endOfWeek);
+    }
+
+    @Override
+    public List<Object[]> getWeeklyReservationsCountForStaff() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return reservationRepository.countByStaffIdAndDateBetweenAndIsCancelledFalse(startOfWeek, endOfWeek);
     }
 }
 

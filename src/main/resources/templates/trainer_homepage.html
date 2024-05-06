@@ -37,10 +37,12 @@
             <a href="/staff/homepage" class="logo">H-XYZ | 打击代写就现在</a>
         </div>
         <div class="nav-right">
-            <span class = "mdi mdi-account" th:text="${staffName}"></span>
+            <a href="/staff/profile">
+                <span class = "mdi mdi-account" th:text="${staffName}"></span>
+            </a>
             <li class="nav-item nav-logout d-none d-lg-block">
                 <a class="nav-link" href="/staff/login">
-                    <i class="mdi mdi-login-variant"></i>
+                    <i class="mdi mdi-logout-variant"></i>Logout
                 </a>
             </li>
             </d>

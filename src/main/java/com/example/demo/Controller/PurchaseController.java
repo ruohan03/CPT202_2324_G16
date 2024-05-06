@@ -1,10 +1,8 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Model.Member;
 import com.example.demo.Model.Purchase;
-import com.example.demo.Service.PurchaseService;
 import com.example.demo.Service.MemberService;
-import com.example.demo.Service.impl.PurchaseServiceImpl;
+import com.example.demo.Service.PurchaseService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -124,20 +122,15 @@ public class PurchaseController {
 
     @GetMapping("/admin/purchases")
     public String listAllPurchases(HttpSession session, Model model) {
-        // 检查会话中是否有manager的标识
-        Boolean isManager = (Boolean) session.getAttribute("isManager");
-        if (isManager == null || !isManager) {
-            model.addAttribute("error", "No access");
-            return "error"; // 可以是一个专门显示错误信息的页面
-        }
-
         List<Purchase> purchases = purchaseService.findAllWithMembers();
         model.addAttribute("purchases", purchases);
+        model.addAttribute("currentPage", "manager_purchases");
         return "manager-purchases"; // 返回管理员专用的购买记录模板
     }
 
     @GetMapping("/admin/reports")
-    public String showReportForm() {
+    public String showReportForm(Model model) {
+        model.addAttribute("currentPage", "sales_report");
         return "report_form"; // 返回用于输入日期范围的表单页面
     }
 
@@ -154,6 +147,7 @@ public class PurchaseController {
         model.addAttribute("dailySalesData", dailySalesData);
         model.addAttribute("totalSales", totalSalesData.getTotalSales());
         model.addAttribute("totalCount", totalSalesData.getCount());
+        model.addAttribute("currentPage", "sales_report");
         return "sales_report";  // 确保这个视图模板正确处理新的数据结构
     }
 

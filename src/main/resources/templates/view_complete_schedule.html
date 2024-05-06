@@ -38,13 +38,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center" style="margin-top:-10px ">Completed Lessons</h3>
-                        <div class="margin-bottom">
-                            <div class="btn-group">
-                                <a href="/staff/view_all_schedule" class="btn btn-light btn-sm btn-rounded">All Reservations</a>
-                                <a href="/staff/view_schedule" class="btn btn-light btn-sm btn-rounded">Upcoming Lessons</a>
-                                <a href="/staff/view_complete_schedule" class="btn btn-dark btn-sm btn-rounded">Completed Lessons</a>
-                            </div>
-                        </div>
                         <H4 th:if="${staffCompleteReservationList.isEmpty()}" class="text-danger">No Completed Lesson</H4>
                         <table id="completedSchedule" class="table table-hover" th:if="${!staffCompleteReservationList.isEmpty()}">
                             <thead>

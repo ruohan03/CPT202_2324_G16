@@ -366,6 +366,33 @@ a:hover {
     flex-grow: 1; /* Allows right-side items to occupy the right space */
     justify-content: flex-end; /* Aligns items to the right */
 }
+/* CSS for the dropdown menu */
+.my-dropdown-menu {
+    display: none; /* Hide the dropdown menu by default */
+    position: absolute; /* Position the dropdown menu absolute to its parent */
+    background-color: #f9f9f9; /* Background color of the dropdown menu */
+    min-width: 160px; /* Minimum width of the dropdown menu */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Add some shadow for 3D effect */
+    z-index: 1; /* Ensure the dropdown menu is on top of other elements */
+}
+
+/* CSS for the dropdown items */
+.my-dropdown-menu a {
+    color: black; /* Text color of the dropdown items */
+    padding: 12px 16px; /* Padding for the dropdown items */
+    text-decoration: none; /* Remove underline from the text */
+    display: block; /* Display the dropdown items as block elements */
+}
+
+/* CSS for the dropdown items on hover */
+.my-dropdown-menu a:hover {
+    background-color: #f1f1f1; /* Change the background color of the dropdown items on hover */
+}
+
+/* Show the dropdown menu when the user hovers over the dropdown trigger */
+.nav-link.dropdown-toggle:hover .my-dropdown-menu {
+    display: block;
+}
 
 .container {
     width: 100%;       /* 容器宽度设置为100% */

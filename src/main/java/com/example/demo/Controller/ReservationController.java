@@ -1,29 +1,26 @@
 package com.example.demo.Controller;
-import com.example.demo.Model.*;
-import com.example.demo.Service.ReservationService;
-import com.example.demo.Service.CourseService;
-import com.example.demo.Service.MemberService;
-import com.example.demo.Service.TrainerService;
 
+import com.example.demo.Model.Course;
+import com.example.demo.Model.Member;
+import com.example.demo.Model.Reservation;
+import com.example.demo.Model.Staff;
+import com.example.demo.Service.*;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.Service.StaffService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
-
-import java.time.LocalDate;
 import java.util.Map;
 
 
@@ -65,19 +62,20 @@ public class ReservationController {
         this.staffService = staffService;
     }
 
-    @GetMapping("/reservation-list")
+    @GetMapping("/appointments-list")
     public String viewReservations(Model model) {
         // 调用服务层获取预约信息列表
         model.addAttribute("reservationList", reservationService.getAllReservations());
+        model.addAttribute("currentPage", "viewReservations");
         return "reservation-list";
     }
 
-    @GetMapping("/staff/view_schedule")
+    @GetMapping("/staff/homepage")
     public String getStaffReservations(HttpSession session, Model model){
         String staffId = (String) session.getAttribute("staffId");
         if (staffId != null) {
             model.addAttribute("staffReservationList", reservationService.getIncompleteReservationsByStaffId(staffId));
-            model.addAttribute("currentPage", "viewSchedule");
+            model.addAttribute("currentPage", "trainerHome");
             String staffName = staffService.findStaffById(staffId).getName();
             model.addAttribute("staffName", staffName);
             return"view_schedule";
@@ -105,7 +103,7 @@ public class ReservationController {
         String staffId = (String) session.getAttribute("staffId");
         if (staffId != null) {
             model.addAttribute("staffAllReservationList", reservationService.getAllReservationsByStaffId(staffId));
-            model.addAttribute("currentPage", "viewSchedule");
+            model.addAttribute("currentPage", "viewAllSchedule");
             String staffName = staffService.findStaffById(staffId).getName();
             model.addAttribute("staffName", staffName);
             return"view_all_schedule";
@@ -120,7 +118,7 @@ public class ReservationController {
         String staffId = (String) session.getAttribute("staffId");
         if (staffId != null) {
             model.addAttribute("staffCompleteReservationList", reservationService.getCompleteReservationsByStaffId(staffId));
-            model.addAttribute("currentPage", "viewSchedule");
+            model.addAttribute("currentPage", "viewCompletedLessons");
             String staffName = staffService.findStaffById(staffId).getName();
             model.addAttribute("staffName", staffName);
             return"view_complete_schedule";
@@ -242,7 +240,7 @@ public class ReservationController {
         return reservationService.checkAvailability(staffId, date);
     }
 
-    @GetMapping("/api/has-reservation/{memberId}")
+    @GetMapping("/api/has-appointment/{memberId}")
     @ResponseBody
     public boolean checkForExistingReservation(
             @PathVariable String memberId,
@@ -323,13 +321,13 @@ public class ReservationController {
             response.put("message", "The appointment was successful!");
         } else {
             response.put("result", "error");
-            response.put("message", "Reservation failed. Please try again!");
+            response.put("message", "Appointment failed. Please try again!");
         }
 
         return response;
     }
 
-    @GetMapping("/member/all-reservations")
+    @GetMapping("/member/all-appointments")
     public String getAllReservationsForUser(HttpSession session, Model model) {
         // 获取会话中的 memberId，判断登录状态
         String memberId = (String) session.getAttribute("memberId");

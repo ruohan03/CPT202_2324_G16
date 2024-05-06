@@ -4,11 +4,12 @@
         <a href="/staff/homepage" class="logo">H-XYZ | 打击代写就现在</a>
     </div>
     <div class="nav-center">
-        <a href="/staff/profile" th:class="${currentPage == 'staffProfile' ? 'current-page':''}"> Personal Information</a>
-        <a href="/staff/view_schedule" th:class="${currentPage == 'viewSchedule' ? 'current-page':''}">View Schedule</a>
+        <a href="/staff/view_all_schedule" th:class="${currentPage == 'viewAllSchedule'} ? 'current-page' : ''">All Reservations</a>
+        <a href="/staff/homepage" th:class="${currentPage == 'trainerHome'} ? 'current-page' : ''">Upcoming Lessons</a>
+        <a href="/staff/view_complete_schedule" th:class="${currentPage == 'viewCompletedLessons'} ? 'current-page' : ''">Completed Lessons</a>
     </div>
     <div class="nav-right">
-        <span class = "mdi mdi-account" th:text="${staffName}"></span>
+        <a href="/staff/profile" th:text="${staffName}" class="mdi mdi-account"></a>
         <li class="nav-item nav-logout d-none d-lg-block">
             <a class="nav-link" href="/staff/login">
                 <i class="mdi mdi-logout-variant"></i>Logout

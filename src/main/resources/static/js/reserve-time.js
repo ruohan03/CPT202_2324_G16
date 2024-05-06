@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const memberId = document.querySelector('input[name="memberId"]').value;
         const selectedDate = datePicker.value;
         $.ajax({
-            url: `/api/has-reservation/${memberId}`,
+            url: `/api/has-appointment/${memberId}`,
             data: { date: selectedDate, startTime: startTime, endTime: endTime },
             type: 'GET',
             success: function(hasReservation) {
