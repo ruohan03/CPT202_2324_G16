@@ -100,22 +100,11 @@ public class ReservationServiceImpl implements ReservationService {
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
 
-        List<Reservation> allReservations = reservationRepository.findReservationByMemberId(memberId);
-
-        List<Reservation> futureReservations = allReservations.stream()
+        return reservationRepository.findReservationByMemberId(memberId).stream()
+                .filter(r -> !r.getIsCancelled()) // 确保预约没有被取消
                 .filter(r -> r.getLessonStartDate().isAfter(today) ||
                         (r.getLessonStartDate().equals(today) && r.getLessonStartTime().isAfter(now)))
                 .collect(Collectors.toList());
-
-        List<Reservation> missedReservations = allReservations.stream()
-                .filter(r -> !r.getIsSignIn() &&
-                        (r.getLessonStartDate().isBefore(today) ||
-                                (r.getLessonStartDate().equals(today) && r.getLessonStartTime().isBefore(now))))
-                .collect(Collectors.toList());
-
-        futureReservations.addAll(missedReservations);
-
-        return futureReservations;
     }
 
 
