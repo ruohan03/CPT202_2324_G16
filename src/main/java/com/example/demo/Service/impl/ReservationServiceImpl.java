@@ -53,10 +53,23 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.findByStaffId(staffId);
     }
 
+//    @Override
+//    public List<Reservation> getIncompleteReservationsByStaffId(String staffId) {
+//        return reservationRepository.findByStaffIdAndIsCancelledFalseAndIsSignInFalse(staffId);
+//    }
+
     @Override
     public List<Reservation> getIncompleteReservationsByStaffId(String staffId) {
-        return reservationRepository.findByStaffIdAndIsCancelledFalseAndIsSignInFalse(staffId);
+        LocalDate today = LocalDate.now();
+        LocalTime now = LocalTime.now();
+
+        return reservationRepository.findByStaffIdAndIsCancelledFalseAndIsSignInFalse(staffId).stream()
+                .filter(r -> !r.getIsCancelled()) // 确保预约没有被取消
+                .filter(r -> r.getLessonStartDate().isAfter(today) ||
+                        (r.getLessonStartDate().equals(today) && r.getLessonStartTime().isAfter(now)))
+                .collect(Collectors.toList());
     }
+
 
     @Override
     public List<Reservation> getCompleteReservationsByStaffId(String staffId) {
