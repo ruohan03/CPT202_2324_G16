@@ -18,9 +18,9 @@
                     <h3 class="text-center">Completed Reservations</h3>
                     <div class="margin-bottom">
                         <div class="btn-group">
-                            <a href="/member/incomplete" class="btn btn-light btn-sm btn-rounded">Upcoming Lessons</a>
-                            <a href="/member/completed" class="btn btn-light btn-sm btn-rounded">Completed Lessons</a>
-                            <a href="/member/all-reservations" class="btn btn-light btn-sm btn-rounded">All Reservations</a>
+                            <button href="/member/incomplete" class="btn btn-light btn-sm btn-rounded">Upcoming Lessons</button>
+                            <button href="/member/completed" class="btn btn-light btn-sm btn-rounded">Completed Lessons</button>
+                            <button href="/member/all-reservations" class="btn btn-light btn-sm btn-rounded">All Reservations</button>
                         </div>
                     </div>
                     <p th:if="${incompleteReservations.isEmpty() and selectedDate != null}">No incomplete reservations for the selected date</p>
