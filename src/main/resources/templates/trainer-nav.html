@@ -1,0 +1,19 @@
+<!-- partial:../../partials/_navbar.html -->
+<nav class="top-nav">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a href="/staff/homepage" class="logo">H-XYZ | 打击代写就现在</a>
+    </div>
+    <div class="nav-center">
+        <a href="/staff/profile" th:class="${currentPage == 'staffProfile' ? 'current-page':''}"> Personal Information</a>
+        <a href="/staff/view_schedule" th:class="${currentPage == 'viewSchedule' ? 'current-page':''}">View Schedule</a>
+    </div>
+    <div class="nav-right">
+        <span class = "mdi mdi-account" th:text="${staffName}"></span>
+        <li class="nav-item nav-logout d-none d-lg-block">
+            <a class="nav-link" href="/staff/login">
+                <i class="mdi mdi-logout-variant"></i>Logout
+            </a>
+        </li>
+    </d>
+    </div>
+</nav>

@@ -11,7 +11,6 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repo.StaffRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,7 +70,7 @@ public class StaffController {
             session.setAttribute("staffId", staff.get().getStaffId());  // 设置会话属性
             session.setAttribute("isManager", staff.get().isManager());  // 设置是否为管理员的标识
             model.addAttribute("staff", staff.get());
-            return staff.get().isManager() ? "redirect:/admin/homepage" : "redirect:/trainer/homepage";
+            return staff.get().isManager() ? "redirect:/admin/homepage" : "redirect:/staff/homepage";
         } else {
             // We need to check if the staff exists but is not active to provide a specific error message
             Staff inactiveStaff = staffRepository.findByPhone(phone);
@@ -85,7 +84,7 @@ public class StaffController {
         }
     }
 
-    @GetMapping("/trainer/homepage")
+    @GetMapping("/staff/homepage")
     public String trainerHomepage(HttpSession session, Model model){
         String staffName = (String) session.getAttribute("staffName");
         model.addAttribute("staffName", staffName);
@@ -122,6 +121,8 @@ public class StaffController {
         if (staff != null) {
             // 如果找到员工，将其添加到模型中并跳转到员工资料页面
             model.addAttribute("staff", staff);
+            String staffName = (String) session.getAttribute("staffName");
+            model.addAttribute("staffName", staffName);
             model.addAttribute("currentPage", "staffProfile");
             return "staff-profile";
         } else {
@@ -152,12 +153,12 @@ public class StaffController {
         return "redirect:/staff/profile";
     }
 
-    @GetMapping("/forgetPassword_trainer")
+    @GetMapping("/forgetPassword_staff")
     public String showForgetPasswordForm() {
         return "forgetPassword_trainer";
     }
 
-    @PostMapping("/forgetPassword_trainer")
+    @PostMapping("/forgetPassword_staff")
     public String resetPassword(@RequestParam String phone, @RequestParam String name, @RequestParam String newPassword, RedirectAttributes redirectAttributes) {
         Staff staff = staffService.findByPhoneAndName(phone, name);
         if (staff != null) {
@@ -182,7 +183,7 @@ public class StaffController {
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Invalid phone or name.");
         }
-        return "redirect:/forgetPassword_trainer";
+        return "redirect:/forgetPassword_";
     }
 
 
@@ -268,6 +269,7 @@ public class StaffController {
         model.addAttribute("staff", staff);
         return "manage_staff";
     }
+
     @GetMapping("/edit_staff/{staffId}")
     public String showEditCourseForm(@PathVariable("staffId") String staffId, Model model) {
         Staff staff = staffService.findStaffById(staffId);
@@ -305,14 +307,13 @@ public class StaffController {
         }
     }
 
-
-
     @GetMapping("/add_staff")
     public String addNewStaffPage(Model model) {
         List<Course> activeCourses = courseService.getActiveCourses();
         model.addAttribute("activeCourses", activeCourses);
         return "manage_staff";
     }
+
     @PostMapping("/add_staff")
     public ResponseEntity<String> addStaff(@ModelAttribute Staff staff) {
 
@@ -363,8 +364,6 @@ public class StaffController {
         model.addAttribute("members", members);
         return "adminManageMembers"; // Thymeleaf页面，用于显示所有会员列表和搜索功能
     }
-
-
 
     @PostMapping("/recharge-member")
     public String rechargeMember(HttpSession session, @RequestParam String memberId, @RequestParam double amount, RedirectAttributes redirectAttributes) {

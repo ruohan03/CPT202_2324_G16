@@ -6,20 +6,28 @@
     <title>Completed Lessons</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <style>
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <div class="content-wrap">
     <div th:replace="member-nav.html :: top-nav"></div>
-    <div class="content-body">
-        <div class="col-lg-12 grid-margin stretch-card">
+    <div class="content-body center-content">
+        <div class="col-lg-10 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-center">Completed Reservations</h3>
+                    <h3 class="text-center" style="margin-top: -20px">Completed Lessons</h3>
                     <div class="margin-bottom">
                         <div class="btn-group">
-                            <a href="/member/incomplete" class="btn btn-light btn-sm btn-rounded">Upcoming Lessons</a>
-                            <a href="/member/completed" class="btn btn-light btn-sm btn-rounded">Completed Lessons</a>
                             <a href="/member/all-reservations" class="btn btn-light btn-sm btn-rounded">All Reservations</a>
+                            <a href="/member/incomplete" class="btn btn-light btn-sm btn-rounded">Upcoming Lessons</a>
+                            <a href="/member/completed" class="btn btn-dark btn-sm btn-rounded">Completed Lessons</a>
                         </div>
                     </div>
                     <table class="table table-hover" id="completedReservationTable">

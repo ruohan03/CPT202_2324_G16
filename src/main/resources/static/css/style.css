@@ -145,12 +145,12 @@ tr:hover {
 /* 链接样式 */
 a {
     color: #010544;
-    text-decoration: none; /* 去除下划线 */
+    text-decoration: none !important; /* 去除下划线 */
 }
 
 a:hover {
-    color: #CE56C1;
-    text-decoration: underline; /* 悬停时添加下划线 */
+    color: #010544 ;
+    text-decoration: none !important; /* 悬停时添加下划线 */
 }
 
 /* 返回按钮样式 */
@@ -317,8 +317,8 @@ a:hover {
 
 /* 链接悬停效果，仅适用于非当前页面的链接 */
 .top-nav a:not(.current-page):hover {
-    background-color: #FFFFFF;
-    color: #CE56C1; /* 悬停文字颜色变为亮紫色 */
+    background-color: #FFFFFF !important;
+    color: #CE56C1 !important; /* 悬停文字颜色变为亮紫色 */
     text-decoration: none; /* 悬停时无下划线 */
 }
 

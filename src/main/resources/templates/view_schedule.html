@@ -3,54 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incomplete Reservation List</title>
+    <title>Upcoming Lessons</title>
+    <link rel="stylesheet" href="/css/template.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <style>
+        .content-wrapper {
+            flex: 1;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        footer {
+            margin-top: auto;
+        }
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
-<div th:replace="back.html :: backButton"></div>
-<div class="container">
-    <h1>Reservation List</h1>
-    <!-- Add a button below the title -->
-    <button onclick="location.href='/view_all_schedule';">View All Reservations</button>
-    <button onclick="location.href='/view_complete_schedule';">View Complete Reservations</button>
-    <table>
-        <thead>
-        <tr>
-            <th>Reservation ID</th>
-            <th>Member ID</th>
-            <th>Staff ID</th>
-            <th>Lesson Start Date</th>
-            <th>Lesson Start Time</th>
-            <th>Lesson End Time</th>
-            <th>Cancelled</th>
-            <th>Sign-in</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Iterate through reservations and display each row -->
-        <!-- Assuming 'reservations' is a list of Reservation objects passed from the controller -->
-        <!-- You may need to adjust the property names based on your actual Reservation class -->
-        <th:block th:each="reservation : ${staffReservationList}">
-            <tr>
-                <td th:text="${reservation.reservationId}"></td>
-                <td th:text="${reservation.memberId}"></td>
-                <td th:text="${reservation.staffId}"></td>
-                <td th:text="${reservation.lessonStartDate}"></td>
-                <td th:text="${reservation.lessonStartTime}"></td>
-                <td th:text="${reservation.lessonEndTime}"></td>
-                <td th:text="${reservation.isCancelled ? 'Yes' : 'No'}"></td>
-                <td th:text="${reservation.isSignIn ? 'Yes' : 'No'}"></td>
-                <!-- Sign In Button Form -->
-                <td>
-                    <form th:action="'/sign_in/' + ${reservation.reservationId}" method="post">
-                        <button type="submit" th:disabled="${reservation.isSignIn}">Sign In</button>
-                    </form>
-                </td>
-            </tr>
-        </th:block>
-
-        </tbody>
-    </table>
+<div class="content-wrapper">
+    <div th:replace="trainer-nav.html"></div>
+    <div class="container">
+        <div class="content-body center-content">
+            <div class="col-lg-10 grid-margin stretch-card d-flex">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-center" style="margin-top:-10px ">Upcoming Lessons</h3>
+                        <div class="margin-bottom">
+                            <div class="btn-group">
+                                <a href="/staff/view_all_schedule" class="btn btn-light btn-sm btn-rounded">All Reservations</a>
+                                <a href="/staff/view_schedule" class="btn btn-dark btn-sm btn-rounded">Upcoming Lessons</a>
+                                <a href="/staff/view_complete_schedule" class="btn btn-light btn-sm btn-rounded">Completed Lessons</a>
+                            </div>
+                        </div>
+                        <H4 th:if="${staffReservationList.isEmpty()}" class="text-danger">No Upcoming Lesson</H4>
+                        <table id="schedules" class="table table-hover" th:if="${!staffReservationList.isEmpty()}">
+                            <thead>
+                            <tr>
+                                <th>Reservation ID</th>
+                                <th>Member ID</th>
+                                <th>Lesson Time</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- Iterate through reservations and display each row -->
+                            <!-- Assuming 'reservations' is a list of Reservation objects passed from the controller -->
+                            <!-- You may need to adjust the property names based on your actual Reservation class -->
+                            <th:block th:each="reservation : ${staffReservationList}">
+                                <tr>
+                                    <td th:text="${reservation.reservationId}"></td>
+                                    <td th:text="${reservation.memberId}"></td>
+                                    <td th:text="${reservation.lessonStartDate} + '    '+ ${reservation.lessonStartTime} + ' - ' + ${reservation.lessonEndTime}"></td>
+                                    <!-- Sign In Button Form -->
+                                    <td>
+                                        <form th:unless="${!reservation.isSignIn && !reservation.isCancelled && reservation.lessonStartDate.isAfter(T(java.time.LocalDate).now()) || (reservation.lessonStartDate.isEqual(T(java.time.LocalDate).now()) && reservation.lessonEndTime.isAfter(T(java.time.LocalTime).now()))}" th:action="'/sign_in/' + ${reservation.reservationId}" method="post" style="margin: 0">
+                                            <button type="submit" th:disabled="${reservation.isSignIn}" class="btn btn-sm btn-success">Sign In</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<footer class="footer">
+    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024. H-XYZ Gym Management System.</span>
+    </div>
+</footer>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#schedules').DataTable();
+    });
+</script>
 </body>
 </html>

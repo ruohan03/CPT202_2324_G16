@@ -5,41 +5,57 @@
     <title>All Reservations</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <style>
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
 <div class="content-wrap">
     <div th:replace="member-nav.html :: top-nav"></div>
-        <div class="content-body">
-            <div class="col-lg-12 grid-margin stretch-card">
+        <div class="content-body center-content">
+            <div class="col-lg-10 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="text-center">All Reservations</h3>
+                        <h3 class="text-center " style="margin-top: -20px">All Reservations</h3>
                         <div class="margin-bottom">
                             <div class="btn-group">
+                                <a href="/member/all-reservations" class="btn btn-dark btn-sm btn-rounded">All Reservations</a>
                                 <a href="/member/incomplete" class="btn btn-light btn-sm btn-rounded">Upcoming Lessons</a>
                                 <a href="/member/completed" class="btn btn-light btn-sm btn-rounded">Completed Lessons</a>
-                                <a href="/member/all-reservations" class="btn btn-light btn-sm btn-rounded">All Reservations</a>
                             </div>
                         </div>
                         <table class="table table-hover" id="reservationTable">
                             <thead>
                             <tr style="text-align: center;">
+                                <th>Reservation ID</th>
                                 <th>Staff Name</th>
                                 <th>Course Name</th>
                                 <th>Lesson Time</th>
-                                <th>Cancelled</th>
-                                <th>Sign-in</th>
+                                <th>Status</th>
                                 <th>Reservation Time</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="reservation : ${reservations}">
+                                <td th:text="${reservation.reservationId}"></td>
                                 <td th:text="${staffMap[reservation.reservationId].name}"></td>
                                 <td th:text="${courseMap[reservation.reservationId].name}"></td>
                                 <td th:text="${reservation.lessonStartDate}+'    '+${reservation.lessonStartTime}+' - '+${reservation.lessonEndTime}"></td>
-                                <td th:text="${reservation.isCancelled ? 'Yes' : 'No'}"></td>
-                                <td th:text="${reservation.isSignIn ? 'Yes' : 'No'}"></td>
+                                <td>
+                                    <label th:if="${reservation.isSignIn}" th:text="'attended'" class="badge badge-success"></label>
+                                    <label th:if="${reservation.isCancelled}" th:text="cancelled" class="badge badge-danger"></label>
+                                    <label th:if="${!reservation.isSignIn}">
+                                        <label th:if="${reservation.lessonStartDate.isAfter(T(java.time.LocalDate).now()) && !reservation.isCancelled}" th:text="'upcoming'" class="badge badge-primary"></label>
+                                        <label th:if="${reservation.lessonStartDate.isBefore(T(java.time.LocalDate).now()) && !reservation.isCancelled}" th:text="'absent'" class="badge badge-warning"></label>
+                                    </label>
+                                </td>
+
                                 <td th:text="${reservation.createdDate}"></td>
                             </tr>
                             </tbody>
@@ -47,7 +63,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     <footer class="bg-dark text-white mt-4">
         <div class="container py-3">
