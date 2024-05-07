@@ -49,7 +49,7 @@
                     <td th:text="${course.location}"></td>
                     <td th:text="${course.active ? 'Yes' : 'No'}"></td> <!-- 在这里显示激活状态 -->
                     <td>
-                        <a th:href="@{/edit_course/{courseId}(courseId=${course.courseId})}">Edit</a>
+                        <a th:href="@{/edit_course/{courseId}(courseId=${course.courseId})}" class="text-info">Edit</a>
                     </td>
                 </tr>
                 </tbody>

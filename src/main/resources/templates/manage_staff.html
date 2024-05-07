@@ -167,7 +167,7 @@
                         <td th:text="${staff.courseId}">C001</td>
                         <td th:text="${staff.active ? 'Yes' : 'No'}"></td> <!-- 在这里显示激活状态 -->
                         <td>
-                            <a th:href="@{/edit_staff/{staffId}(staffId=${staff.staffId})}">Edit</a>
+                            <a th:href="@{/edit_staff/{staffId}(staffId=${staff.staffId})}" class="text-info">Edit</a>
                         </td>
                     </tr>
                     <tr th:if="${staff.isEmpty()}">
