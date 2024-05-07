@@ -30,9 +30,9 @@
                     <h3 class="text-center" style="margin-top: -20px">Upcoming Lessons</h3>
                     <div class="margin-bottom">
                         <div class="btn-group">
-                            <a href="/member/all-appointments" class="btn btn-light btn-sm btn-rounded">All Appointments</a>
-                            <a href="/member/incomplete" class="btn btn-dark btn-sm btn-rounded">Upcoming Lessons</a>
-                            <a href="/member/completed" class="btn btn-light btn-sm btn-rounded">Completed Lessons</a>
+                            <a href="/member/all-appointments" class="btn btn-light btn-sm btn-rounded mdi mdi-calendar">All Appointments</a>
+                            <a href="/member/incomplete" class="btn btn-dark btn-sm btn-rounded mdi mdi-calendar-clock">Upcoming Lessons</a>
+                            <a href="/member/completed" class="btn btn-light btn-sm btn-rounded mdi mdi-calendar-check">Completed Lessons</a>
                         </div>
                     </div>
                     <H4 th:if="${incompleteReservations.isEmpty()}" class="text-danger">No Upcoming Lesson</H4>
@@ -43,6 +43,7 @@
                             <th>Staff Name</th>
                             <th>Course Name</th>
                             <th>Lesson Time</th>
+                            <th>Create Date</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -52,12 +53,13 @@
                             <td th:text="${staffMap[reservation.reservationId].name}"></td>
                             <td th:text="${courseMap[reservation.reservationId].name}"></td>
                             <td th:text="${reservation.lessonStartDate}+'    '+${reservation.lessonStartTime}+' - '+${reservation.lessonEndTime}"></td>
+                            <td th:text="${#temporals.format(reservation.createdDate, 'yyyy-MM-dd')}"></td>
                             <td>
                                 <p th:if="${reservation.isCancelled}" style="color: red;">Cancelled</p>
                                 <!-- Cancel reservation button, only displayed for courses that have not started -->
                                 <form th:if="${!reservation.isCancelled && reservation.lessonStartDate.isAfter(T(java.time.LocalDate).now())}" th:action="@{/cancel}" method="post" class="cancel-form">
                                     <input type="hidden" name="reservationId" th:value="${reservation.reservationId}" />
-                                    <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                    <button type="submit" class="btn btn-gradient-danger btn-sm mdi mdi-calendar-remove">Cancel</button>
                                 </form>
                             </td>
                         </tr>

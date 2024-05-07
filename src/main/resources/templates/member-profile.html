@@ -65,6 +65,14 @@
                     <span class="text-display" th:data-value="${member.height}"></span>
                 </td>
             </tr>
+            <tr>
+                <th>Plan</th>
+                <td th:text="${member.plan}"></td>
+            </tr>
+            <tr>
+                <th>End Date</th>
+                <td th:text="${member.endDate}"></td>
+            </tr>
         </table>
         <div class="button-container">
             <button type="button" id="editButton" onclick="enableEdit()" class="edit-button">Edit</button>

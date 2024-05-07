@@ -23,12 +23,14 @@
 <div class="content-wrap">
     <div th:replace="member-nav.html :: top-nav"></div>
     <div class="content-body">
+        <div style="margin-top: 50px">
+            <div th:if="${renewalMessage}" class="alert alert-warning" th:text="${renewalMessage}"></div>
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
+        </div>
         <section class="hero">
             <div class="container">
                 <div class="text-content text-center">
                     <div th:if="${welcomeMessage}" class="welcome-message" th:text="${welcomeMessage}"></div>
-                    <div th:if="${renewalMessage}" class="alert alert-warning" th:text="${renewalMessage}"></div>
-                    <div th:if="${error}" class="error-message" th:text="${error}"></div>
                     <h1>Perfect Workout Coach For Body Shape</h1>
                     <p class="lead">Let's stay healthy and vibrant together!</p>
                 </div>

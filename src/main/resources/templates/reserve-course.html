@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Available Courses</title>
+    <link rel="stylesheet" href="/css/template.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/reserve-step-arrow.css">
     <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
@@ -24,12 +25,12 @@
         <!-- 添加表单提交课程ID -->
         <form th:action="@{/member/select-trainer}" method="get">
             <input type="hidden" id="memberId" name="memberId" th:value="${member.memberId}" />
-            <table>
+            <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Course Name</th>
-                    <th>Location</th>
-                    <th>Select</th>
+                    <th class="text-center">Course Name</th>
+                    <th class="text-center">Location</th>
+                    <th class="text-center">Action</th>
                 </tr>
                 </thead>
                 <tbody>

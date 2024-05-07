@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <style>
         table th, table td {
             text-align: center;
@@ -49,7 +50,7 @@
                             <!-- 充值按钮触发模态框或新页面 -->
                             <form th:action="@{/recharge-member}" method="post" class="form-no-padding"> <!-- 确保这个路径与控制器中定义的路径相匹配 -->
                                 <input type="hidden" th:value="${member.memberId}" name="memberId">
-                                <div class="input-group">
+                                <div class="input-group d-flex" >
                                     <input type="number" name="amount" placeholder="Enter amount"  class="form-control-sm" required>
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-sm btn-gradient-success"><span class="mdi mdi mdi-check"></span></button>
@@ -63,13 +64,15 @@
         </div>
         <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024. H-XYZ Gym Management System.</span>
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright &copy; 2024. H-XYZ Fitness Appointment System.</span>
             </div>
         </footer>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/manager-nav.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#memberTable').DataTable();

@@ -4,9 +4,9 @@
         <a href="/staff/homepage" class="logo">H-XYZ | 打击代写就现在</a>
     </div>
     <div class="nav-center">
-        <a href="/staff/view_all_schedule" th:class="${currentPage == 'viewAllSchedule'} ? 'current-page' : ''">All Reservations</a>
-        <a href="/staff/homepage" th:class="${currentPage == 'trainerHome'} ? 'current-page' : ''">Upcoming Lessons</a>
-        <a href="/staff/view_complete_schedule" th:class="${currentPage == 'viewCompletedLessons'} ? 'current-page' : ''">Completed Lessons</a>
+        <a href="/staff/view_all_schedule" th:class="${currentPage == 'viewAllSchedule'} ? 'current-page' : ''"> <i class="mdi mdi-calendar"></i>All Reservations</a>
+        <a href="/staff/homepage" th:class="${currentPage == 'trainerHome'} ? 'current-page' : ''"><i class="mdi mdi-calendar-clock"></i>Upcoming Lessons</a>
+        <a href="/staff/view_complete_schedule" th:class="${currentPage == 'viewCompletedLessons'} ? 'current-page' : ''"><i class="mdi mdi-calendar-check"></i>Completed Lessons</a>
     </div>
     <div class="nav-right">
         <a href="/staff/profile" th:text="${staffName}" class="mdi mdi-account"></a>
