@@ -100,13 +100,24 @@
     var salesData = /*[[${salesData}]]*/ {};
     var labelsPie = Object.keys(salesData);
     var dataPie = labelsPie.map(label => salesData[label].count);
-    var backgroundColorsPie = [
+
+    // Define the colors
+    var colors = [
         'rgba(255, 99, 132, 0.5)',
         'rgba(54, 162, 235, 0.5)',
         'rgba(255, 206, 86, 0.5)',
         'rgba(75, 192, 192, 0.5)',
         'rgba(153, 102, 255, 0.5)',
         'rgba(255, 159, 64, 0.5)'
+    ];
+
+    var borderColors = [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
     ];
 
     new Chart(ctxPie, {
@@ -116,7 +127,8 @@
             datasets: [{
                 label: 'Sales Count',
                 data: dataPie,
-                backgroundColor: backgroundColorsPie,
+                backgroundColor: colors,
+                borderColor: borderColors,
                 borderWidth: 1
             }]
         },
@@ -125,6 +137,7 @@
             maintainAspectRatio: false
         }
     });
+    /*]]>*/
 
     // Setup for the line chart
     var ctxLine = document.getElementById('dailySalesChart').getContext('2d');
@@ -132,23 +145,17 @@
     var labelsLine = Object.keys(dailySalesData).sort();
     var datasetsLine = [];
 
-    // Collect all plan names
-    var allPlans = new Set();
-    labelsLine.forEach(date => {
-        Object.keys(dailySalesData[date]).forEach(plan => {
-            allPlans.add(plan);
-        });
-    });
-
     // Generate one dataset per plan
-    allPlans.forEach(plan => {
+    var colorIndex = 0;
+    labelsPie.forEach(plan => {
         var dataLine = labelsLine.map(date => dailySalesData[date][plan] ? dailySalesData[date][plan].totalSales : 0);
         datasetsLine.push({
             label: plan,
             data: dataLine,
-            borderColor: getRandomColor(),
+            borderColor: borderColors[colorIndex],
             fill: false
         });
+        colorIndex = (colorIndex + 1) % colors.length;  // Cycle through the colors
     });
 
     new Chart(ctxLine, {
@@ -184,16 +191,6 @@
             }
         }
     });
-
-    function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
-    /*]]>*/
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/manager-nav.js"></script>

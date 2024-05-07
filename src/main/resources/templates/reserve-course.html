@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 </head>
 <body>
 <div class="content-wrap">
@@ -25,7 +26,7 @@
         <!-- 添加表单提交课程ID -->
         <form th:action="@{/member/select-trainer}" method="get">
             <input type="hidden" id="memberId" name="memberId" th:value="${member.memberId}" />
-            <table class="table table-hover">
+            <table class="table table-hover" id="courseTable">
                 <thead>
                 <tr>
                     <th class="text-center">Course Name</th>
@@ -77,6 +78,13 @@
     </footer>
 </div>
 <script src="/js/reserve-nav.js"></script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#courseTable').DataTable();
+    });
+</script>
 </body>
 </html>
 
