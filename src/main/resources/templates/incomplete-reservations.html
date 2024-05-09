@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/css/template.css">
     <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <style>
         .cancel-form{
             margin: 0;
@@ -20,7 +22,7 @@
         }
     </style>
 </head>
-<body>
+<body th:data-member-id="${session.memberId}">
 <div class="content-wrap">
     <div th:replace="member-nav.html :: top-nav"></div>
     <div class="content-body center-content">
@@ -93,7 +95,7 @@
         </div>
     </footer>
 </div>
-
+<script src="/js/nav-book-course.js"></script>
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <script>
