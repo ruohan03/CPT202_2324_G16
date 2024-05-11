@@ -54,6 +54,11 @@ public class Member {
     @Column(name = "end_date")
     private Date endDate;
 
+
+    @Column(name = "email")
+    private String email;
+
+
     @Column(name = "remaining_sum", nullable = false)
     private double remaining_sum = 0.0;  // Default value is set to 0.0
 
@@ -225,5 +230,14 @@ public class Member {
 
     public void setRemaining_sum(double remaining_sum) {
         this.remaining_sum = remaining_sum;
+    }
+
+    // getters and setters
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
