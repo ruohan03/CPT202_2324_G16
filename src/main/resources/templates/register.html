@@ -25,16 +25,16 @@
         <div>
             <input type="password" id="password" th:field="*{password}" placeholder="Password" pattern="^(?=.*[0-9])(?=.*[a-zA-Z]).{5,}$" title="Password must be at least 5 characters long and include both letters and numbers." required/>
         </div>
-        <div>
-            <input type="email" id="email" name="email" placeholder="Email" required/>
-            <button type="button" onclick="sendVerificationCode()">Send Verification Code</button>
+        <div class="email-group">
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <button onclick="sendVerificationCode()">Send</button>
         </div>
         <div>
             <input type="text" id="verificationCode" name="verificationCode" placeholder="Verification Code" required/>
         </div>
-        <div>
+        <div class="checkbox-group">
             <input type="checkbox" id="agreement" name="agreement" required/>
-            <label for="agreement">I've read and agree to the <a href="#!" id="termsLink">Terms of Service</a>.</label>
+            <label for="agreement">I've read and agree to the&nbsp; <a href="#!" id="termsLink"> Terms of Service</a>.</label>
         </div>
         <div id="termsModal" class="modal">
             <div class="modal-content">
@@ -133,8 +133,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-

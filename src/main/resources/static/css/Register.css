@@ -1,5 +1,3 @@
-/* Reset and base styles */
-
 html, body {
     height: 100%;
     margin: 0;
@@ -12,58 +10,53 @@ html, body {
 
 body::before {
     content: '';
-    position: fixed; /* Fixed position to cover the entire view */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: url('../images/5dcbe4702ecac7c1027bc5ed4760b8e.jpg') no-repeat center center fixed;
     background-size: cover;
-    opacity: 0.5; /* Set the background image transparency */
-    z-index: -1; /* Place the background behind the content */
+    opacity: 0.5;
+    z-index: -1;
 }
 
-.registration-container {
-    display: flex;
-    justify-content: space-around; /* 调整子元素间距 */
-    align-items: center; /* Center the content horizontally */
-    flex-direction: column; /* 设置水平布局 */
-    margin: 20px auto; /* 居中容器 */
-    z-index: 1; /* Ensure the container appears above the background */
-    height: 40%;
-    width: 400px; /* Fixed width for the registration box */
-    padding: 40px;
-    background-color: #fff; /* Pure white background */
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/*标题颜色*/
+/* Element styles */
 h1 {
     color: #010544; /* Deep blue for headers */
     text-align: center;
 }
 
-/* Input styling */
-input[type="text"],
-input[type="password"],
-.login-form .form-control {
-    width: 100%; /* 计算宽度，考虑到内边距 */
+input[type="text"], input[type="password"], input[type="email"], button {
+    width: 80%; /* 减小宽度 */
     padding: 10px;
-    margin: 8px 0;
-    display: block;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    display: block;
 }
-/*用户隐私条款*/
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    flex-direction: row; /* Add this line */
+}
+
+.checkbox-group input[type="checkbox"],
+.checkbox-group label {
+    vertical-align: middle; /* Add vertical alignment */
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 5px; /* 调整复选框和标签之间的间隔 */
+}
+
 label {
     display: inline-block;
     align-items: center; /* 垂直居中 */
     margin-bottom: 10px; /* 添加一些底部外边距 */
 }
-input[type= "checkbox"]{
-    margin-right: 5px;
-}
+
 label{
     color: #999999;
 }
@@ -85,6 +78,21 @@ button:hover {
     background-color: #FFFFFF;
     color: #D51FBA;
     border: 2px solid #D51FBA;
+}
+
+.registration-container {
+    display: flex;
+    justify-content: space-around; /* 调整子元素间距 */
+    align-items: center; /* Center the content horizontally */
+    flex-direction: column; /* 设置水平布局 */
+    margin: 20px auto; /* 居中容器 */
+    z-index: 1; /* Ensure the container appears above the background */
+    height: 410px;
+    width: 400px; /* Fixed width for the registration box */
+    padding: 40px;
+    background-color: #fff; /* Pure white background */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .error {
@@ -109,14 +117,20 @@ button:hover {
     }
 
     .registration-container {
-        width: 90%; /* Full width on smaller screens */
-        margin-bottom: 20px; /* Adjust margin for mobile view */
+        width: 90%; /* Use more of the screen on smaller devices */
+        padding: 15px; /* Smaller padding */
+        margin: 10px;
     }
 
     body::before {
         background-position: top center; /* Adjust background position for mobile view */
     }
+
+    .modal-content {
+        width: 90%; /* Larger modal content width on smaller screens */
+    }
 }
+
 /*Agreement*/
 /* 样式用于隐藏和显示模态 */
 .modal {
@@ -241,4 +255,33 @@ button:hover {
     .modal-header {
         width: 90%; /* 响应式调整宽度 */
     }
+}
+
+.email-group {
+    display: flex;  /* Align children inline */
+    justify-content: space-between; /* Space out children */
+    width: 80%; /* Adjust width to match other elements */
+    margin: 10px auto; /* Center the group and add some margin */
+}
+
+.email-group input[type="email"] {
+    flex-grow: 1;  /* Allow the input to grow */
+    margin-right: 10px; /* Add right margin to only the input */
+    width: calc(100% - 110px); /* Subtract the width of the button and the margin */
+}
+
+.email-group button {
+    width: 100px; /* Set width for the button */
+    background-color: #D51FBA; /* Example button color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.email-group button:hover {
+    background-color: white; /* Change for hover state */
+    color: #D51FBA; /* Ensure text is visible on hover */
+    border: 1px solid #D51FBA; /* Add border to maintain size */
 }
