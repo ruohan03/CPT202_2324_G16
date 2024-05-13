@@ -61,7 +61,7 @@
                                             <label th:if="${reservation.isCancelled}" th:text="cancelled" class="badge badge-danger"></label>
                                             <label th:if="${!reservation.isSignIn}">
                                                 <label th:if="${!reservation.lessonStartDate.atTime(reservation.lessonEndTime).isBefore(T(java.time.LocalDateTime).now()) && !reservation.isCancelled}" th:text="'upcoming'" class="badge badge-info"></label>
-                                                <label th:if="${reservation.lessonStartDate.isBefore(T(java.time.LocalDate).now()) && !reservation.isCancelled}" th:text="'absent'" class="badge badge-warning"></label>
+                                                <label th:if="${(reservation.lessonStartDate.isBefore(T(java.time.LocalDate).now()) || (reservation.lessonStartDate.isEqual(T(java.time.LocalDate).now()) && reservation.lessonEndTime.isBefore(T(java.time.LocalTime).now()))) && !reservation.isCancelled}" th:text="'absent'" class="badge badge-warning"></label>
                                             </label>
                                         </td>
                                     </tr>
