@@ -13110,13 +13110,13 @@ input[type="button"].btn-block {
 
 .badge-warning, .preview-list .preview-item .preview-thumbnail .badge.badge-busy {
   color: #212529;
-  background-color: #fed713;
+  background-color: #FFC007;
 }
 
 .badge-warning[href]:hover, .preview-list .preview-item .preview-thumbnail [href].badge.badge-busy:hover, .badge-warning[href]:focus, .preview-list .preview-item .preview-thumbnail [href].badge.badge-busy:focus {
   color: #212529;
   text-decoration: none;
-  background-color: #ddb901;
+  background-color: #FFC007;
 }
 
 .badge-danger {
@@ -18905,7 +18905,7 @@ code {
 
 /*Badge variations*/
 .badge-primary {
-  border: 1px solid #CE56C1;
+  border: 1px solid transparent;
   color: #ffffff;
 }
 
@@ -18925,7 +18925,7 @@ code {
 }
 
 .badge-warning, .preview-list .preview-item .preview-thumbnail .badge.badge-busy {
-  border: 1px solid #fed713;
+  border: 1px solid #FFC007;
   color: #ffffff;
 }
 
