@@ -72,9 +72,14 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.findByStaffIdAndIsCancelledFalseAndIsSignInFalse(staffId).stream()
                 .filter(r -> !r.getIsCancelled()) // 确保预约没有被取消
                 .filter(r -> r.getLessonStartDate().isAfter(today) ||
-                        (r.getLessonStartDate().equals(today) && r.getLessonStartTime().isAfter(now)))
+                        (r.getLessonStartDate().equals(today) && (
+                                r.getLessonStartTime().isAfter(now) ||
+                                        (r.getLessonStartTime().isBefore(now) &&
+                                                r.getLessonStartTime().plusHours(2).isAfter(now))
+                        )))
                 .collect(Collectors.toList());
     }
+
 
 
     @Override

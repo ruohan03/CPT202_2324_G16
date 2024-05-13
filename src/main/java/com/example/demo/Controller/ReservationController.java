@@ -90,7 +90,7 @@ public class ReservationController {
     public String signIn(@PathVariable("reservationId") String reservationId, HttpSession session) {
         String staffId = (String) session.getAttribute("staffId");
         if (staffId != null && reservationService.signInReservation(reservationId)) {
-            return "redirect:/staff/view_schedule";
+            return "redirect:/staff/homepage";
         } else {
             return "redirect:/staff/login";
         }
