@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>All Appointments</title>
-    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
     <style>
         .center-content {
             display: flex;
@@ -32,9 +32,10 @@
                                 <a href="/member/completed" class="btn btn-light btn-sm btn-rounded mdi mdi-calendar-check">Completed Lessons</a>
                             </div>
                         </div>
-                        <table class="table table-hover" id="reservationTable">
+                        <H4 th:if="${reservations.isEmpty()}" class="text-danger">No Appointment</H4>
+                        <table class="table table-hover" id="reservationTable" th:if="${!reservations.isEmpty()}">
                             <thead>
-                            <tr style="text-align: center;">
+                            <tr >
                                 <th>Appointment ID</th>
                                 <th>Staff Name</th>
                                 <th>Course Name</th>
@@ -53,11 +54,10 @@
                                     <label th:if="${reservation.isSignIn}" th:text="'attended'" class="badge badge-success"></label>
                                     <label th:if="${reservation.isCancelled}" th:text="cancelled" class="badge badge-danger"></label>
                                     <label th:if="${!reservation.isSignIn}">
-                                        <label th:if="${reservation.lessonStartDate.isAfter(T(java.time.LocalDate).now()) && !reservation.isCancelled}" th:text="'upcoming'" class="badge badge-primary"></label>
-                                        <label th:if="${reservation.lessonStartDate.isBefore(T(java.time.LocalDate).now()) && !reservation.isCancelled}" th:text="'absent'" class="badge badge-warning"></label>
+                                        <label th:if="${!reservation.lessonStartDate.atTime(reservation.lessonEndTime).isBefore(T(java.time.LocalDateTime).now()) && !reservation.isCancelled}" th:text="'upcoming'" class="badge badge-primary"></label>
+                                        <label th:if="${reservation.lessonStartDate.atTime(reservation.lessonEndTime).isBefore(T(java.time.LocalDateTime).now()) && !reservation.isCancelled}" th:text="'absent'" class="badge badge-warning"></label>
                                     </label>
                                 </td>
-
                                 <td th:text="${reservation.createdDate}"></td>
                             </tr>
                             </tbody>
@@ -97,6 +97,7 @@
         $('#reservationTable').DataTable();
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script src="/js/nav-book-course.js"></script>
 </body>
 </html>
