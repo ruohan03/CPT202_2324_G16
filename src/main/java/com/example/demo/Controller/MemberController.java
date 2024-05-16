@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Model.Member;
+import com.example.demo.Service.EmailService;
 import com.example.demo.Service.MemberService;
 import com.example.demo.Service.PasswordService;
 import com.example.demo.Service.PurchaseService;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +32,8 @@ public class MemberController {
     @Autowired
     private PasswordService passwordService;
 
+    @Autowired
+    private EmailService emailService;
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
@@ -213,12 +217,56 @@ public class MemberController {
         return "forgot-password"; // 返回忘记密码页面的视图名称
     }
 
+    @PostMapping("/sendForgotPasswordCode")
+    public ResponseEntity<?> sendForgotPasswordCode(@RequestParam String email, @RequestParam String phone, HttpServletRequest request) {
+        Member member = memberService.findMemberByPhone(phone);
+        if (member == null || !member.getEmail().equals(email)) {
+            return ResponseEntity.badRequest().body("{\"message\":\"The email does not match the one registered with this phone number.\"}");
+        }
+
+        Long lastSent = (Long) request.getSession().getAttribute("LAST_SENT_TIMESTAMP");
+        long now = System.currentTimeMillis();
+
+        if (lastSent != null && (now - lastSent) < 5 * 60 * 1000) {
+            return ResponseEntity.badRequest().body("{\"message\":\"Please wait before requesting another verification code.\"}");
+        }
+
+        try {
+            String code = emailService.sendVerificationCode(email);
+            request.getSession().setAttribute("VERIFICATION_CODE", code);
+            request.getSession().setAttribute("CODE_TIMESTAMP", now);
+            request.getSession().setAttribute("LAST_SENT_TIMESTAMP", now);
+            return ResponseEntity.ok("{\"message\":\"Verification code sent successfully.\"}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\":\"Failed to send verification code.\"}");
+        }
+    }
+
+
+
     @PostMapping("/forgot-password")
     public String processForgotPassword(@RequestParam("phone") String phone, @RequestParam("username") String username,
-                                        @RequestParam("newPassword") String newPassword, RedirectAttributes redirectAttributes) {
+                                        @RequestParam("email") String email, @RequestParam("newPassword") String newPassword,
+                                        @RequestParam("verificationCode") String verificationCode, HttpServletRequest request,
+                                        RedirectAttributes redirectAttributes) {
         Member member = memberService.findByPhoneAndName(phone, username);
-        if (member != null) {
-            // Check if the new password contains both letters and digits
+        if (member != null && member.getEmail().equals(email)) {
+            String sessionCode = (String) request.getSession().getAttribute("VERIFICATION_CODE");
+            Long codeTimestamp = (Long) request.getSession().getAttribute("CODE_TIMESTAMP");
+            long currentTime = System.currentTimeMillis();
+
+            // 验证码有效性检查
+            if (codeTimestamp == null || currentTime > codeTimestamp + 5 * 60 * 1000) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Verification code has expired.");
+                return "redirect:/forgot-password";
+            }
+
+            if (!emailService.verifyCode(sessionCode, verificationCode)) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Invalid verification code.");
+                return "redirect:/forgot-password";
+            }
+
+            // 密码复杂性检查
             if (!newPassword.matches("^(?=.*[a-zA-Z])(?=.*\\d).{5,}$")) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Password must contain both letters and digits and the minimum length is 5.");
                 return "redirect:/forgot-password";
@@ -227,23 +275,21 @@ public class MemberController {
             boolean updateResult = memberService.updatePassword(phone, newPassword);
             if (updateResult) {
                 redirectAttributes.addFlashAttribute("successMessage", "Password updated successfully.");
-                String encodedPassword = passwordService.encodePassword(member.getPassword());
+                String encodedPassword = passwordService.encodePassword(newPassword);
                 member.setEncodedPassword(encodedPassword);
-                // 保存会员信息到数据库
                 memberService.updateMember(member);
-                // Password updated successfully, redirect to login page or display success message
+                request.getSession().removeAttribute("VERIFICATION_CODE");  // 清除session中的验证码
+                request.getSession().removeAttribute("CODE_TIMESTAMP");  // 清除时间戳
                 return "redirect:/login?password_updated=true";
             } else {
-                // Password update failed, display error message
                 redirectAttributes.addFlashAttribute("errorMessage", "Failed to update password, please try again later.");
                 return "redirect:/forgot-password";
             }
         } else {
-            // User does not exist or phone and username do not match, display error message
-            redirectAttributes.addFlashAttribute("errorMessage", "Incorrect username or phone number.");
+            // 用户不存在或电话和用户名不匹配，显示错误消息
+            redirectAttributes.addFlashAttribute("errorMessage", "Incorrect username, phone number, or email.");
             return "redirect:/forgot-password";
         }
-
     }
 
 

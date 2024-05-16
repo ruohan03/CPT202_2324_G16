@@ -8,10 +8,9 @@
     <link rel="stylesheet" href="/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl{
+        .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
             padding-left: 0;
         }
-
     </style>
 </head>
 <body>
@@ -19,32 +18,42 @@
     <div th:replace="manager-nav.html"></div>
     <div class="main-panel">
         <div class="content-wrapper">
-            <div class="d-flex justify-content-center"></divcla>
-                    <div class="col-md-9 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Generate Sales Report</h4>
-                                <p class="card-description">
-                                    Please fill out the information below
-                                </p>
-                                <form action="/admin/reports" method="post" class="forms-sample">
-                                    <div class="form-group">
-                                        <label for="startDate">Start Date</label>
-                                        <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Start Date" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="endDate">End Date</label>
-                                        <input type="date" class="form-control" id="endDate" name="endDate" placeholder="End Date" required>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-block btn-outline-success">Generate Report</button>
-                                    <button type="button" id="oneWeekBtn" class="btn btn-block btn-outline-dark">Last Week</button>
-                                    <button type="button" id="oneMonthBtn" class="btn btn-block btn-outline-dark">Last Month</button>
-                                    <button type="button" id="oneYearBtn" class="btn btn-block btn-outline-dark">Last Year</button>
-                                </form>
+            <div class="d-flex justify-content-center">
+                <div class="col-md-9 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Generate Sales Report</h4>
+                            <p class="card-description">Please fill out the information below</p>
+                            <div id="error" class="alert alert-danger" role="alert" style="display:none;">
+                                Please select both start and end dates.
                             </div>
+                            <form action="/admin/reports" method="post" class="forms-sample">
+                                <div class="form-group">
+                                    <label for="startDate">Start Date</label>
+                                    <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Start Date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="endDate">End Date</label>
+                                    <input type="date" class="form-control" id="endDate" name="endDate" placeholder="End Date" required>
+                                </div>
+                                <button type="submit" class="btn btn-block btn-outline-success">Generate Report</button>
+                                <button type="button" id="oneWeekBtn" class="btn btn-block btn-outline-dark">Last Week</button>
+                                <button type="button" id="oneMonthBtn" class="btn btn-block btn-outline-dark">Last Month</button>
+                                <button type="button" id="oneYearBtn" class="btn btn-block btn-outline-dark">Last Year</button>
+                            </form>
+                            <form action="/exportPdf" method="get" class="forms-sample" onsubmit="return validateAndSetDates()">
+                                <input type="hidden" id="exportStartDate" name="startDate">
+                                <input type="hidden" id="exportEndDate" name="endDate">
+                                <button type="submit" class="btn btn-block btn-outline-info">Export to PDF</button>
+                            </form>
+                            <form action="/exportChartPdf" method="get" class="forms-sample" onsubmit="return validateAndSetDates()">
+                                <input type="hidden" id="chartStartDate" name="startDate">
+                                <input type="hidden" id="chartEndDate" name="endDate">
+                                <button type="submit" class="btn btn-block btn-outline-info">Export PDF with Chart</button>
+                            </form>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
         <footer class="footer">
@@ -56,7 +65,47 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/manager-nav.js"></script>
-<script src="/js/report-form.js"></script>
+<script>
+    function validateAndSetDates() {
+        var startDate = document.getElementById('startDate').value;
+        var endDate = document.getElementById('endDate').value;
+        if (!startDate || !endDate) {
+            document.getElementById('error').style.display = 'block';
+            return false;
+        }
+        document.getElementById('exportStartDate').value = startDate;
+        document.getElementById('exportEndDate').value = endDate;
+        document.getElementById('chartStartDate').value = startDate;
+        document.getElementById('chartEndDate').value = endDate;
+        return true;
+    }
+
+    document.getElementById('oneWeekBtn').addEventListener('click', function() {
+        var today = new Date();
+        var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        document.getElementById('startDate').value = lastWeek.toISOString().split('T')[0];
+        document.getElementById('endDate').value = today.toISOString().split('T')[0];
+    });
+
+    document.getElementById('oneMonthBtn').addEventListener('click', function() {
+        var today = new Date();
+        var lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+        document.getElementById('startDate').value = lastMonth.toISOString().split('T')[0];
+        document.getElementById('endDate').value = today.toISOString().split('T')[0];
+    });
+
+    document.getElementById('oneYearBtn').addEventListener('click', function() {
+        var today = new Date();
+        var lastYear = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+        document.getElementById('startDate').value = lastYear.toISOString().split('T')[0];
+        document.getElementById('endDate').value = today.toISOString().split('T')[0];
+    });
+</script>
 </body>
 </html>
+
+
+
+
+
 

@@ -2,7 +2,9 @@ package com.example.demo.Controller;
 
 import com.example.demo.Model.Purchase;
 import com.example.demo.Service.MemberService;
+import com.example.demo.Service.PdfReportService;
 import com.example.demo.Service.PurchaseService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -27,6 +31,8 @@ public class PurchaseController {
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private PdfReportService pdfReportService;
 
     @GetMapping("/purchases")
     public String listPurchases(Model model) {
@@ -149,6 +155,43 @@ public class PurchaseController {
         model.addAttribute("totalCount", totalSalesData.getCount());
         model.addAttribute("currentPage", "sales_report");
         return "sales_report";  // 确保这个视图模板正确处理新的数据结构
+    }
+
+    @GetMapping("/exportPdf")
+    public String exportToPdf(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                              @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                              HttpServletResponse response, Model model) throws IOException {
+        if (startDate == null || endDate == null) {
+            model.addAttribute("error", "Please select both start and end dates.");
+            return "report_form";
+        }
+
+        List<Purchase> purchases = purchaseService.findPurchasesBetweenDates(startDate, endDate);
+        Map<String, PurchaseService.PlanSalesData> salesData = purchaseService.calculateSalesData(purchases);
+        Map<LocalDate, Map<String, PurchaseService.PlanSalesData>> dailySalesData = purchaseService.calculateDailySalesByPlan(startDate, endDate);
+        PurchaseService.PlanSalesData totalSalesData = purchaseService.calculateTotalSalesData(purchases);
+
+        pdfReportService.generatePdfReport(salesData, dailySalesData, totalSalesData, response);
+        return null;  // 因为 response 已经处理了输出
+    }
+
+
+    @GetMapping("/exportChartPdf")
+    public String exportChartToPdf(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                   @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                                   HttpServletResponse response, Model model) throws IOException {
+        if (startDate == null || endDate == null) {
+            model.addAttribute("error", "Please select both start and end dates.");
+            return "report_form";
+        }
+
+        List<Purchase> purchases = purchaseService.findPurchasesBetweenDates(startDate, endDate);
+        Map<String, PurchaseService.PlanSalesData> salesData = purchaseService.calculateSalesData(purchases);
+        Map<LocalDate, Map<String, PurchaseService.PlanSalesData>> dailySalesData = purchaseService.calculateDailySalesByPlan(startDate, endDate);
+        PurchaseService.PlanSalesData totalSalesData = purchaseService.calculateTotalSalesData(purchases);
+
+        pdfReportService.generateChartPdfReport(salesData, dailySalesData, totalSalesData, response);
+        return null;  // 因为 response 已经处理了输出
     }
 
 }

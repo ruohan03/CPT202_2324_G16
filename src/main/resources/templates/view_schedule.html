@@ -59,11 +59,10 @@
                                     <td th:text="${reservation.lessonStartDate} + '    '+ ${reservation.lessonStartTime} + ' - ' + ${reservation.lessonEndTime}"></td>
                                     <!-- Sign In Button Form -->
                                     <td>
-                                        <span class="text-danger" th:if="${!reservation.isSignIn && !reservation.isCancelled && (reservation.lessonStartDate.isAfter(T(java.time.LocalDate).now()) || (reservation.lessonStartDate.isEqual(T(java.time.LocalDate).now()) && reservation.lessonStartTime.isAfter(T(java.time.LocalTime).now())))}">Not within sign-in time</span>
-                                        <form th:unless="${reservation.isSignIn || reservation.isCancelled || (reservation.lessonStartDate.isBefore(T(java.time.LocalDate).now()) || (reservation.lessonStartDate.isEqual(T(java.time.LocalDate).now()) && (T(java.time.LocalTime).now().isBefore(reservation.lessonStartTime) || T(java.time.LocalTime).now().isAfter(reservation.lessonEndTime))))}" th:action="'/sign_in/' + ${reservation.reservationId}" method="post" style="margin: 0">
+                                        <span class="text-danger" th:if="${!reservation.isSignIn && !reservation.isCancelled && !(reservation.lessonStartDate.isEqual(T(java.time.LocalDate).now()) && T(java.time.LocalTime).now().isAfter(reservation.lessonStartTime) && T(java.time.LocalTime).now().isBefore(reservation.lessonEndTime))}">Not within sign-in time</span>
+                                        <form th:if="${!reservation.isSignIn && !reservation.isCancelled && reservation.lessonStartDate.isEqual(T(java.time.LocalDate).now()) && T(java.time.LocalTime).now().isAfter(reservation.lessonStartTime) && T(java.time.LocalTime).now().isBefore(reservation.lessonEndTime)}" th:action="'/sign_in/' + ${reservation.reservationId}" method="post" style="margin: 0">
                                             <button type="submit" class="btn btn-sm btn-success mdi mdi-calendar-multiple-check">Sign In</button>
                                         </form>
-
                                     </td>
                                 </tr>
                             </th:block>

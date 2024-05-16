@@ -11,21 +11,19 @@
     <script src="https://cdn.jsdelivr.net/npm/moment"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
     <style>
-        .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl{
+        .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
             padding-left: 0;
         }
     </style>
 </head>
 <body>
 <div class="container-scroller">
-    <div th:replace="manager-nav.html"></div>
+    <div th:replace="~{manager-nav.html}"></div>
     <div class="main-panel">
         <div class="content-wrapper">
             <div style="margin-top: 20px;">
                 <div class="page-header">
-                    <h2>
-                        Sales Report
-                    </h2>
+                    <h2>Sales Report</h2>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 grid-margin stretch-card">
@@ -33,15 +31,13 @@
                             <div class="card-body">
                                 <table class="table table-hover" id="salesTable">
                                     <h3 class="card-title">Sales data</h3>
-                                    <p class="card-description">
-                                        All Plan Sales Data
-                                    </p>
+                                    <p class="card-description">All Plan Sales Data</p>
                                     <thead>
-                                        <tr>
-                                            <th>Plan</th>
-                                            <th>Total Sales</th>
-                                            <th>Sales Count</th>
-                                        </tr>
+                                    <tr>
+                                        <th>Plan</th>
+                                        <th>Total Sales</th>
+                                        <th>Sales Count</th>
+                                    </tr>
                                     </thead>
                                     <tbody th:each="entry : ${salesData}">
                                     <tr>
@@ -64,7 +60,7 @@
                     <div class="col-lg-6 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3 >Sales Distribution by Plan</h3>
+                                <h3>Sales Distribution by Plan</h3>
                                 <div class="chart-container">
                                     <canvas id="salesChart"></canvas>
                                 </div>
@@ -89,6 +85,7 @@
 </div>
 
 <script th:inline="javascript">
+
     /*<![CDATA[*/
     // Setup for the pie chart
     var ctxPie = document.getElementById('salesChart').getContext('2d');
@@ -186,11 +183,14 @@
             }
         }
     });
+
+
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/manager-nav.js"></script>
 </body>
 </html>
+
 
 
 
