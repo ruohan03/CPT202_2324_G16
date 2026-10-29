@@ -1,2 +1,117 @@
-This is the repository of the CPT 202 Software Engineering Group Project at AY23-24, Xi 'an Jiaotong-Liverpool University. 
-We developed a gym management system.
+# H-XYZ Fitness Appointment System
+
+> A full-stack fitness appointment and membership management system built with Spring Boot, Thymeleaf, and MySQL.
+
+H-XYZ 是一个面向健身房业务场景的 Web 管理系统，覆盖会员购卡、课程预约、教练排课、会员续费提醒、销售统计和后台运营等流程。本页面通过实际运行截图展示核心功能，无需在本地安装或启动项目。
+
+## 项目概览
+
+系统围绕三类用户设计：
+
+| 角色 | 主要功能 |
+| --- | --- |
+| 会员 | 购买会员套餐、预约课程与教练、选择上课时间、查看或取消预约、接收续费提醒 |
+| 教练 | 查看个人课程安排、管理课程状态、完成会员签到 |
+| 管理员 | 查看经营数据、管理课程和员工、查询预约、管理会员余额、发送续费提醒、生成销售报告 |
+
+<p align="center">
+  <img src="./管理员/截屏2026-10-28%2004.41.56.png" alt="会员首页与续费提醒" width="100%">
+</p>
+
+## 核心业务流程
+
+### 1. 多步骤课程预约
+
+会员预约采用清晰的分步流程：**选择课程 → 选择教练 → 选择日期和时间 → 确认预约**。系统会根据课程状态和会员套餐控制可预约范围，并显示当前可用时间段。
+
+#### 选择课程
+
+课程列表支持搜索和分页，并明确区分当前可预约及暂不可预约的课程。
+
+<p align="center">
+  <img src="./会员/截屏2026-10-28%2004.22.48.png" alt="选择课程" width="100%">
+</p>
+
+#### 选择教练
+
+系统根据所选课程和教练等级展示可选教练。
+
+<p align="center">
+  <img src="./会员/截屏2026-10-28%2004.33.19.png" alt="选择教练" width="100%">
+</p>
+
+#### 选择时间
+
+会员可以按日期查看时间段；不可用的时间段会被自动禁用，避免重复预约。
+
+<p align="center">
+  <img src="./会员/截屏2026-10-28%2004.23.22.png" alt="选择预约时间" width="100%">
+</p>
+
+### 2. 会员套餐与课程管理
+
+会员可以购买不同等级和期限的套餐，并在个人课程页面查看预约状态、课程时间及教练信息，也可以取消尚未开始的预约。
+
+<table>
+  <tr>
+    <td width="50%"><img src="./会员/截屏2026-10-28%2004.23.36.png" alt="购买会员套餐"></td>
+    <td width="50%"><img src="./会员/截屏2026-10-28%2004.23.49.png" alt="查看即将开始的课程"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>购买会员套餐</strong></td>
+    <td align="center"><strong>查看与取消预约</strong></td>
+  </tr>
+</table>
+
+### 3. 管理员经营看板
+
+管理员 Dashboard 汇总周销售额、活跃会员数和预约量，并通过教练排名及预约状态图表展示运营情况，帮助管理人员快速了解关键指标。
+
+<p align="center">
+  <img src="./管理员/截屏2026-10-28%2004.37.57.png" alt="管理员经营数据看板" width="100%">
+</p>
+
+### 4. 销售报表与数据可视化
+
+管理员可以按日期范围生成销售报告。报告展示不同套餐的销售额、销售数量、套餐销售占比和每日销售趋势，并支持导出 PDF。
+
+<p align="center">
+  <img src="./管理员/截屏2026-10-28%2004.38.58.png" alt="销售统计报告" width="100%">
+</p>
+
+### 5. 日常运营管理
+
+后台支持预约记录查询、会员账户充值以及会员到期提醒，让预约、会员和续费业务形成完整闭环。
+
+<table>
+  <tr>
+    <td width="50%"><img src="./管理员/截屏2026-10-28%2004.38.11.png" alt="预约记录管理"></td>
+    <td width="50%"><img src="./管理员/截屏2026-10-28%2004.40.26.png" alt="会员续费提醒"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>预约记录查询</strong></td>
+    <td align="center"><strong>续费通知与到期会员管理</strong></td>
+  </tr>
+</table>
+
+## 技术栈
+
+- **后端：** Java 17、Spring Boot 3、Spring MVC、Spring Data JPA、Hibernate
+- **前端：** Thymeleaf、HTML5、CSS3、JavaScript、Bootstrap、DataTables
+- **数据库：** MySQL
+- **数据可视化：** Chart.js
+- **其他能力：** SMTP 邮件通知、BCrypt 密码校验、iText PDF 报告导出
+
+## 实现亮点
+
+- 将会员、教练和管理员三类角色的业务流程整合在同一系统中
+- 完成从课程、教练、时间选择到预约确认和状态管理的完整预约链路
+- 根据会员套餐、课程状态和时间冲突动态控制预约可用性
+- 使用图表呈现销售、预约状态和教练工作量等运营数据
+- 支持会员到期识别、续费提醒、余额充值和套餐购买
+- 支持按时间范围统计销售数据并导出 PDF 报告
+
+## 项目说明
+
+本项目为 CPT202 课程小组项目。本目录用于展示系统的核心业务和界面效果；截图中的业务数据为演示数据。
+
